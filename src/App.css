@@ -1,38 +1,29 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.tippy-tooltip.tooltip-theme {
+  background-color: #00b000;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.tippy-tooltip.tooltip-theme[data-placement^="top"] .tippy-arrow {
+  border-top-color: #00b000;
+}
+.tippy-tooltip.tooltip-theme[data-placement^="bottom"] .tippy-arrow {
+  border-bottom-color: #00b000;
+}
+.tippy-tooltip.tooltip-theme[data-placement^="left"] .tippy-arrow {
+  border-left-color: #00b000;
+}
+.tippy-tooltip.tooltip-theme[data-placement^="right"] .tippy-arrow {
+  border-right-color: #00b000;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.st0 {
+  fill: #efefef;
+  stroke: #6e6e6e;
+  stroke-width: 0.4;
+}
+.st1 {
+  font-family: "Open Sans", sans-serif;
+}
+.st2 {
+  font-size: 12px;
 }
