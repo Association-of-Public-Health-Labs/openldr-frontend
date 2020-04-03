@@ -36,7 +36,9 @@ export default function MainCard({
   const [sampleType, setSampleType] = useState(false);
   const [expandCard, setExpandCard] = useState(false);
 
-  const { handleAddReport } = React.useContext(Context);
+  const { handleAddReport, clinicsList, districtsList } = React.useContext(
+    Context
+  );
 
   const { content } = Cards[cardId];
 
@@ -132,7 +134,9 @@ export default function MainCard({
         labels: excelLabels,
         data: excelData,
         cardTitle: cardTitle,
-        handleAddReport: handleAddReportIntoFolder
+        handleAddReport: handleAddReportIntoFolder,
+        clinicsList: clinicsList,
+        districtsList: districtsList
       }}
     >
       <Container

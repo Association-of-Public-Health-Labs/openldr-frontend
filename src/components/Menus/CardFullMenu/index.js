@@ -15,10 +15,14 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { ThemeContext } from "styled-components";
 
+import ContextProvider from "../../../context";
+
 import DatePicker from "../../MaterialUI/DatePicker";
 import IconBtn from "../../MaterialUI/IconBtn";
 import AgeRange from "../../MaterialUI/AgeRange";
 import SelectSamples from "../../MaterialUI/SelectSamples";
+
+import FacilitiesSelect from "../../FacilitiesSelect";
 
 import {
   Container,
@@ -63,7 +67,6 @@ export default function CardFullMenu(props) {
 
   function handleTab(e) {
     setTab(e.currentTarget.dataset.id);
-    console.log(e.currentTarget.dataset.id);
   }
 
   function handleSubmit(event) {
@@ -80,21 +83,6 @@ export default function CardFullMenu(props) {
     });
   }
 
-  function handleChangeProvinces(provinces) {
-    setProvinces(provinces);
-  }
-
-  function handleChangeDistricts(districts) {
-    setDistricts(districts);
-  }
-
-  function handleChangeClinics(clinics) {
-    setClinics(clinics);
-  }
-  function handleChangeLabs(labs) {
-    setLabs(labs);
-  }
-
   const handleStartDate = dateRange => {
     setStartDate(dateRange);
   };
@@ -106,24 +94,6 @@ export default function CardFullMenu(props) {
   const handleGetAge = age => {
     setAge({ start: age.start, end: age.end });
   };
-
-  const customStyles = SelectStyles(colors);
-
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry1", label: "Strawberry" },
-    { value: "strawberry2", label: "Strawberry" },
-    { value: "strawberry3", label: "Strawberry" },
-    { value: "strawberry4", label: "Strawberry" },
-    { value: "strawberry5", label: "Strawberry" },
-    { value: "strawberry6", label: "Strawberry" },
-    { value: "strawberry7", label: "Strawberry" },
-    { value: "strawberry8", label: "Strawberry" },
-    { value: "strawberry9", label: "Strawberry" },
-    { value: "strawberry10", label: "Strawberry" },
-    { value: "strawberry11", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
-  ];
 
   return (
     <Container
@@ -204,55 +174,12 @@ export default function CardFullMenu(props) {
               md={props.full ? 12 : 7}
               lg={props.full ? 12 : 7}
             >
-              {(province || district || clinic) && !props.lab && (
-                <Select
-                  closeMenuOnSelect={false}
-                  styles={customStyles}
-                  components={animatedComponents}
-                  isMulti
-                  options={options}
-                  menuPlacement="auto"
-                  menuPosition="fixed"
-                  onChange={handleChangeProvinces}
-                  placeholder="Selecione a Provincia"
-                />
-              )}
-              {(district || clinic) && !props.lab && (
-                <Select
-                  styles={customStyles}
-                  components={animatedComponents}
-                  isMulti
-                  options={options}
-                  menuPlacement="auto"
-                  menuPosition="fixed"
-                  onChange={handleChangeDistricts}
-                  placeholder="Selecione o Distrito"
-                />
-              )}
-              {clinic && !props.lab && (
-                <Select
-                  styles={customStyles}
-                  components={animatedComponents}
-                  isMulti
-                  options={options}
-                  menuPlacement="auto"
-                  menuPosition="fixed"
-                  onChange={handleChangeClinics}
-                  placeholder="Selecione a US"
-                />
-              )}
-              {props.lab && (
-                <Select
-                  styles={customStyles}
-                  components={animatedComponents}
-                  isMulti
-                  options={options}
-                  menuPlacement="auto"
-                  menuPosition="fixed"
-                  onChange={handleChangeLabs}
-                  placeholder="Selecione o Laboratorio"
-                />
-              )}
+              <FacilitiesSelect
+                isProvinceEnabled={province}
+                isDistrictEnabled={district}
+                isClinicEnabled={clinic}
+                isLabEnabled={props.lab}
+              />
             </Grid>
             <Grid
               item

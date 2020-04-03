@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import api from "./services/api";
 import Routes from "./routes";
 
 import { ThemeProvider } from "styled-components";
@@ -17,6 +18,8 @@ function App() {
   const [theme, setTheme] = usePersistedState("theme", light);
   const [labels, setLabels] = usePersistedState("labels", false);
   const [reports, setReports] = usePersistedState("reports", []);
+  const [clinics, setClinics] = usePersistedState("clinics", []);
+  const [districts, setDistricts] = usePersistedState("districts", []);
   const materialUITheme = materialUI(theme);
   const size = useWindowSize();
 
@@ -36,6 +39,20 @@ function App() {
     setReports([]);
   };
 
+  useEffect(() => {
+    async function loadFacilities() {
+      if (localStorage.getItem("clinics").length <= 2) {
+        const clinicsData = await api.get("/clinics");
+        setClinics(clinicsData.data);
+      }
+      if (localStorage.getItem("districts").length <= 2) {
+        const districtsData = await api.get("/districts");
+        setDistricts(districtsData.data);
+      }
+    }
+    loadFacilities();
+  }, []);
+
   return (
     <ToogleContext.Provider
       value={{
@@ -46,7 +63,9 @@ function App() {
         size: size,
         handleAddReport: handleAddReport,
         handleRemoveAllReports: handleRemoveAllReports,
-        reports: reports
+        reports: reports,
+        clinicsList: clinics,
+        districtsList: districts
       }}
     >
       <ThemeProvider theme={theme}>
