@@ -72,6 +72,15 @@ cards["samples-tested-by-gender"] = {
   }
 };
 
+cards["samples-tested-by-gender-and-labs"] = {
+  id: "samples-tested-by-gender-and-labs",
+  name: "Samples tested by gender",
+  description: "",
+  content: function(data, labels) {
+    return <BarGroup datasets={data} labels={labels} />;
+  }
+};
+
 cards["samples-tested-by-age"] = {
   id: "samples-tested-by-age",
   name: "Samples tested by age",

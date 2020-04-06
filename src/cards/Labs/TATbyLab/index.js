@@ -1,145 +1,89 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import moment from "moment";
+import qs from "qs";
+import api from "../../../services/api";
 
 import Card from "../../../components/MainCard";
-import Bar from "../../../components/Charts/Bar";
 
 export default function TATMonthly() {
   const cardId = "tat-by-lab";
   const cardTitle = "Turn around time by Lab";
+  const [labels, setLabels] = useState([]);
+  const [data, setData] = useState([]);
+  const [labelsExcel, setLabelsExcel] = useState([]);
+  const [dataExcel, setDataExcel] = useState([]);
+  const [labs, setLabs] = useState([]);
+  const [dates, setDates] = useState([
+    moment()
+      .subtract(1, "year")
+      .format("YYYY-MM-DD"),
+    moment().format("YYYY-MM-DD")
+  ]);
 
-  const labels = [
-    "INS",
-    "Machava",
-    "Militar",
-    "J. Macamo",
-    "UEM",
-    "Dream Mpt",
-    "Carmelo",
-    "Xai-Xai",
-    "P. Gea",
-    "Dream Beira",
-    "Chimoio",
-    "Tete",
-    "Nampula",
-    "Quelimane",
-    "Pemba"
-  ];
-  const data = [
-    {
-      label: "Colheita à Recepção",
-      backgroundColor: "#fb8c00",
-      data: [10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10, 29, 15, 10]
-    },
-    {
-      label: "Recepção ao Registo",
-      backgroundColor: "#ef5350",
-      data: [10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10, 10, 12, 11]
-    },
-    {
-      label: "Registo à Análise",
-      backgroundColor: "#00000",
-      data: [10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10, 11, 9, 8]
-    },
-    {
-      label: "Análise à Validação",
-      backgroundColor: "#00b000",
-      data: [10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10, 29, 15, 10]
+  useEffect(() => {
+    async function loadData() {
+      const response = await api.get("/lab_tat", {
+        params: {
+          codes: labs,
+          dates: dates
+        },
+        paramsSerializer: params => {
+          return qs.stringify(params);
+        }
+      });
+      const results = response.data;
+      var chartLabels = [],
+        collection_reception = [],
+        reception_registration = [],
+        registration_analysis = [],
+        analysis_validation = [];
+
+      results.map(result => {
+        chartLabels.push(result.lab);
+        collection_reception.push(result.collection_reception);
+        reception_registration.push(result.reception_registration);
+        registration_analysis.push(result.registration_analysis);
+        analysis_validation.push(result.analysis_validation);
+      });
+
+      setLabels(chartLabels);
+      setData([
+        {
+          label: "Colheita à Recepção",
+          backgroundColor: "#fb8c00",
+          data: collection_reception
+        },
+        {
+          label: "Recepção ao Registo",
+          backgroundColor: "#ef5350",
+          data: reception_registration
+        },
+        {
+          label: "Registo à Análise",
+          backgroundColor: "#00000",
+          data: registration_analysis
+        },
+        {
+          label: "Análise à Validação",
+          backgroundColor: "#00b000",
+          data: analysis_validation
+        }
+      ]);
+      setLabelsExcel(chartLabels);
+      setDataExcel([
+        collection_reception,
+        reception_registration,
+        registration_analysis,
+        analysis_validation
+      ]);
     }
-  ];
+    loadData();
+  }, [labs, dates]);
 
-  const labelsExcel = [
-    "Tempo de Resposta",
-    "INS",
-    "Machava",
-    "Militar",
-    "J. Macamo",
-    "UEM",
-    "Dream Mpt",
-    "Carmelo",
-    "Xai-Xai",
-    "P. Gea",
-    "Dream Beira",
-    "Chimoio",
-    "Tete",
-    "Nampula",
-    "Quelimane",
-    "Pemba"
-  ];
-
-  const dataExcel = [
-    [
-      "Colheita à Recepção",
-      10,
-      12,
-      11,
-      9,
-      8,
-      10,
-      12,
-      14,
-      21,
-      29,
-      15,
-      10,
-      29,
-      15,
-      10
-    ],
-    [
-      "Recepção ao Registo",
-      10,
-      12,
-      11,
-      9,
-      8,
-      10,
-      12,
-      14,
-      21,
-      29,
-      15,
-      10,
-      10,
-      12,
-      11
-    ],
-    [
-      "Registo à Análise",
-      10,
-      12,
-      11,
-      9,
-      8,
-      10,
-      12,
-      14,
-      21,
-      29,
-      15,
-      10,
-      11,
-      9,
-      8
-    ],
-    [
-      "Análise à Validação",
-      10,
-      12,
-      11,
-      9,
-      8,
-      10,
-      12,
-      14,
-      21,
-      29,
-      15,
-      10,
-      29,
-      15,
-      10
-    ]
-  ];
+  const handleGetParams = param => {
+    setLabs(param.labs);
+    setDates([param.startDate, param.endDate]);
+  };
 
   return (
     <Card
@@ -153,6 +97,7 @@ export default function TATMonthly() {
       isLab={true}
       expandable={false}
       menuFixed={false}
+      handleParams={handleGetParams}
     />
   );
 }

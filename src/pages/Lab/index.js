@@ -8,6 +8,7 @@ import Header from "../../components/Menus/MenuHeader";
 import VlTestReasons from "../../cards/Labs/VLTestReasons";
 import SamplesTestedMonthly from "../../cards/Labs/SamplesTestedMonthly";
 import SamplesTestedByGender from "../../cards/Labs/SamplesTestedByGender";
+import SamplesTestedByGenderAndLab from "../../cards/Labs/SamplesTestedByGenderAndLab";
 import SamplesTestedByLab from "../../cards/Labs/SamplesTestedByLab";
 import TATMonthly from "../../cards/Labs/TATMonthly";
 import TatByLab from "../../cards/Labs/TATbyLab";
@@ -50,7 +51,9 @@ export default function Lab() {
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <Breastfeeding />
             </Grid>
-            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}></Grid>
+            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+              <SamplesTestedByGenderAndLab />
+            </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}></Grid>
           </Grid>
         </Content>
