@@ -4,6 +4,7 @@ import { ThemeProvider } from "@material-ui/core";
 import { IoIosArrowDown } from "react-icons/io";
 import { ThemeContext } from "styled-components";
 import hexToRgba from "hex-to-rgba";
+import moment from "moment";
 
 import {
   KeyboardDatePicker,
@@ -13,13 +14,18 @@ import DateFnsUtils from "@date-io/date-fns";
 
 import { Container, Theme } from "./styles";
 
-export default function DatePicker({ handleDateRange, label }) {
+export default function DatePicker({
+  handleDateRange,
+  label,
+  defaultDate,
+  minDate
+}) {
   const { colors } = useContext(ThemeContext);
-  const [date, setDate] = useState(new Date("2014-08-18T21:11:54"));
+  const [date, setDate] = useState(defaultDate);
 
   const handleChange = date => {
     setDate(date);
-    handleDateRange(date);
+    handleDateRange(moment(date).format("YYYY-MM-DD"));
   };
 
   const theme = Theme(colors);
@@ -35,6 +41,7 @@ export default function DatePicker({ handleDateRange, label }) {
             inputVariant="outlined"
             keyboardIcon={<IoIosArrowDown size={14} />}
             format="dd/MM/yyyy"
+            minDate={minDate}
             margin="none"
             inputProps={{
               style: { color: colors.text }

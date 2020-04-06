@@ -14,6 +14,7 @@ import { FiX } from "react-icons/fi";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { ThemeContext } from "styled-components";
+import moment from "moment";
 
 import ContextProvider from "../../../context";
 
@@ -46,13 +47,18 @@ export default function CardFullMenu(props) {
   const [district, setDistrict] = useState(false);
   const [clinic, setClinic] = useState(false);
   const [tab, setTab] = useState("province");
+  const [facilities, setFacilities] = useState([]);
 
   const [provinces, setProvinces] = useState(null);
   const [districts, setDistricts] = useState(null);
   const [clinics, setClinics] = useState(null);
   const [labs, setLabs] = useState(null);
-  const [startDate, setStartDate] = useState(new Date("2014-08-18T21:11:54"));
-  const [endDate, setEndDate] = useState(new Date("2020-08-18T21:11:54"));
+  const [startDate, setStartDate] = useState(
+    moment()
+      .subtract(1, "year")
+      .format("YYYY-MM-DD")
+  );
+  const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
   const [age, setAge] = useState({ start: 15, end: 49 });
   const [samplesType, setSamplesType] = useState(null);
 
@@ -71,16 +77,22 @@ export default function CardFullMenu(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log({
-      provinces: provinces,
-      districts: districts,
-      clinics: clinics,
-      labs: labs,
+    props.handleGetParams({
+      provinces: handleFormatfacilitiesArrays(facilities.provinces),
+      districts: handleFormatfacilitiesArrays(facilities.districts),
+      clinics: handleFormatfacilitiesArrays(facilities.clinics),
+      labs: handleFormatfacilitiesArrays(facilities.labs),
+      facilityType: province
+        ? "province"
+        : district
+        ? "district"
+        : clinic && "clinic",
       age: age,
       startDate: startDate,
       endDate: endDate,
       samplesType: samplesType
     });
+    props.handleCloseMenu(false);
   }
 
   const handleStartDate = dateRange => {
@@ -94,6 +106,18 @@ export default function CardFullMenu(props) {
   const handleGetAge = age => {
     setAge({ start: age.start, end: age.end });
   };
+
+  const handleGetFacilities = facilities => {
+    setFacilities(facilities);
+  };
+
+  function handleFormatfacilitiesArrays(facilities) {
+    const result = [];
+    facilities.map(facility => {
+      result.push(facility.value);
+    });
+    return result;
+  }
 
   return (
     <Container
@@ -179,6 +203,7 @@ export default function CardFullMenu(props) {
                 isDistrictEnabled={district}
                 isClinicEnabled={clinic}
                 isLabEnabled={props.lab}
+                handleGetFacilities={handleGetFacilities}
               />
             </Grid>
             <Grid
@@ -196,8 +221,18 @@ export default function CardFullMenu(props) {
                   handleGetAge={handleGetAge}
                 />
               )}
-              <DatePicker label="Inicio" handleDateRange={handleStartDate} />
-              <DatePicker label="Fim" handleDateRange={handleEndDate} />
+              <DatePicker
+                label="Inicio"
+                defaultDate={moment().subtract(1, "year")}
+                handleDateRange={handleStartDate}
+                minDate="2015-01-01"
+              />
+              <DatePicker
+                label="Fim"
+                defaultDate={moment()}
+                minDate={startDate}
+                handleDateRange={handleEndDate}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={3}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import moment from "moment";
 import { ThemeProvider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -25,8 +25,32 @@ import {
   Theme
 } from "./styles";
 
-export default function CardMenu({ handleCloseMenu, borderRadius }) {
+export default function CardMenu({
+  handleCloseMenu,
+  borderRadius,
+  handleGetParams
+}) {
   const classes = UseStyles();
+  const [startDate, setStartDate] = useState(
+    moment()
+      .subtract(1, "year")
+      .format("YYYY-MM-DD")
+  );
+  const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
+
+  const handleChangeStartDate = date => {
+    setStartDate(date);
+  };
+
+  const handleChangeEndDate = date => {
+    setEndDate(date);
+  };
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    handleGetParams({ startDate: startDate, endDate: endDate });
+    handleCloseMenu(false);
+  }
 
   return (
     <Container borderRadius={borderRadius}>
@@ -45,9 +69,17 @@ export default function CardMenu({ handleCloseMenu, borderRadius }) {
             </IconButton>
           </ThemeProvider>
         </MenuHeader>
-        <DatePicker label="Inicio" />
-        <DatePicker label="Fim" />
-        <Btn label="Aplicar" />
+        <DatePicker
+          handleDateRange={handleChangeStartDate}
+          label="Inicio"
+          defaultDate={moment().subtract(1, "year")}
+        />
+        <DatePicker
+          handleDateRange={handleChangeEndDate}
+          label="Fim"
+          defaultDate={moment()}
+        />
+        <Btn label="Aplicar" onclick={handleSubmit} />
       </Menu>
     </Container>
   );

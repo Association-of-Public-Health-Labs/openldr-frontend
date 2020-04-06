@@ -10,7 +10,7 @@ export const Container = styled.div`
 `;
 
 export const MainPanel = styled.div`
-  width: CALC(100% - 150px);
+  width: CALC(100% - 150px); 
   margin-left: 150px;
   height: 100%;
   position: absolute;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import WindowedSelect from "react-windowed-select";
 import { components, createFilter } from "react-windowed-select";
 import { ThemeContext } from "styled-components";
@@ -17,14 +17,16 @@ export default function FacilitiesSelect({
   isProvinceEnabled,
   isDistrictEnabled,
   isClinicEnabled,
-  isLabEnabled
+  isLabEnabled,
+  handleGetFacilities
 }) {
   const { colors } = useContext(ThemeContext);
   const customStyles = SelectStyles(colors);
-  const { clinicsList, districtsList } = useContext(ContextProvider);
+  const { clinicsList, districtsList, labsList } = useContext(ContextProvider);
 
   const districtOptions = [],
-    clinicOptions = [];
+    clinicOptions = [],
+    labsOptions = [];
 
   const provincesOptions = [
     { value: "Niassa", label: "Niassa" },
@@ -54,9 +56,17 @@ export default function FacilitiesSelect({
     })
   );
 
+  labsList.map(lab =>
+    labsOptions.push({
+      value: lab.LabCode,
+      label: lab.LabName
+    })
+  );
+
   const [provinces, setProvinces] = useState(provincesOptions);
   const [districts, setDistricts] = useState(districtOptions);
   const [clinics, setClinics] = useState(clinicOptions);
+  const [labs, setLabs] = useState(labsOptions);
 
   const [selectedProvinces, setSelectedProvinces] = useState([]);
   const [selectedDistricts, setSelectedDistricts] = useState([]);
@@ -66,11 +76,11 @@ export default function FacilitiesSelect({
   async function handleChangeProvinces(provinces) {
     setSelectedProvinces(provinces);
     if (provinces) {
-      const arr = await districtsList.filter(district =>
+      const districtsArray = await districtsList.filter(district =>
         provinces.some(province => province.value === district.ProvinceName)
       );
       const updatedDistrictArray = [];
-      arr.map(district =>
+      districtsArray.map(district =>
         updatedDistrictArray.push({
           value: district.DistrictName,
           label: district.DistrictName
@@ -78,7 +88,7 @@ export default function FacilitiesSelect({
       );
       setDistricts(updatedDistrictArray);
 
-      const arr2 = await clinicsList.filter(clinic => {
+      const clinicsArray = await clinicsList.filter(clinic => {
         if (typeof selectedDistricts !== undefined) {
           if (selectedDistricts.length === 0) {
             return provinces.some(
@@ -96,7 +106,7 @@ export default function FacilitiesSelect({
         }
       });
       const updatedClinicArray = [];
-      arr2.map(clinic =>
+      clinicsArray.map(clinic =>
         updatedClinicArray.push({
           value: clinic.Description,
           label: clinic.Description
@@ -106,10 +116,22 @@ export default function FacilitiesSelect({
     }
   }
 
+  useEffect(() => {
+    function loadFacilities() {
+      return handleGetFacilities({
+        labs: selectedLabs,
+        provinces: selectedProvinces,
+        districts: selectedDistricts,
+        clinics: selectedClinics
+      });
+    }
+    loadFacilities();
+  }, [selectedLabs, selectedProvinces, selectedDistricts, selectedClinics]);
+
   async function handleChangeDistricts(districts) {
     setSelectedDistricts(districts);
     if (districts) {
-      const arr2 = await clinicsList.filter(clinic => {
+      const clinicsArray = await clinicsList.filter(clinic => {
         if (districts.lenght === 0) {
           return selectedProvinces.some(
             province => province.value === clinic.ProvinceName
@@ -121,7 +143,7 @@ export default function FacilitiesSelect({
         }
       });
       const updatedClinicArray = [];
-      arr2.map(clinic =>
+      clinicsArray.map(clinic =>
         updatedClinicArray.push({
           value: clinic.Description,
           label: clinic.Description
@@ -135,8 +157,9 @@ export default function FacilitiesSelect({
     setSelectedClinics(clinics);
   }
   function handleChangeLabs(labs) {
-    // setSelectedLabs(labs);
+    setSelectedLabs(labs);
   }
+
   return (
     <>
       {(isProvinceEnabled || isDistrictEnabled || isClinicEnabled) &&
@@ -186,7 +209,7 @@ export default function FacilitiesSelect({
           styles={customStyles}
           components={customComponents}
           isMulti
-          options={[]}
+          options={labs}
           menuPlacement="auto"
           menuPosition="fixed"
           isClearable={true}

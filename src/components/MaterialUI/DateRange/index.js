@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { ThemeContext } from "styled-components";
-
+import moment from "moment";
 import {
   ThemeProvider,
   Button,
@@ -73,8 +73,16 @@ export default function DateRange() {
       >
         <DateRangePanel>
           <form onSubmit={handleOnSubmit}>
-            <DatePicker handleDateRange={handleDateStart} />
-            <DatePicker handleDateRange={handleDateEnd} />
+            <DatePicker
+              label="Inicio"
+              handleDateRange={handleDateStart}
+              defaultDate={moment().subtract(1, "year")}
+            />
+            <DatePicker
+              label="Fim"
+              handleDateRange={handleDateEnd}
+              defaultDate={moment()}
+            />
             <Btn label="Aplicar" type="submit" />
           </form>
         </DateRangePanel>

@@ -28,41 +28,27 @@ export default function MainCard({
   expandable,
   menuFixed,
   height,
-  borderRadius
+  borderRadius,
+  handleParams
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState(initialState);
   const [age, setAge] = useState(false);
   const [sampleType, setSampleType] = useState(false);
   const [expandCard, setExpandCard] = useState(false);
+  const [params, setParams] = useState({});
 
-  const { handleAddReport, clinicsList, districtsList } = React.useContext(
-    Context
-  );
+  const {
+    handleAddReport,
+    clinicsList,
+    districtsList,
+    labsList
+  } = React.useContext(Context);
 
   const { content } = Cards[cardId];
 
   const handleMenu = event => {
     setIsOpen(!isOpen);
-  };
-
-  const menus = {
-    national: (
-      <MenuCard
-        borderRadius={borderRadius || "20px"}
-        handleCloseMenu={handleMenu}
-      />
-    ),
-    byFacility: (
-      <FullMenu
-        lab={isLab}
-        age={age}
-        fixed={menuFixed}
-        sampleType={sampleType}
-        borderRadius={borderRadius || "20px"}
-        handleCloseMenu={handleMenu}
-      />
-    )
   };
 
   const handleClick = event => {
@@ -92,6 +78,31 @@ export default function MainCard({
 
   const handleExpandCard = () => {
     setExpandCard(!expandCard);
+  };
+
+  const handleGetParams = params => {
+    handleParams(params);
+  };
+
+  const menus = {
+    national: (
+      <MenuCard
+        borderRadius={borderRadius || "20px"}
+        handleCloseMenu={handleMenu}
+        handleGetParams={handleGetParams}
+      />
+    ),
+    byFacility: (
+      <FullMenu
+        lab={isLab}
+        age={age}
+        fixed={menuFixed}
+        sampleType={sampleType}
+        borderRadius={borderRadius || "20px"}
+        handleCloseMenu={handleMenu}
+        handleGetParams={handleGetParams}
+      />
+    )
   };
 
   function createContent() {
@@ -136,7 +147,8 @@ export default function MainCard({
         cardTitle: cardTitle,
         handleAddReport: handleAddReportIntoFolder,
         clinicsList: clinicsList,
-        districtsList: districtsList
+        districtsList: districtsList,
+        labsList: labsList
       }}
     >
       <Container

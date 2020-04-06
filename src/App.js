@@ -20,6 +20,7 @@ function App() {
   const [reports, setReports] = usePersistedState("reports", []);
   const [clinics, setClinics] = usePersistedState("clinics", []);
   const [districts, setDistricts] = usePersistedState("districts", []);
+  const [labs, setLabs] = usePersistedState("labs", []);
   const materialUITheme = materialUI(theme);
   const size = useWindowSize();
 
@@ -49,6 +50,10 @@ function App() {
         const districtsData = await api.get("/districts");
         setDistricts(districtsData.data);
       }
+      if (localStorage.getItem("labs").length <= 2) {
+        const labsData = await api.get("/labs");
+        setLabs(labsData.data);
+      }
     }
     loadFacilities();
   }, []);
@@ -65,7 +70,8 @@ function App() {
         handleRemoveAllReports: handleRemoveAllReports,
         reports: reports,
         clinicsList: clinics,
-        districtsList: districts
+        districtsList: districts,
+        labsList: labs
       }}
     >
       <ThemeProvider theme={theme}>
