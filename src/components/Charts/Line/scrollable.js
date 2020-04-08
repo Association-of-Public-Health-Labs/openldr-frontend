@@ -34,7 +34,7 @@ export default function scrollable({ labels, datasets }) {
 
   var rectangleSet = false;
 
-  const data = canvas => {
+  const data = (canvas) => {
     const ctx = canvas.getContext("2d");
 
     var gradientFill = ctx.createLinearGradient(0, 200, 0, 50);
@@ -60,55 +60,22 @@ export default function scrollable({ labels, datasets }) {
           shadowColor: "rgba(0,0,0,0.08)",
           shadowOffsetX: 0,
           shadowOffsetY: 7,
-          data: [
-            66,
-            93,
-            31,
-            76,
-            39,
-            75,
-            36,
-            45,
-            66,
-            93,
-            31,
-            76,
-            39,
-            75,
-            36,
-            45,
-            66,
-            93,
-            31,
-            76,
-            39,
-            75,
-            36,
-            45,
-            66,
-            93,
-            31,
-            76,
-            39,
-            75,
-            36,
-            45
-          ]
-        }
-      ]
+          data: datasets.data,
+        },
+      ],
     };
   };
 
   const options = {
     maintainAspectRatio: false,
     legend: {
-      display: false
+      display: false,
     },
     responsive: false,
     tooltips: {
       titleFontSize: 0,
       titleMarginBottom: 0,
-      bodyFontSize: 12
+      bodyFontSize: 12,
     },
     scales: {
       xAxes: [
@@ -120,15 +87,15 @@ export default function scrollable({ labels, datasets }) {
           ticks: {
             display: true,
             fontColor: "#cccccc",
-            padding: 10
+            padding: 10,
           },
           gridLines: {
             zeroLineColor: "transparent",
             drawTicks: false,
             display: false,
-            drawBorder: false
-          }
-        }
+            drawBorder: false,
+          },
+        },
       ],
       yAxes: [
         {
@@ -137,28 +104,28 @@ export default function scrollable({ labels, datasets }) {
           ticks: {
             display: true,
             fontColor: "#cccccc",
-            padding: 10
+            padding: 10,
           },
           gridLines: {
             zeroLineColor: "transparent",
             drawBorder: false,
             drawTicks: true,
             display: true,
-            lineWidth: 0.4
-          }
-        }
-      ]
+            lineWidth: 0.4,
+          },
+        },
+      ],
     },
     layout: {
       padding: {
         left: 0,
         right: 0,
         top: 0,
-        bottom: 0
-      }
+        bottom: 0,
+      },
     },
     animation: {
-      onComplete: function() {
+      onComplete: function () {
         if (!rectangleSet) {
           var scale = window.devicePixelRatio;
 
@@ -201,7 +168,7 @@ export default function scrollable({ labels, datasets }) {
           legendItems[i].addEventListener("click", legendClickCallback, false);
         }
       },
-      onProgress: function() {
+      onProgress: function () {
         if (rectangleSet === true) {
           var copyWidth = this.scales["y-axis-0"].width;
           var copyHeight =
@@ -210,8 +177,8 @@ export default function scrollable({ labels, datasets }) {
           var sourceCtx = this.chart.canvas.getContext("2d");
           sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
         }
-      }
-    }
+      },
+    },
   };
 
   return (

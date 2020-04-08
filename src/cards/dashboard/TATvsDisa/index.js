@@ -1,48 +1,45 @@
-import React, { useContext } from "react";
-import { Chart, Line } from "react-chartjs-2";
-import "chartjs-plugin-style";
-import { ThemeContext } from "styled-components";
-import hexToRgba from "hex-to-rgba";
-
-import { Container, Body } from "./styles";
-import { Header, CardTitle } from "../../styles";
+import React, { useContext, useState, useEffect } from "react";
+import moment from "moment";
+import qs from "qs";
+import api from "../../../services/api";
 
 import Card from "../../../components/MainCard";
 
 export default function TATvsDisa() {
   const cardId = "dash-tat-vs-disalinks";
   const cardTitle = "TAT vs No. of Disalinks";
+  const [labels, setLabels] = useState([]);
+  const [data, setData] = useState([]);
+  const [labelsExcel, setLabelsExcel] = useState([]);
+  const [dataExcel, setDataExcel] = useState([]);
+  const [disalinks, setDisalinks] = useState([]);
+  const [tat, setTat] = useState([]);
 
-  const labels = [
-    "FY18Q1",
-    "FY18Q2",
-    "FY18Q3",
-    "FY18Q4",
-    "FY19Q1",
-    "FY19Q2",
-    "FY19Q3",
-    "FY19Q4"
-  ];
-  const data = [
-    [40, 500, 650, 700, 1200, 1250, 1300, 1900],
-    [1700, 1200, 1000, 900, 750, 600, 560, 20]
-  ];
+  useEffect(() => {
+    async function loadData() {
+      const response = await api.get("/dash_tat_vs_disalinks");
+      const results = response.data;
+      var chartLabels = [],
+        chartDisalinks = [],
+        chartTat = [];
 
-  const labelsExcel = [
-    "",
-    "FY18Q1",
-    "FY18Q2",
-    "FY18Q3",
-    "FY18Q4",
-    "FY19Q1",
-    "FY19Q2",
-    "FY19Q3",
-    "FY19Q4"
-  ];
-  const dataExcel = [
-    ["TAT", 40, 500, 650, 700, 1200, 1250, 1300, 1900],
-    ["#Disalinks", 1700, 1200, 1000, 900, 750, 600, 560, 20]
-  ];
+      results.map((result) => {
+        chartLabels.push(result.semester);
+        chartDisalinks.push(result.disalinks);
+        chartTat.push(result.tat);
+      });
+
+      setLabels(chartLabels);
+      setData([chartTat, chartDisalinks]);
+      setLabelsExcel(chartLabels);
+      setDataExcel([chartTat, chartDisalinks]);
+    }
+    loadData();
+  }, []);
+
+  const handleGetParams = (param) => {
+    // setDates([param.startDate, param.endDate]);
+  };
 
   return (
     <Card
@@ -53,6 +50,7 @@ export default function TATvsDisa() {
       chartData={data}
       chartLabels={labels}
       menuType="national"
+      handleParams={handleGetParams}
     />
   );
 }

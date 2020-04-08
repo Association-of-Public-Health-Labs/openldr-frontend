@@ -5,7 +5,7 @@ import Scrollable from "./scrollable";
 
 export default function Line({ labels, datasets }) {
   const total = labels.length;
-  return total < 13 ? (
+  return total < 14 ? (
     <LineChart labels={labels} datasets={datasets} />
   ) : (
     <Scrollable labels={labels} datasets={datasets} />

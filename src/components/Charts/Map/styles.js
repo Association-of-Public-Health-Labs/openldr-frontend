@@ -19,12 +19,12 @@ export const MapSvg = styled.svg`
     font-weight: bold;
   }
   path {
-    stroke: ${props => props.theme.colors.mapStroke};
+    stroke: ${(props) => props.theme.colors.mapStroke};
     stroke-width: 2;
-    fill: ${props => props.theme.colors.mapFill};
+    fill: ${(props) => props.theme.colors.mapFill};
     cursor: pointer;
     &:hover {
-      fill: ${props => props.theme.colors.mapHover};
+      fill: ${(props) => props.theme.colors.mapHover};
       transition-delay: 0.3s;
     }
   }
@@ -32,7 +32,7 @@ export const MapSvg = styled.svg`
     font-size: 20px;
     font-family: "Open Sans", sans-serif;
     font-weight: bold;
-    fill: ${props => props.theme.colors.text};
+    fill: ${(props) => props.theme.colors.text};
   }
   .vl_sup_text {
     font-size: 18px;
@@ -55,26 +55,26 @@ export const AverageText = styled.div`
   align-items: center;
   h5 {
     text-transform: uppercase;
-    color: ${props => hexToRgba(props.theme.colors.text, "0.4")};
+    color: ${(props) => hexToRgba(props.theme.colors.text, "0.4")};
   }
   h1 {
     font-size: 26px;
     font-weight: 100;
-    color: ${props => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.text};
     margin-left: 10px;
   }
 `;
 
-export const Theme = theme =>
+export const Theme = (theme) =>
   createMuiTheme({
     palette: {
       primary: {
-        main: theme.primary
+        main: theme.primary,
       },
       normal: {
-        main: theme.primary
+        main: theme.primary,
       },
       contrastThreshold: 3,
-      tonalOffset: 0.2
-    }
+      tonalOffset: 0.2,
+    },
   });
