@@ -659,7 +659,7 @@ export default function Map({ data, labels }) {
       </MapSvg>
 
       <AverageText>
-        <h5>Media actual</h5>
+        <h5>Media Nacional</h5>
         <h1>{Math.round(average(suppression))}%</h1>
       </AverageText>
     </Container>

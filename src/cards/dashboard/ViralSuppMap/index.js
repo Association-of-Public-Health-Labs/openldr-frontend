@@ -94,7 +94,7 @@ export default function ViralSuppMap() {
   const [dataExcel, setDataExcel] = useState([]);
   const [dates, setDates] = useState([
     moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().subtract(1, "month").format("YYYY-MM-DD"),
+    moment().format("YYYY-MM-DD"),
   ]);
 
   useEffect(() => {
@@ -127,7 +127,7 @@ export default function ViralSuppMap() {
         if (suppressed === 0) {
           suppressed = 1;
         }
-        // setData(prevState => [...prevState]
+
         mapData[result.province] = {
           suppressed: Math.round((suppressed / total) * 100),
           routine: Math.round((routine / suppressed) * 100),
@@ -136,11 +136,7 @@ export default function ViralSuppMap() {
             (reason_not_specified / suppressed) * 100
           ),
         };
-
-        // setLabelsExcel(chartLabels);
-        // setDataExcel([chartData]);
       });
-      // console.log(groupBy(results, ["province"]));
       setLabels(chartLabels);
       setData(results);
     }

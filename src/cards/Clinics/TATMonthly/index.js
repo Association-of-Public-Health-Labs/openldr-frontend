@@ -1,70 +1,97 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import moment from "moment";
+import qs from "qs";
+import api from "../../../services/api";
 
 import Card from "../../../components/MainCard";
-import Chart from "../../../components/Charts/ChartBarStacked";
 
 export default function TATMonthly() {
   const cardId = "clinic-tat-by-month";
   const cardTitle = "Turn around time by month";
+  const [labels, setLabels] = useState([]);
+  const [data, setData] = useState([]);
+  const [labelsExcel, setLabelsExcel] = useState([]);
+  const [dataExcel, setDataExcel] = useState([]);
+  const [type, setType] = useState("province");
+  const [facilities, setFacilities] = useState([]);
+  const [dates, setDates] = useState([
+    moment().subtract(1, "year").format("YYYY-MM-DD"),
+    moment().format("YYYY-MM-DD"),
+  ]);
 
-  const labels = [
-    "Jan",
-    "Fev",
-    "Mar",
-    "Abr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Set",
-    "Out",
-    "Nov",
-    "Dez"
-  ];
-  const data = [
-    {
-      label: "Colheita à Recepção",
-      backgroundColor: "#fb8c00",
-      data: [10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10]
-    },
-    {
-      label: "Recepção ao Registo",
-      backgroundColor: "#ef5350",
-      data: [10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10]
-    },
-    {
-      label: "Registo à Análise",
-      backgroundColor: "#00000",
-      data: [10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10]
-    },
-    {
-      label: "Análise à Validação",
-      backgroundColor: "#00b000",
-      data: [10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10]
+  useEffect(() => {
+    async function loadData() {
+      const response = await api.get("/clinic_tat", {
+        params: {
+          codes: facilities,
+          dates: dates,
+        },
+        paramsSerializer: (params) => {
+          return qs.stringify(params);
+        },
+      });
+      const results = response.data;
+      var chartLabels = [],
+        collection_reception = [],
+        reception_registration = [],
+        registration_analysis = [],
+        analysis_validation = [];
+
+      results.map((result) => {
+        chartLabels.push(result.month_name.substring(0, 3));
+        collection_reception.push(result.collection_reception);
+        reception_registration.push(result.reception_registration);
+        registration_analysis.push(result.registration_analysis);
+        analysis_validation.push(result.analysis_validation);
+      });
+
+      setLabels(chartLabels);
+      setData([
+        {
+          label: "Colheita à Recepção",
+          backgroundColor: "#fb8c00",
+          data: collection_reception,
+        },
+        {
+          label: "Recepção ao Registo",
+          backgroundColor: "#ef5350",
+          data: reception_registration,
+        },
+        {
+          label: "Registo à Análise",
+          backgroundColor: "#00000",
+          data: registration_analysis,
+        },
+        {
+          label: "Análise à Validação",
+          backgroundColor: "#00b000",
+          data: analysis_validation,
+        },
+      ]);
+      setLabelsExcel(chartLabels);
+      setDataExcel([
+        collection_reception,
+        reception_registration,
+        registration_analysis,
+        analysis_validation,
+      ]);
     }
-  ];
+    loadData();
+  }, [facilities, dates]);
 
-  const labelsExcel = [
-    "Tempo de Resposta",
-    "Jan",
-    "Fev",
-    "Mar",
-    "Abr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Set",
-    "Out",
-    "Nov",
-    "Dez"
-  ];
-  const dataExcel = [
-    ["Colheita à Recepção", 10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10],
-    ["Recepção ao Registo", 10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10],
-    ["Registo à Análise", 10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10],
-    ["Análise à Validação", 10, 12, 11, 9, 8, 10, 12, 14, 21, 29, 15, 10]
-  ];
+  const handleGetParams = (param) => {
+    if (param.facilityType === "province") {
+      setFacilities(param.provinces);
+      setType(param.facilityType);
+    } else if (param.facilityType === "district") {
+      setFacilities(param.districts);
+      setType(param.facilityType);
+    } else if (param.facilityType === "clinic") {
+      setFacilities(param.clinics);
+      setType(param.facilityType);
+    }
+    setDates([param.startDate, param.endDate]);
+  };
 
   return (
     <Card
@@ -78,6 +105,7 @@ export default function TATMonthly() {
       isLab={false}
       expandable={true}
       menuFixed={true}
+      handleParams={handleGetParams}
     />
   );
 }

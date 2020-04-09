@@ -16,7 +16,7 @@ export default function VlSuppression() {
   const [dataExcel, setDataExcel] = useState([]);
   const [dates, setDates] = useState([
     moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().subtract(1, "month").format("YYYY-MM-DD"),
+    moment().format("YYYY-MM-DD"),
   ]);
 
   useEffect(() => {

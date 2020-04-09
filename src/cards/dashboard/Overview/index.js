@@ -22,30 +22,28 @@ export default function Overview() {
   const [tatLabels, setTatLabels] = useState([]);
   const [tatData, setTatData] = useState([]);
   const [dates, setDates] = useState([
-    moment()
-      .subtract(1, "year")
-      .format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD")
+    moment().subtract(1, "year").format("YYYY-MM-DD"),
+    moment().format("YYYY-MM-DD"),
   ]);
 
   useEffect(() => {
     async function loadData() {
       const response = await api.get("/dash_number_of_samples", {
         params: {
-          dates: dates
+          dates: dates,
         },
-        paramsSerializer: params => {
+        paramsSerializer: (params) => {
           return qs.stringify(params);
-        }
+        },
       });
       const results = response.data;
       var labels = [],
         data = [];
 
-      results.map(result => {
+      results.map((result) => {
         labels.push(result.month);
         data.push(result.total);
-        setNumberOfSamples(prevState => prevState + result.total);
+        setNumberOfSamples((prevState) => prevState + result.total);
       });
       setSamplesLabels(labels);
       setSamplesData(data);
@@ -57,17 +55,17 @@ export default function Overview() {
     async function loadData() {
       const response = await api.get("/dash_viral_suppression", {
         params: {
-          dates: dates
+          dates: dates,
         },
-        paramsSerializer: params => {
+        paramsSerializer: (params) => {
           return qs.stringify(params);
-        }
+        },
       });
       const results = response.data;
       var labels = [],
         data = [];
 
-      results.map(result => {
+      results.map((result) => {
         labels.push(result.month);
         const { suppressed, total } = result;
         if (total > 0) {
@@ -86,23 +84,23 @@ export default function Overview() {
     async function loadData() {
       const response = await api.get("/dash_tat", {
         params: {
-          dates: dates
+          dates: dates,
         },
-        paramsSerializer: params => {
+        paramsSerializer: (params) => {
           return qs.stringify(params);
-        }
+        },
       });
       const results = response.data;
       var labels = [],
         data = [];
 
-      results.map(result => {
+      results.map((result) => {
         labels.push(result.month);
         const {
           collection_reception,
           reception_registration,
           registration_analysis,
-          analysis_validation
+          analysis_validation,
         } = result;
         data.push(
           collection_reception +

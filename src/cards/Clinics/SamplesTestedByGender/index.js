@@ -1,67 +1,102 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import hexToRgba from "hex-to-rgba";
-
+import moment from "moment";
+import qs from "qs";
+import api from "../../../services/api";
 import Card from "../../../components/MainCard";
-import BarGroup from "../../../components/Charts/BarGroup";
 
 export default function SamplesTestedByGender() {
   const cardId = "clinic-samples-tested-by-gender";
   const cardTitle = "Samples Tested by Gender";
+  const [labels, setLabels] = useState([]);
+  const [data, setData] = useState([]);
+  const [labelsExcel, setLabelsExcel] = useState([]);
+  const [dataExcel, setDataExcel] = useState([]);
+  const [type, setType] = useState("province");
+  const [facilities, setFacilities] = useState([]);
+  const [dates, setDates] = useState([
+    moment().subtract(1, "year").format("YYYY-MM-DD"),
+    moment().format("YYYY-MM-DD"),
+  ]);
 
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July"
-  ];
+  useEffect(() => {
+    async function loadData() {
+      const response = await api.get("/clinic_samples_tested_by_gender", {
+        params: {
+          codes: facilities,
+          dates: dates,
+          type: type,
+        },
+        paramsSerializer: (params) => {
+          return qs.stringify(params);
+        },
+      });
+      const results = response.data;
+      var chartLabels = [],
+        male_suppressed = [],
+        female_suppressed = [],
+        male_not_suppressed = [],
+        female_not_suppressed = [];
 
-  const datasets = [
-    {
-      label: "Male (CV < 1000)",
-      backgroundColor: "#00b000",
-      stack: "Stack 0",
-      data: [66, 93, 31, 76, 39, 75, 36]
-    },
-    {
-      label: "Male (CV > 1000)",
-      backgroundColor: hexToRgba("#00b000", "0.4"),
-      stack: "Stack 0",
-      data: [76, 203, 41, 86, 49, 85, 46]
-    },
-    {
-      label: "Female (CV < 1000)",
-      backgroundColor: "#e74c3c",
-      stack: "Stack 1",
-      data: [76, 103, 41, 86, 49, 85, 46]
-    },
-    {
-      label: "Female (CV > 1000)",
-      backgroundColor: hexToRgba("#e74c3c", "0.4"),
-      stack: "Stack 1",
-      data: [56, 56, 83, 21, 66, 29, 65]
+      results.map((result) => {
+        chartLabels.push(result.month_name.substring(0, 3));
+        male_suppressed.push(result.male_suppressed);
+        female_suppressed.push(result.female_suppressed);
+        male_not_suppressed.push(result.male_not_suppressed);
+        female_not_suppressed.push(result.female_not_suppressed);
+      });
+
+      setLabels(chartLabels);
+      setData([
+        {
+          label: "Homens (CV < 1000)",
+          backgroundColor: "#00b000",
+          stack: "Stack 0",
+          data: male_suppressed,
+        },
+        {
+          label: "Homens (CV > 1000)",
+          backgroundColor: hexToRgba("#00b000", "0.4"),
+          stack: "Stack 0",
+          data: male_not_suppressed,
+        },
+        {
+          label: "Mulheres (CV < 1000)",
+          backgroundColor: "#e74c3c",
+          stack: "Stack 1",
+          data: female_suppressed,
+        },
+        {
+          label: "Mulheres (CV > 1000)",
+          backgroundColor: hexToRgba("#e74c3c", "0.4"),
+          stack: "Stack 1",
+          data: female_not_suppressed,
+        },
+      ]);
+      setLabelsExcel(chartLabels);
+      setDataExcel([
+        male_suppressed,
+        male_not_suppressed,
+        female_suppressed,
+        female_not_suppressed,
+      ]);
     }
-  ];
+    loadData();
+  }, [facilities, dates]);
 
-  const labelsExcel = [
-    "",
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July"
-  ];
-
-  const dataExcel = [
-    ["Male (CV < 1000)", 66, 93, 31, 76, 39, 75, 36],
-    ["Male (CV > 1000)", 76, 203, 41, 86, 49, 85, 46],
-    ["Female (CV < 1000)", 76, 103, 41, 86, 49, 85, 46],
-    ["Female (CV > 1000)", 56, 56, 83, 21, 66, 29, 65]
-  ];
+  const handleGetParams = (param) => {
+    if (param.facilityType === "province") {
+      setFacilities(param.provinces);
+      setType(param.facilityType);
+    } else if (param.facilityType === "district") {
+      setFacilities(param.districts);
+      setType(param.facilityType);
+    } else if (param.facilityType === "clinic") {
+      setFacilities(param.clinics);
+      setType(param.facilityType);
+    }
+    setDates([param.startDate, param.endDate]);
+  };
 
   return (
     <Card
@@ -69,12 +104,13 @@ export default function SamplesTestedByGender() {
       cardTitle={cardTitle}
       excelData={dataExcel}
       excelLabels={labelsExcel}
-      chartData={datasets}
+      chartData={data}
       chartLabels={labels}
       menuType="byFacility"
       isLab={false}
       expandable={true}
       menuFixed={true}
+      handleParams={handleGetParams}
     />
   );
 }
