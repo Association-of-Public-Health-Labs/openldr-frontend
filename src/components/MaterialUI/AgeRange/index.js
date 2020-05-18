@@ -8,34 +8,41 @@ import { ThemeContext } from "styled-components";
 
 import { Container } from "./styles";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    // "& .MuiTextField-root": {
-    //   margin: theme.spacing(1),
-    width: "100%"
-    // }
-  }
-}));
-
-export default function AgeRange({ start, end, handleGetAge }) {
+export default function AgeRange({ start, end, handleGetAge, label }) {
   const [ageStart, setAgeStart] = useState(start);
   const [ageEnd, setAgeEnd] = useState(end);
-  const classes = useStyles();
   const { colors } = useContext(ThemeContext);
 
-  const handleChangeAgeStart = event => {
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      // "& .MuiTextField-root": {
+      //   margin: theme.spacing(1),
+      width: "100%",
+      // }
+    },
+    focused: {},
+    outlinedInput: {
+      "&$focused $notchedOutline": {
+        border: `2px solid ${colors.primary}`,
+      },
+    },
+    notchedOutline: {},
+  }));
+  const classes = useStyles();
+
+  const handleChangeAgeStart = (event) => {
     setAgeStart(event.target.value);
     return handleGetAge({ start: event.target.value, end: ageEnd });
   };
 
-  const handleChangeAgeEnd = event => {
+  const handleChangeAgeEnd = (event) => {
     setAgeEnd(event.target.value);
     return handleGetAge({ start: ageStart, end: event.target.value });
   };
 
   return (
     <Container>
-      <span className="title">Insira a faixa etária</span>
+      {label && <span className="title">Insira a faixa etária</span>}
       <Grid container spacing={1}>
         <Grid item xs={6}>
           <FormControl variant="outlined" size="small" className={classes.root}>
@@ -47,9 +54,14 @@ export default function AgeRange({ start, end, handleGetAge }) {
               label="Name"
               style={{
                 backgroundColor: colors.background.textInput,
-                color: colors.text
+                color: colors.text,
               }}
               type="number"
+              classes={{
+                root: classes.outlinedInput,
+                focused: classes.focused,
+                notchedOutline: classes.notchedOutline,
+              }}
             />
           </FormControl>
         </Grid>
@@ -63,9 +75,14 @@ export default function AgeRange({ start, end, handleGetAge }) {
               label="Name"
               style={{
                 backgroundColor: colors.background.textInput,
-                color: colors.text
+                color: colors.text,
               }}
               type="number"
+              classes={{
+                root: classes.outlinedInput,
+                focused: classes.focused,
+                notchedOutline: classes.notchedOutline,
+              }}
             />
           </FormControl>
         </Grid>

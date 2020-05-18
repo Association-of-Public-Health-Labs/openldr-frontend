@@ -5,6 +5,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import Lab from "./pages/Lab";
 import Clinic from "./pages/Clinic";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
+import Covid19 from "./pages/covid19/Dashboard";
 
 export default function Routes() {
   return (
@@ -13,7 +16,9 @@ export default function Routes() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/lab" component={Lab} />
       <Route path="/clinic" component={Clinic} />
-      {/* <PrivateRoute path="/main" component={Main} /> */}
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={SignUp} />
+      <PrivateRoute path="/covid19" component={Covid19} />
     </BrowserRouter>
   );
 }

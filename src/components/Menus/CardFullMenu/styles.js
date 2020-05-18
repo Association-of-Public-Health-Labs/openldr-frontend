@@ -16,10 +16,10 @@ export const Container = styled.div`
   right: 0;
   bottom: 0;
   @media (min-width: 600px) {
-    position: ${props => (props.full ? "relative" : "absolute")};
-    position: ${props =>
+    position: ${(props) => (props.full ? "relative" : "absolute")};
+    position: ${(props) =>
       props.full ? "relative" : props.fixed ? "fixed" : "absolute"};
-    border-radius: ${props => props.borderRadius};
+    border-radius: ${(props) => props.borderRadius};
   }
   @media (max-width: 599px) {
     position: fixed;
@@ -30,18 +30,19 @@ export const Container = styled.div`
 export const Menu = styled.form`
   display: flex;
   flex-direction: column;
-  background-color: ${props => props.theme.colors.background.secondary};
+  background-color: ${(props) => props.theme.colors.background.secondary};
   border-radius: 4px;
-  box-shadow: ${props =>
+  box-shadow: ${(props) =>
     props.full
       ? "none"
       : "0 0 0 1px rgba(99, 114, 130, 0.16), 0 8px 16px rgba(27, 39, 51, 0.08)"};
   padding: 5px 20px 20px 20px;
   @media (min-width: 600px) {
-    max-height: ${props => (props.full ? "100%" : "auto")};
-    max-width: ${props => (props.full ? "100%" : props.fixed ? "60%" : "95%")};
-    height: ${props => (props.full ? "100%" : "auto")};
-    width: ${props => (props.full ? "100%" : props.fixed ? "60%" : "80%")};
+    max-height: ${(props) => (props.full ? "100%" : "auto")};
+    max-width: ${(props) =>
+      props.full ? "100%" : props.fixed ? "60%" : "95%"};
+    height: ${(props) => (props.full ? "100%" : "auto")};
+    width: ${(props) => (props.full ? "100%" : props.fixed ? "60%" : "80%")};
   }
   @media (max-width: 599px) {
     max-height: 94%;
@@ -74,11 +75,11 @@ export const FacilityOptions = styled.div`
 `;
 
 export const Tab = styled.div`
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.status === "active"
       ? hexToRgba(props.theme.colors.primary, "0.1")
       : ""};
-  color: ${props =>
+  color: ${(props) =>
     props.status === "active" ? props.theme.colors.primary : ""};
   display: flex;
   justify-content: center;
@@ -118,31 +119,31 @@ export const UseStyles = makeStyles({
     borderWidth: "1px",
     borderColor: "black",
     borderRadius: "4px",
-    borderBottomColor: "#ffffff"
+    borderBottomColor: "#ffffff",
   },
   margin: {
-    color: "white"
+    color: "white",
   },
   iconButton: {
     fontSize: "20px",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   formControl: {
     display: "flex",
     flexDirection: "row",
-    fontSize: 8
+    fontSize: 8,
   },
   radioLabel: {
-    fontSize: 8
-  }
+    fontSize: 8,
+  },
 });
 
 export const Theme = createMuiTheme({
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: "#00b000"
+      main: "#00b000",
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
@@ -150,47 +151,47 @@ export const Theme = createMuiTheme({
       light: "#0066ff",
       main: "#0044ff",
       // dark: will be calculated from palette.secondary.main,
-      contrastText: "#ffcc00"
+      contrastText: "#ffcc00",
     },
     normal: {
-      main: "#333333"
+      main: "#333333",
     },
     contrastThreshold: 3,
-    tonalOffset: 0.2
+    tonalOffset: 0.2,
   },
   overrides: {
     MuiPickersBasePicker: {
       container: {
         backgroundColor: "#32323c",
-        color: "white"
-      }
+        color: "white",
+      },
     },
     MuiPickersDay: {
       day: {
-        color: "white"
+        color: "white",
       },
       daySelected: {
-        color: "white"
-      }
+        color: "white",
+      },
     },
     MuiPickersCalendarHeader: {
       iconButton: {
         backgroundColor: "#32323c",
-        color: "white"
+        color: "white",
       },
       dayLabel: {
-        color: "white"
-      }
+        color: "white",
+      },
     },
     MuiFormControlLabel: {
       label: {
-        fontSize: 11
-      }
-    }
-  }
+        fontSize: 11,
+      },
+    },
+  },
 });
 
-export const SelectStyles = colors => ({
+export const SelectStyles = (colors) => ({
   control: (provided, state) => ({
     ...provided,
     border: "1px solid " + colors.textInputBorder,
@@ -199,18 +200,18 @@ export const SelectStyles = colors => ({
     boxShadow: state.isFocused ? 0 : 0,
     borderColor: state.isFocused ? colors.primary : provided.borderColor,
     "&:hover": {
-      borderColor: state.isFocused ? colors.primary : provided.borderColor
+      borderColor: state.isFocused ? colors.primary : provided.borderColor,
     },
-    backgroundColor: colors.background.textInput
+    backgroundColor: colors.background.textInput,
   }),
-  multiValue: provided => ({
+  multiValue: (provided) => ({
     ...provided,
     backgroundColor: hexToRgba(colors.primary, "0.1"),
-    color: colors.primary
+    color: colors.primary,
   }),
-  multiValueLabel: provided => ({
+  multiValueLabel: (provided) => ({
     ...provided,
-    color: colors.primary
+    color: colors.primary,
   }),
   option: (styles, state) => ({
     ...styles,
@@ -219,11 +220,11 @@ export const SelectStyles = colors => ({
       : colors.background.secondary,
     "&:hover": {
       backgroundColor: hexToRgba(colors.primary, "0.1"),
-      color: colors.primary
-    }
+      color: colors.primary,
+    },
   }),
   menu: (provided, state) => ({
     ...provided,
-    backgroundColor: colors.background.secondary
-  })
+    backgroundColor: colors.background.secondary,
+  }),
 });
