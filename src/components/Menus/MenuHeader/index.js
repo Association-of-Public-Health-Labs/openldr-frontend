@@ -8,7 +8,7 @@ import {
   Popover,
   Menu,
   MenuItem,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { IoIosArrowDown, IoIosMenu } from "react-icons/io";
@@ -28,7 +28,7 @@ import {
   Theme,
   UseStyles,
   Panel,
-  LeftPanel
+  LeftPanel,
 } from "./styles";
 
 export default function MenuHeader(props) {
@@ -49,7 +49,7 @@ export default function MenuHeader(props) {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={7} lg={8}>
             <LeftPanel>
-              <MobileMenu active={props.id} />
+              <MobileMenu active={props.id} menu={props.menu} />
               <Title>{props.page}</Title>
               {/* <div>
                 <SearchBar

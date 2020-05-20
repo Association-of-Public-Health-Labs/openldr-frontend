@@ -8,7 +8,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Tooltip from "@material-ui/core/Tooltip";
 import ContextProvider from "../../../context";
-import Menu from "../../../utils/menuConfig";
 import { ThemeContext } from "styled-components";
 
 import {
@@ -16,7 +15,7 @@ import {
   FiThermometer,
   FiMapPin,
   FiMoreHorizontal,
-  FiEye
+  FiEye,
 } from "react-icons/fi";
 
 import {
@@ -27,20 +26,20 @@ import {
   Config,
   MenuTooltipPanel,
   ThemeSwitch,
-  UseStyles
+  UseStyles,
 } from "./styles";
 
-const MenuTooltip = withStyles(theme => ({
+const MenuTooltip = withStyles((theme) => ({
   tooltip: {
-    backgroundColor: "transparent"
-  }
+    backgroundColor: "transparent",
+  },
 }))(Tooltip);
 
 export default function SideBar(props) {
   const classes = UseStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   // const [isLabelOn, setIsLabelOn] = useState(false);
-  const menu = Menu;
+  const menu = props.menu;
   const active = props.active || null;
 
   const { toogleTheme, toogleLabels, isLabelVisible, size } = useContext(
@@ -49,7 +48,7 @@ export default function SideBar(props) {
   const { title } = useContext(ThemeContext);
   const [isDark, setIsDark] = useState(title === "dark" ? true : false);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -72,7 +71,7 @@ export default function SideBar(props) {
     <Container isLabelOn={isLabelVisible}>
       <Content>
         <MenuItems isLabelOn={isLabelVisible}>
-          {menu.map(item => {
+          {menu.map((item) => {
             return (
               <MenuTooltip
                 placement="right"
@@ -114,11 +113,11 @@ export default function SideBar(props) {
               onClose={handleClose}
               anchorOrigin={{
                 vertical: "bottom",
-                horizontal: "left"
+                horizontal: "left",
               }}
               transformOrigin={{
                 vertical: "bottom",
-                horizontal: "left"
+                horizontal: "left",
               }}
             >
               <Config>

@@ -29,6 +29,7 @@
     "immer": "^5.3.6",
     "json-groupby": "^1.1.0",
     "json-stringify-safe": "^5.0.1",
+    "material-table": "^1.57.2",
     "material-ui-search-bar": "^1.0.0-beta.14",
     "moment": "^2.24.0",
     "qs": "^6.9.3",

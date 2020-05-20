@@ -1,7 +1,5 @@
 import React, { useState, useContext } from "react";
 
-import Menu from "../../../utils/menuConfig";
-
 import { Popover, IconButton } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { IoIosMenu } from "react-icons/io";
@@ -10,7 +8,7 @@ import {
   FiThermometer,
   FiMapPin,
   FiMoreHorizontal,
-  FiEye
+  FiEye,
 } from "react-icons/fi";
 
 import DateRange from "../DateRange";
@@ -20,10 +18,10 @@ import { Container, MenuContainer, Item, SecondaryPanel } from "./styles";
 
 export default function MobileMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const menu = Menu;
+  const menu = props.menu;
   const active = props.active;
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -52,16 +50,16 @@ export default function MobileMenu(props) {
         onClose={handleClose}
         anchorOrigin={{
           vertical: "top",
-          horizontal: "left"
+          horizontal: "left",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "left"
+          horizontal: "left",
         }}
       >
         <MenuContainer>
           <Grid container spacing={3}>
-            {menu.map(item => {
+            {menu.map((item) => {
               return (
                 <Grid item xs={3}>
                   <Item
