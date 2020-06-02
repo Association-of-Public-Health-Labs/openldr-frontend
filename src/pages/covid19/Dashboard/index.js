@@ -9,11 +9,12 @@ import { covid19 } from "../../../utils/menuConfig";
 import SideBar from "../../../components/Menus/SideBar";
 import Header from "../../../components/Menus/MenuHeader";
 
-import ViralSuppMap from "../../../cards/dashboard/ViralSuppMap";
-import Overview from "../../../cards/dashboard/Overview";
+import Map from "../cards/Map";
+import Overview from "../cards/Overview";
 import TATvsDisa from "../../../cards/dashboard/TATvsDisa";
-import TAT from "../../../cards/dashboard/TAT";
+import TAT from "../cards/TAT";
 import ViralLoadSuppression from "../../../cards/dashboard/VLSuppression";
+import SamplesHistory from "../cards/SamplesHistory";
 
 function Dashboard() {
   return (
@@ -23,24 +24,24 @@ function Dashboard() {
         <MainPanel>
           <Header page="COVID19 Dashboard" id="home" menu={covid19} />
           <Content>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} alignItems="stretch">
               <Grid item xs={12} sm={12} md={8} lg={8}>
                 <LeftGridPanel>
                   <Overview />
-                  <ViralLoadSuppression />
+                  <TAT />
                 </LeftGridPanel>
               </Grid>
               <Grid item xs={12} sm={12} md={4} lg={4}>
-                <ViralSuppMap />
+                <Map />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={12} md={8} lg={8}>
-                <TAT />
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                <SamplesHistory />
               </Grid>
-              <Grid item xs={12} sm={12} md={4} lg={4}>
+              {/* <Grid item xs={12} sm={12} md={4} lg={4}>
                 <TATvsDisa />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Content>
         </MainPanel>

@@ -5,6 +5,7 @@ import Bar from "../components/Charts/Bar";
 import BarGroup from "../components/Charts/BarGroup";
 import Line from "../components/Charts/Line";
 import SvgMap from "../components/Charts/Map";
+import SvgMapCovid19 from "../components/Charts/MapCovid19";
 import TATvsDisa from "../components/Charts/TATvsDisa";
 import DataTable from "../components/DataTable";
 const cards = [];
@@ -106,6 +107,15 @@ cards["dash-viral-suppression"] = {
   description: "",
   content: function (data, labels) {
     return <Line labels={labels} datasets={data} />;
+  },
+};
+
+cards["covid19-map"] = {
+  id: "covid19-map",
+  name: "Casos por Provincia",
+  description: "",
+  content: function (data, labels) {
+    return <SvgMapCovid19 labels={labels} datasets={data} />;
   },
 };
 

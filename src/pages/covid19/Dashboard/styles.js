@@ -27,7 +27,7 @@ export const Content = styled.section`
 `;
 
 export const LeftGridPanel = styled.div`
-  height: 530px;
+  height: 540px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
