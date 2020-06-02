@@ -66,11 +66,11 @@ export default function MenuHeader(props) {
           </Grid>
           <Grid item xs={12} sm={6} md={5} lg={4}>
             <Panel>
-              <DateRange />
+              {/* <DateRange />
               <MenuDashboard />
               {reports.length > 0 && (
                 <ReportsBadge totalReports={reports.length} />
-              )}
+              )} */}
             </Panel>
           </Grid>
         </Grid>

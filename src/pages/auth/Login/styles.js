@@ -8,6 +8,19 @@ export const Container = styled.div`
   padding: 0;
 `;
 
+export const LeftPanel = styled.div`
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 80%;
+  }
+`;
+
 export const RightPanel = styled.div`
   width: 50%;
   height: 100%;
@@ -45,7 +58,7 @@ export const Form = styled.form`
 `;
 
 export const ButtonLogin = styled.button`
-  margin-top: 10px;
+  margin-top: 30px;
   border: 0;
   border-radius: 4px;
   height: 48px;
@@ -58,4 +71,15 @@ export const ButtonLogin = styled.button`
   animation-delay: 250ms;
   animation-fill-mode: backwards;
   width: 60%;
+`;
+
+export const AlertContainer = styled.div`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 9;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
 `;

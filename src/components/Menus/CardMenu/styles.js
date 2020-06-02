@@ -15,9 +15,10 @@ export const Container = styled.div`
   top: 0;
   right: 0;
   bottom: 0;
+
   @media (min-width: 600px) {
     position: absolute;
-    border-radius: ${props => props.borderRadius};
+    border-radius: ${(props) => props.borderRadius};
   }
   @media (max-width: 599px) {
     position: fixed;
@@ -30,7 +31,7 @@ export const Menu = styled.div`
   flex-direction: column;
   max-height: 100%;
   max-width: 95%;
-  background-color: ${props => props.theme.colors.background.secondary};
+  background-color: ${(props) => props.theme.colors.background.secondary};
   border-radius: 4px;
   box-shadow: 0 0 0 1px rgba(99, 114, 130, 0.16),
     0 8px 16px rgba(27, 39, 51, 0.08);
@@ -61,24 +62,24 @@ export const UseStyles = makeStyles({
     borderWidth: "1px",
     borderColor: "black",
     borderRadius: "4px",
-    borderBottomColor: "#ffffff"
+    borderBottomColor: "#ffffff",
   },
   margin: {
     margin: "10px",
-    color: "white"
+    color: "white",
   },
   iconButton: {
     fontSize: "20px",
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
 
 export const Theme = createMuiTheme({
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: "#00b000"
+      main: "#00b000",
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
@@ -86,12 +87,12 @@ export const Theme = createMuiTheme({
       light: "#0066ff",
       main: "#0044ff",
       // dark: will be calculated from palette.secondary.main,
-      contrastText: "#ffcc00"
+      contrastText: "#ffcc00",
     },
     normal: {
-      main: "#333333"
+      main: "#333333",
     },
     contrastThreshold: 3,
-    tonalOffset: 0.2
-  }
+    tonalOffset: 0.2,
+  },
 });
