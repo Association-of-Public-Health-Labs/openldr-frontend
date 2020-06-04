@@ -8,6 +8,9 @@ import Card from "../../../../components/MainCard";
 
 import { Container, Progress } from "./styles";
 
+const startDate = moment().subtract(84, "day").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
+
 export default function TAT() {
   const cardId = "tat-by-month";
   const cardTitle = "Tempo de Resposta as amostras";
@@ -16,20 +19,21 @@ export default function TAT() {
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
   const [labs, setLabs] = useState([]);
-  const [dates, setDates] = useState([
-    moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
-  ]);
+  const [dates, setDates] = useState([startDate, endDate]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
     async function loadData() {
+      const token = await localStorage.getItem("@RAuth:token");
       const response = await api.get("/covid19tat", {
         params: {
           dates: dates,
         },
         paramsSerializer: (params) => {
           return qs.stringify(params);
+        },
+        headers: {
+          authorization: `Bearer ${token}`,
         },
       });
       setIsDataLoaded(true);
@@ -40,7 +44,7 @@ export default function TAT() {
         analysis_validation = [];
 
       results.map((result) => {
-        chartLabels.push(result.week);
+        chartLabels.push(result.month_name + "-" + result.week);
         collection_registration.push(result.collection_registration);
         registration_analysis.push(result.registration_analysis);
         analysis_validation.push(result.analysis_authorization);
@@ -89,6 +93,11 @@ export default function TAT() {
       <Card
         cardId={cardId}
         cardTitle={cardTitle}
+        cardLabel={
+          dates[0] === startDate && dates[1] === endDate
+            ? "Últimas 12 semanas"
+            : `De ${dates[0]} à ${dates[1]}`
+        }
         excelData={dataExcel}
         excelLabels={labelsExcel}
         chartData={data}

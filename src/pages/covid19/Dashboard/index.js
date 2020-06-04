@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import Grid from "@material-ui/core/Grid";
 
 import { Container, MainPanel, Content } from "../../styles";
-import { LeftGridPanel } from "./styles";
+import { LeftGridPanel, Theme } from "./styles";
+import { ThemeContext } from "styled-components";
 
 import { covid19 } from "../../../utils/menuConfig";
 
@@ -11,9 +12,7 @@ import Header from "../../../components/Menus/MenuHeader";
 
 import Map from "../cards/Map";
 import Overview from "../cards/Overview";
-import TATvsDisa from "../../../cards/dashboard/TATvsDisa";
 import TAT from "../cards/TAT";
-import ViralLoadSuppression from "../../../cards/dashboard/VLSuppression";
 import SamplesHistory from "../cards/SamplesHistory";
 
 function Dashboard() {
@@ -39,9 +38,6 @@ function Dashboard() {
               <Grid item xs={12} sm={12} md={12} lg={12}>
                 <SamplesHistory />
               </Grid>
-              {/* <Grid item xs={12} sm={12} md={4} lg={4}>
-                <TATvsDisa />
-              </Grid> */}
             </Grid>
           </Content>
         </MainPanel>

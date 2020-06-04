@@ -5,6 +5,8 @@ import { Container, MainPanel, Content } from "../styles";
 import SideBar from "../../components/Menus/SideBar";
 import Header from "../../components/Menus/MenuHeader";
 
+import { viralload } from "../../utils/menuConfig";
+
 import MapSamples from "../../cards/Clinics/MapSamples";
 import VlTestReasons from "../../cards/Clinics/VLTestReasons";
 import SamplesTestedMonthly from "../../cards/Clinics/SamplesTestedMonthly";
@@ -19,9 +21,9 @@ import Breastfeeding from "../../cards/Clinics/SamplesTestedBreastfeeding";
 export default function Clinic() {
   return (
     <Container>
-      <SideBar active="clinic" />
+      <SideBar active="clinic" menu={viralload} />
       <MainPanel>
-        <Header page="Clinics" id="clinic" />
+        <Header page="Clinics" id="clinic" menu={viralload} />
         <Content>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={6} lg={6}>

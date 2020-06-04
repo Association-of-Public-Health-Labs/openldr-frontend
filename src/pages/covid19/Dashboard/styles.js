@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { createMuiTheme } from "@material-ui/core";
 
 export const Container = styled.div`
   width: 100%;
@@ -32,3 +33,14 @@ export const LeftGridPanel = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
+
+export const Theme = (theme) =>
+  createMuiTheme({
+    overrides: {
+      MuiIcon: {
+        root: {
+          color: theme.text,
+        },
+      },
+    },
+  });

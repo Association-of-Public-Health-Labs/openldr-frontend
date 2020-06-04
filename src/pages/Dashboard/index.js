@@ -8,6 +8,7 @@ import SideBar from "../../components/Menus/SideBar";
 import Header from "../../components/Menus/MenuHeader";
 import SpeedActions from "../../components/MaterialUI/SpeedActions";
 import MainMenu from "../../components/Menus/MainMenu";
+import { viralload } from "../../utils/menuConfig";
 
 import SamplesHistory from "../../cards/dashboard/SamplesHistory";
 import ViralSuppMap from "../../cards/dashboard/ViralSuppMap";
@@ -21,9 +22,9 @@ export default function Dashboard() {
     <>
       {/* <MainMenu /> */}
       <Container>
-        <SideBar active="home" />
+        <SideBar active="home" menu={viralload} />
         <MainPanel>
-          <Header page="Dashboard" id="home" />
+          <Header page="Dashboard" id="home" menu={viralload} />
           <Content>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12} md={8} lg={8}>

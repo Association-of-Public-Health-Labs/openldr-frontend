@@ -16,7 +16,7 @@ import "./App.css";
 
 function App() {
   const [theme, setTheme] = usePersistedState("theme", light);
-  const [labels, setLabels] = usePersistedState("labels", false);
+  const [labels, setLabels] = usePersistedState("labels", true);
   const [reports, setReports] = usePersistedState("reports", []);
   const [clinics, setClinics] = usePersistedState("clinics", []);
   const [districts, setDistricts] = usePersistedState("districts", []);
@@ -32,11 +32,11 @@ function App() {
     setLabels(labels ? false : true);
   };
 
-  const handleAddReport = report => {
+  const handleAddReport = (report) => {
     setReports([...reports, report]);
   };
 
-  const handleRemoveAllReports = reports => {
+  const handleRemoveAllReports = (reports) => {
     setReports([]);
   };
 
@@ -71,7 +71,7 @@ function App() {
         reports: reports,
         clinicsList: clinics,
         districtsList: districts,
-        labsList: labs
+        labsList: labs,
       }}
     >
       <ThemeProvider theme={theme}>

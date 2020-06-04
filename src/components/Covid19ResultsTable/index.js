@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { Paper } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core";
@@ -16,82 +16,6 @@ function Covid19ResultsTable() {
   const classes = UseStyles(colors);
   const theme = Theme(colors);
 
-  const [state, setState] = useState({
-    columns: [
-      { title: "Nome", field: "FIRSTNAME" },
-      { title: "Apelido", field: "SURNAME" },
-      { title: "Idade", field: "AgeInYears" },
-      { title: "Telefone", field: "MOBILE" },
-      { title: "Provincia", field: "RequestingProvinceName" },
-      { title: "Distrito", field: "RequestingDistrictName" },
-      { title: "US", field: "RequestingFacilityName" },
-      { title: "Data de Colheita", field: "SpecimenDatetime" },
-      { title: "Data de Analise", field: "AnalysisDatetime" },
-    ],
-
-    data: [
-      {
-        name: "Mehmet",
-        surname: "Baran",
-        age: 12,
-        phone: "844634529",
-        province: "Maputo Provincia",
-        district: "Matola",
-        facility: "CS de Ndlavela",
-        specimenDate: "2020-05-01",
-        analysisDate: "2020-05-02",
-      },
-      {
-        name: "Ana",
-        surname: "Francisco",
-        age: 12,
-        phone: "844634529",
-        province: "Maputo Provincia",
-        district: "Matola",
-        facility: "CS de Ndlavela",
-        specimenDate: "2020-05-01",
-        analysisDate: "2020-05-02",
-      },
-      {
-        name: "Joseph",
-        surname: "Cabila",
-        age: 12,
-        phone: "844634529",
-        province: "Maputo Provincia",
-        district: "Matola",
-        facility: "CS de Ndlavela",
-        specimenDate: "2020-05-01",
-        analysisDate: "2020-05-02",
-      },
-      {
-        name: "John",
-        surname: "Khenedy",
-        age: 12,
-        phone: "844634529",
-        province: "Maputo Provincia",
-        district: "Matola",
-        facility: "CS de Ndlavela",
-        specimenDate: "2020-05-01",
-        analysisDate: "2020-05-02",
-      },
-      {
-        name: "Niel",
-        surname: "Armstrong",
-        age: 12,
-        phone: "844634529",
-        province: "Maputo Provincia",
-        district: "Matola",
-        facility: "CS de Ndlavela",
-        specimenDate: "2020-05-01",
-        analysisDate: "2020-05-02",
-      },
-    ],
-  });
-
-  function handleChangePage(page) {
-    alert(page);
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <MaterialTable
@@ -107,10 +31,19 @@ function Covid19ResultsTable() {
           { title: "Data de Colheita", field: "SpecimenDatetime" },
           { title: "Data de Analise", field: "AnalysisDatetime" },
         ]}
+        style={{
+          backgroundColor: colors.background.secondary,
+          color: colors.text,
+        }}
         data={(query) =>
           new Promise((resolve, reject) => {
+            const jwt_token = localStorage.getItem("@RAuth:token");
             api
-              .get(`/paginate/${query.page + 1}/${query.pageSize}`)
+              .get(`/paginate/${query.page + 1}/${query.pageSize}`, {
+                headers: {
+                  authorization: `Bearer ${jwt_token}`,
+                },
+              })
               .then((result) => {
                 const { data } = result;
                 resolve({
@@ -127,21 +60,29 @@ function Covid19ResultsTable() {
         options={{
           exportButton: true,
           rowStyle: {
-            borderBottomColor: "#F4F4F4",
+            borderBottomColor: colors.background.primary,
             borderBottomWidth: 6,
             borderBottomStyle: "solid",
+            backgroundColor: colors.background.secondary,
+            color: colors.text,
           },
           headerStyle: {
-            borderBottomColor: "#F4F4F4",
+            borderBottomColor: colors.background.primary,
             borderBottomWidth: 6,
             borderBottomStyle: "solid",
+            backgroundColor: colors.background.secondary,
+            color: colors.text,
           },
           searchFieldStyle: {
-            backgroundColor: "#F4F4F4",
+            backgroundColor: colors.background.primary,
             borderRadius: 8,
             padding: 8,
             borderBottomWidth: 0,
             borderBottomColor: "white",
+            color: colors.text,
+          },
+          actionsCellStyle: {
+            color: colors.text,
           },
         }}
       />

@@ -9,6 +9,9 @@ import Card from "../../../../components/MainCard";
 
 import { Container, Progress } from "./styles";
 
+const startDate = moment().subtract(84, "day").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
+
 export default function Indicators() {
   const cardId = "dash-samples-history";
   const cardTitle = "Resumo de Indicadores";
@@ -22,21 +25,22 @@ export default function Indicators() {
   const [rejectedSamples, setRejectedSamples] = useState([]);
   const [nonValidatedSamples, setNonValidatedSamples] = useState([]);
   const [suppressedSamples, setSuppressedSamples] = useState([]);
-  const [dates, setDates] = useState([
-    moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
-  ]);
+  const [dates, setDates] = useState([startDate, endDate]);
   const [rows, setRows] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
     async function loadData() {
+      const token = await localStorage.getItem("@RAuth:token");
       const response = await api.get(`/report`, {
         params: {
           dates: dates,
         },
         paramsSerializer: (params) => {
           return qs.stringify(params);
+        },
+        headers: {
+          authorization: `Bearer ${token}`,
         },
       });
       setIsDataLoaded(true);
@@ -97,6 +101,11 @@ export default function Indicators() {
       <Card
         cardId={cardId}
         cardTitle={cardTitle}
+        cardLabel={
+          dates[0] === startDate && dates[1] === endDate
+            ? "Últimas 24 horas"
+            : `De ${dates[0]} à ${dates[1]}`
+        }
         excelData={rows}
         excelLabels={header}
         chartData={rows}

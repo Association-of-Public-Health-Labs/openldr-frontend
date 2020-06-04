@@ -77,5 +77,23 @@ export const Theme = (theme) =>
           borderBottom: "transparent",
         },
       },
+      MuiTablePagination: {
+        select: {
+          color: theme.text,
+        },
+        selectIcon: {
+          color: theme.text,
+        },
+      },
+      MuiTypography: {
+        caption: {
+          color: theme.text,
+        },
+      },
+      MuiIcon: {
+        root: {
+          color: theme.text,
+        },
+      },
     },
   });

@@ -5,6 +5,8 @@ import { Container, MainPanel, Content } from "../styles";
 import SideBar from "../../components/Menus/SideBar";
 import Header from "../../components/Menus/MenuHeader";
 
+import { viralload } from "../../utils/menuConfig";
+
 import VlTestReasons from "../../cards/Labs/VLTestReasons";
 import SamplesTestedMonthly from "../../cards/Labs/SamplesTestedMonthly";
 import SamplesTestedByGender from "../../cards/Labs/SamplesTestedByGender";
@@ -19,9 +21,9 @@ import Breastfeeding from "../../cards/Labs/SamplesTestedBreastfeeding";
 export default function Lab() {
   return (
     <Container>
-      <SideBar active="lab" />
+      <SideBar active="lab" menu={viralload} />
       <MainPanel>
-        <Header page="Laboratory" id="lab" />
+        <Header page="Laboratory" id="lab" menu={viralload} />
         <Content>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={6} lg={6}>

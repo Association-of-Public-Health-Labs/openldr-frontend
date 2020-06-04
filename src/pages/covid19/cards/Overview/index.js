@@ -29,12 +29,16 @@ export default function Overview() {
 
   useEffect(() => {
     async function loadData() {
+      const token = await localStorage.getItem("@RAuth:token");
       const response = await api.get("/numberofsamples", {
         params: {
           dates: dates,
         },
         paramsSerializer: (params) => {
           return qs.stringify(params);
+        },
+        headers: {
+          authorization: `Bearer ${token}`,
         },
       });
       const results = response.data;
@@ -54,12 +58,16 @@ export default function Overview() {
 
   useEffect(() => {
     async function loadData() {
+      const token = await localStorage.getItem("@RAuth:token");
       const response = await api.get("/testedsamples", {
         params: {
           dates: dates,
         },
         paramsSerializer: (params) => {
           return qs.stringify(params);
+        },
+        headers: {
+          authorization: `Bearer ${token}`,
         },
       });
       const results = response.data;

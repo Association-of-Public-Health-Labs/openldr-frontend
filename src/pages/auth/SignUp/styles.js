@@ -8,18 +8,53 @@ export const Container = styled.div`
   padding: 0;
 `;
 
-export const RightPanel = styled.div`
-  width: 50%;
+export const LeftPanel = styled.div`
+  width: 60%;
   height: 100%;
   position: absolute;
-  margin-left: 50%;
-  top: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 0;
+  background-color: #f4f4f4;
+  img {
+    width: 60%;
+  }
 `;
+
+export const RightPanel = styled.div`
+  width: 40%;
+  height: 100%;
+  position: absolute;
+  margin-left: 60%;
+  padding: 0;
+  top: 0;
+  section {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    position: relative;
+  }
+`;
+
+export const Header = styled.div`
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 4%;
+  padding-right: 4%;
+`;
+
+/* export const Title = styled. */
 
 export const Form = styled.form`
   display: flex;
@@ -45,7 +80,7 @@ export const Form = styled.form`
 `;
 
 export const Input = styled.div`
-  min-width: 80%;
+  width: 300px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;

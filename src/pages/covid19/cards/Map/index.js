@@ -26,12 +26,16 @@ export default function Map() {
 
   useEffect(() => {
     async function loadData() {
+      const token = await localStorage.getItem("@RAuth:token");
       const response = await api.get("/positivebyprovince", {
         params: {
           dates: dates,
         },
         paramsSerializer: (params) => {
           return qs.stringify(params);
+        },
+        headers: {
+          authorization: `Bearer ${token}`,
         },
       });
       setIsDataLoaded(true);
@@ -80,8 +84,8 @@ export default function Map() {
         <CardTitle>
           <h5>
             {dates[0] === startDate && dates[1] === endDate
-              ? "Ultimas 24 horas"
-              : `De ${dates[0]} a ${dates[1]}`}
+              ? "Últimas 24 horas"
+              : `De ${dates[0]} à ${dates[1]}`}
           </h5>
           <h3>Casos Positivos</h3>
         </CardTitle>

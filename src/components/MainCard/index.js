@@ -12,12 +12,13 @@ import { Container, Content } from "./styles";
 
 const initialState = {
   mouseX: null,
-  mouseY: null
+  mouseY: null,
 };
 
 export default function MainCard({
   cardId,
   cardTitle,
+  cardLabel,
   cardMenu,
   excelLabels,
   excelData,
@@ -29,7 +30,7 @@ export default function MainCard({
   menuFixed,
   height,
   borderRadius,
-  handleParams
+  handleParams,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState(initialState);
@@ -42,20 +43,20 @@ export default function MainCard({
     handleAddReport,
     clinicsList,
     districtsList,
-    labsList
+    labsList,
   } = React.useContext(Context);
 
   const { content } = Cards[cardId];
 
-  const handleMenu = event => {
+  const handleMenu = (event) => {
     setIsOpen(!isOpen);
   };
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     event.preventDefault();
     setState({
       mouseX: event.clientX - 2,
-      mouseY: event.clientY - 4
+      mouseY: event.clientY - 4,
     });
   };
 
@@ -71,8 +72,8 @@ export default function MainCard({
         excelLabels: excelLabels,
         excelData: excelData,
         chartData: chartData,
-        chartLabels: chartLabels
-      }
+        chartLabels: chartLabels,
+      },
     ]);
   };
 
@@ -80,7 +81,7 @@ export default function MainCard({
     setExpandCard(!expandCard);
   };
 
-  const handleGetParams = params => {
+  const handleGetParams = (params) => {
     handleParams(params);
   };
 
@@ -102,14 +103,14 @@ export default function MainCard({
         handleCloseMenu={handleMenu}
         handleGetParams={handleGetParams}
       />
-    )
+    ),
   };
 
   function createContent() {
     return (
       <>
         <Header
-          label="Last 12 months"
+          label={cardLabel || "Last 12 months"}
           title={cardTitle}
           editButtonEvent={() => setIsOpen(!isOpen)}
           isExpanded={expandCard}
@@ -148,7 +149,7 @@ export default function MainCard({
         handleAddReport: handleAddReportIntoFolder,
         clinicsList: clinicsList,
         districtsList: districtsList,
-        labsList: labsList
+        labsList: labsList,
       }}
     >
       <Container
