@@ -5,19 +5,19 @@ import api from "../../../services/api";
 
 import Card from "../../../components/MainCard";
 
+const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
+
 export default function TATMonthly() {
   const cardId = "clinic-tat-by-month";
-  const cardTitle = "Turn around time by month";
+  const cardTitle = "Tempo de Resposta por mês";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
   const [type, setType] = useState("province");
   const [facilities, setFacilities] = useState([]);
-  const [dates, setDates] = useState([
-    moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
-  ]);
+  const [dates, setDates] = useState([startDate, endDate]);
 
   useEffect(() => {
     async function loadData() {
@@ -97,6 +97,11 @@ export default function TATMonthly() {
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
+      cardLabel={
+        dates[0] !== startDate || dates[1] !== endDate
+          ? `De ${dates[0]} à ${dates[1]}`
+          : "Últimos 12 meses"
+      }
       excelData={dataExcel}
       excelLabels={labelsExcel}
       chartData={data}

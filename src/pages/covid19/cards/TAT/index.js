@@ -8,7 +8,7 @@ import Card from "../../../../components/MainCard";
 
 import { Container, Progress } from "./styles";
 
-const startDate = moment().subtract(84, "day").format("YYYY-MM-DD");
+const startDate = moment().subtract(15, "day").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
 
 export default function TAT() {
@@ -39,15 +39,17 @@ export default function TAT() {
       setIsDataLoaded(true);
       const results = response.data;
       var chartLabels = [],
-        collection_registration = [],
+        collection_reception = [],
+        reception_registration = [],
         registration_analysis = [],
         analysis_validation = [];
 
       results.map((result) => {
-        chartLabels.push(result.month_name + "-" + result.week);
-        collection_registration.push(result.collection_registration);
+        chartLabels.push(result.month_name + "-" + result.day);
+        collection_reception.push(result.collection_reception);
+        reception_registration.push(result.reception_registration);
         registration_analysis.push(result.registration_analysis);
-        analysis_validation.push(result.analysis_authorization);
+        analysis_validation.push(result.analysis_validation);
       });
 
       setLabels(chartLabels);
@@ -55,22 +57,28 @@ export default function TAT() {
         {
           label: "Colheita à Recepção",
           backgroundColor: "#fb8c00",
-          data: collection_registration,
+          data: collection_reception,
         },
         {
           label: "Recepção ao Registo",
           backgroundColor: "#ef5350",
-          data: registration_analysis,
+          data: reception_registration,
         },
         {
           label: "Registo à Análise",
+          backgroundColor: "#00000",
+          data: registration_analysis,
+        },
+        {
+          label: "Análise à Validação",
           backgroundColor: "#00000",
           data: analysis_validation,
         },
       ]);
       setLabelsExcel(chartLabels);
       setDataExcel([
-        collection_registration,
+        collection_reception,
+        reception_registration,
         registration_analysis,
         analysis_validation,
       ]);

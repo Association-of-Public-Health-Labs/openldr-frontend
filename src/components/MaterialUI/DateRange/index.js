@@ -6,7 +6,7 @@ import {
   Button,
   Popover,
   Menu,
-  MenuItem
+  MenuItem,
 } from "@material-ui/core";
 import { IoIosArrowDown, IoIosMenu } from "react-icons/io";
 
@@ -15,14 +15,14 @@ import Btn from "../Btn";
 
 import { Container, DateRangePanel, UseStyles } from "./styles";
 
-export default function DateRange() {
+export default function DateRange({ handleOnSubmitDateRange }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const { colors } = useContext(ThemeContext);
   const classes = UseStyles(colors);
   const [startDate, setStartDate] = useState(new Date("2014-08-18T21:11:54"));
   const [endDate, setEndDate] = useState(new Date("2014-08-18T21:11:54"));
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -30,17 +30,20 @@ export default function DateRange() {
     setAnchorEl(null);
   };
 
-  const handleDateStart = date => {
+  const handleDateStart = (date) => {
     setStartDate(date);
   };
 
-  const handleDateEnd = date => {
+  const handleDateEnd = (date) => {
     setEndDate(date);
   };
 
   function handleOnSubmit(event) {
-    console.log({ start: startDate, end: endDate });
     event.preventDefault();
+    handleOnSubmitDateRange({
+      start: moment(startDate).format("YYYY-MM-DD"),
+      end: moment(endDate).format("YYYY-MM-DD"),
+    });
   }
 
   const open = Boolean(anchorEl);
@@ -64,11 +67,11 @@ export default function DateRange() {
         onClose={handleClose}
         anchorOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
       >
         <DateRangePanel>

@@ -114,7 +114,7 @@ function Login({ history }) {
     } else {
       api.defaults.headers.Authorization = `Bearer ${token}`;
 
-      await localStorage.setItem("@RAuth:user", JSON.stringify(user));
+      await localStorage.setItem("@RAuth:user", user);
       await localStorage.setItem("@RAuth:token", token);
 
       setSuccess(true);
@@ -135,7 +135,7 @@ function Login({ history }) {
       const { email } = profileObj;
       api.defaults.headers.Authorization = `Bearer ${tokenId}`;
 
-      await localStorage.setItem("@RAuth:user", JSON.stringify(email));
+      await localStorage.setItem("@RAuth:user", email);
       await localStorage.setItem("@RAuth:token", tokenId);
 
       history.push(`/${option.option}`);

@@ -7,7 +7,7 @@ import Card from "../../../components/MainCard";
 
 export default function TATvsDisa() {
   const cardId = "dash-tat-vs-disalinks";
-  const cardTitle = "TAT vs No. of Disalinks";
+  const cardTitle = "TRL vs No. de Disalinks";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);

@@ -13,7 +13,7 @@ export default function MapSamples() {
     setExpandMap(!expandMap);
   }
 
-  const handleSetZoom = zoom => {};
+  const handleSetZoom = (zoom) => {};
 
   return (
     <Container isMapExpanded={expandMap}>

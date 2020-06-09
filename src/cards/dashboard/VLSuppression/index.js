@@ -6,18 +6,18 @@ import api from "../../../services/api";
 
 import Card from "../../../components/MainCard";
 
+const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
+
 export default function VlSuppression() {
   const cardId = "dash-viral-suppression";
-  const cardTitle = "Viral Suppression";
+  const cardTitle = "Supressão Viral";
   const { colors } = useContext(ThemeContext);
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
-  const [dates, setDates] = useState([
-    moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
-  ]);
+  const [dates, setDates] = useState([startDate, endDate]);
 
   useEffect(() => {
     async function loadData() {
@@ -61,6 +61,11 @@ export default function VlSuppression() {
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
+      cardLabel={
+        dates[0] !== startDate || dates[1] !== endDate
+          ? `De ${dates[0]} à ${dates[1]}`
+          : "Últimos 12 meses"
+      }
       excelData={dataExcel}
       excelLabels={labelsExcel}
       chartData={{

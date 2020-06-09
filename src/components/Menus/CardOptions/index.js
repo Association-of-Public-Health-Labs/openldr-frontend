@@ -18,7 +18,7 @@ export default function CardOptions(props) {
   const theme = Theme(colors);
   const { cardId, handleAddReport } = useContext(Context);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -59,8 +59,8 @@ export default function CardOptions(props) {
           PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-              width: 200
-            }
+              width: 200,
+            },
           }}
         >
           <MenuItem onClick={handleClose} style={{ padding: 0 }}>

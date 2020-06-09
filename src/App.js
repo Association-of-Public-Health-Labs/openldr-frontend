@@ -5,6 +5,7 @@ import Routes from "./routes";
 import { ThemeProvider } from "styled-components";
 import ToogleContext from "./context";
 import usePersistedState from "./utils/usePersistedState";
+import reportPersisted from "./utils/useReportPersistedState";
 import useWindowSize from "./utils/useWindowSize";
 
 import GlobalStyle from "./styles/global";
@@ -17,7 +18,8 @@ import "./App.css";
 function App() {
   const [theme, setTheme] = usePersistedState("theme", light);
   const [labels, setLabels] = usePersistedState("labels", true);
-  const [reports, setReports] = usePersistedState("reports", []);
+  // const [reports, setReports] = useReportPersistedState("reports", []);
+  const [reports, setReports] = useState([]);
   const [clinics, setClinics] = usePersistedState("clinics", []);
   const [districts, setDistricts] = usePersistedState("districts", []);
   const [labs, setLabs] = usePersistedState("labs", []);
@@ -33,11 +35,13 @@ function App() {
   };
 
   const handleAddReport = (report) => {
-    setReports([...reports, report]);
+    // setReports([report]);
+    // reportPersisted(report);
+    // console.log(report);
   };
 
   const handleRemoveAllReports = (reports) => {
-    setReports([]);
+    // setReports([]);
   };
 
   useEffect(() => {

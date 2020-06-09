@@ -5,25 +5,21 @@ import api from "../../../services/api";
 
 import Card from "../../../components/MainCard";
 
+const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
+
 export default function VLTestReasons() {
-  const cardTitle = "Samples by Test Reason";
+  const cardTitle = "Amostras Testadas";
   const cardId = "clinic-vl-test-reason";
   const [labels, setlabels] = useState([
-    "Motivo nao especificado",
+    "Motivo não especificado",
     "Rotina",
-    "Treatment Failure",
+    "Falência Terapeutica",
   ]);
   const [data, setData] = useState([]);
   const [type, setType] = useState("province");
   const [facilities, setFacilities] = useState([]);
-  const [dates, setDates] = useState([
-    moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
-  ]);
-
-  // const labels = ["Green", "Blue", "Gray", "Purple", "Yellow", "Red", "Black"];
-
-  // const data = [12, 19, 63, 17, 28, 24, 7];
+  const [dates, setDates] = useState([startDate, endDate]);
 
   useEffect(() => {
     async function loadData() {
@@ -66,6 +62,11 @@ export default function VLTestReasons() {
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
+      cardLabel={
+        dates[0] !== startDate || dates[1] !== endDate
+          ? `De ${dates[0]} à ${dates[1]}`
+          : "Últimos 12 meses"
+      }
       excelData={[data]}
       excelLabels={labels}
       chartData={data}

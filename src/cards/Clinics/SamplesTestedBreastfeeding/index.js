@@ -5,19 +5,19 @@ import qs from "qs";
 import api from "../../../services/api";
 import Card from "../../../components/MainCard";
 
+const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
+
 export default function SamplesTestedBreastfeeding() {
   const cardId = "clinic-samples-tested-breastfeeding";
-  const cardTitle = "Samples Tested by Breastfeeding";
+  const cardTitle = "Amostras Testadas (Mulheres Lactantes)";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
   const [type, setType] = useState("province");
   const [facilities, setFacilities] = useState([]);
-  const [dates, setDates] = useState([
-    moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
-  ]);
+  const [dates, setDates] = useState([startDate, endDate]);
 
   useEffect(() => {
     async function loadData() {
@@ -77,6 +77,11 @@ export default function SamplesTestedBreastfeeding() {
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
+      cardLabel={
+        dates[0] !== startDate || dates[1] !== endDate
+          ? `De ${dates[0]} à ${dates[1]}`
+          : "Últimos 12 meses"
+      }
       excelData={dataExcel}
       excelLabels={labelsExcel}
       chartData={data}

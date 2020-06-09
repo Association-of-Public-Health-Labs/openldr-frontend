@@ -5,9 +5,12 @@ import qs from "qs";
 import api from "../../../services/api";
 import Card from "../../../components/MainCard";
 
+const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
+
 export default function SamplesTestedByAge() {
   const cardId = "clinic-samples-tested-by-age";
-  const cardTitle = "Samples Tested by Age";
+  const cardTitle = "Amostras Testadas por idade";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
@@ -15,10 +18,7 @@ export default function SamplesTestedByAge() {
   const [type, setType] = useState("province");
   const [facilities, setFacilities] = useState([]);
   const [age, setAge] = useState([15, 49]);
-  const [dates, setDates] = useState([
-    moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
-  ]);
+  const [dates, setDates] = useState([startDate, endDate]);
 
   useEffect(() => {
     async function loadData() {
@@ -80,6 +80,11 @@ export default function SamplesTestedByAge() {
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
+      cardLabel={
+        dates[0] !== startDate || dates[1] !== endDate
+          ? `De ${dates[0]} à ${dates[1]}`
+          : "Últimos 12 meses"
+      }
       cardMenu={{ age: true }}
       excelData={dataExcel}
       excelLabels={labelsExcel}

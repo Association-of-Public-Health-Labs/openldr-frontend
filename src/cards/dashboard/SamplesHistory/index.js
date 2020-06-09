@@ -6,6 +6,9 @@ import api from "../../../services/api";
 
 import Card from "../../../components/MainCard";
 
+const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
+
 export default function Indicators() {
   const cardId = "dash-samples-history";
   const cardTitle = "Resumo de Indicadores";
@@ -19,10 +22,7 @@ export default function Indicators() {
   const [rejectedSamples, setRejectedSamples] = useState([]);
   const [nonValidatedSamples, setNonValidatedSamples] = useState([]);
   const [suppressedSamples, setSuppressedSamples] = useState([]);
-  const [dates, setDates] = useState([
-    moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
-  ]);
+  const [dates, setDates] = useState([startDate, endDate]);
 
   useEffect(() => {
     async function loadData() {
@@ -79,6 +79,11 @@ export default function Indicators() {
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
+      cardLabel={
+        dates[0] !== startDate || dates[1] !== endDate
+          ? `De ${dates[0]} à ${dates[1]}`
+          : "Últimos 12 meses"
+      }
       excelData={rows}
       excelLabels={header}
       chartData={rows}

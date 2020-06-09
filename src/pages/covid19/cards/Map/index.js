@@ -9,8 +9,8 @@ import EditButton from "../../../../components/MaterialUI/EditButton";
 import MenuCard from "../../../../components/Menus/CardMenu";
 import { Container, Header, CardTitle, CardMenu, Progress } from "./styles";
 
-const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
-const endDate = moment().format("YYYY-MM-DD");
+const startDate = moment().subtract(2, "day").format("YYYY-MM-DD");
+const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
 export default function Map() {
   const cardId = "covid19-map";

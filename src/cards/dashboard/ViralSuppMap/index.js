@@ -5,97 +5,17 @@ import qs from "qs";
 import api from "../../../services/api";
 import Card from "../../../components/MainCard";
 
-const labels = ["Provincia", "Suppressao Viral"];
+const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
 
-const data = {
-  ns: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-  cd: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-  np: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-  zb: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-  tt: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-  sf: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-  mn: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-  gz: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-  ib: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-  mp: {
-    suppressed: 70,
-    routine: 80,
-    treatment_failure: 12,
-    reason_not_specified: 8,
-  },
-};
-
-const labelsExcel = ["Provincia", "Suppressao Viral"];
-
-const dataExcel = [
-  ["Cabo Delgado", 15],
-  ["Niassa", 15],
-  ["Nampula", 15],
-  ["Zambezia", 15],
-  ["Tete", 15],
-  ["Sofala", 15],
-  ["Manica", 15],
-  ["Inhambane", 15],
-  ["Gaza", 15],
-  ["Maputo Provincia", 15],
-  ["Maputo Cidade", 15],
-];
 export default function ViralSuppMap() {
   const cardId = "dash-viral-suppression-map";
-  const cardTitle = "Viral Suppression";
+  const cardTitle = "Taxa de Supressão Viral";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
-  const [dates, setDates] = useState([
-    moment().subtract(1, "year").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
-  ]);
+  const [dates, setDates] = useState([startDate, endDate]);
 
   useEffect(() => {
     async function loadData() {
@@ -151,6 +71,11 @@ export default function ViralSuppMap() {
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
+      cardLabel={
+        dates[0] !== startDate || dates[1] !== endDate
+          ? `De ${dates[0]} à ${dates[1]}`
+          : "Últimos 12 meses"
+      }
       excelData={dataExcel}
       excelLabels={labelsExcel}
       chartData={data}

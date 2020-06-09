@@ -6,45 +6,43 @@ import moment from "moment";
 
 import Card from "../../../components/MainCard";
 
+const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
+const endDate = moment().format("YYYY-MM-DD");
+
 export default function VLTestReasons() {
-  const cardTitle = "Samples by Test Reason";
+  const cardTitle = "Amostras Testadas";
   const cardId = "vl-test-reason";
   const [labels, setlabels] = useState([
-    "Motivo nao especificado",
+    "Motivo não especificado",
     "Rotina",
-    "Treatment Failure"
+    "Falência Terapeutica",
   ]);
   const [data, setData] = useState([]);
   const [labs, setLabs] = useState([]);
-  const [dates, setDates] = useState([
-    moment()
-      .subtract(1, "year")
-      .format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD")
-  ]);
+  const [dates, setDates] = useState([startDate, endDate]);
 
   useEffect(() => {
     async function loadData() {
       const response = await api.get("/lab_samples_by_test_reason", {
         params: {
           codes: labs,
-          dates: dates
+          dates: dates,
         },
-        paramsSerializer: params => {
+        paramsSerializer: (params) => {
           return qs.stringify(params);
-        }
+        },
       });
       const {
         reason_not_specified,
         routine,
-        treatment_failure
+        treatment_failure,
       } = response.data[0];
       setData([reason_not_specified, routine, treatment_failure]);
     }
     loadData();
   }, [labs, dates]);
 
-  const handleGetParams = param => {
+  const handleGetParams = (param) => {
     setLabs(param.labs);
     setDates([param.startDate, param.endDate]);
   };
@@ -53,6 +51,11 @@ export default function VLTestReasons() {
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
+      cardLabel={
+        dates[0] !== startDate || dates[1] !== endDate
+          ? `De ${dates[0]} à ${dates[1]}`
+          : "Últimos 12 meses"
+      }
       excelData={[data]}
       excelLabels={labels}
       chartData={data}
