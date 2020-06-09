@@ -66,7 +66,7 @@ export default function TAT() {
         },
         {
           label: "Registo à Análise",
-          backgroundColor: "#00000",
+          backgroundColor: "#00b000",
           data: registration_analysis,
         },
         {
