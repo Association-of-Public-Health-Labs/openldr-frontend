@@ -70,6 +70,9 @@ export default function line({ labels, datasets }) {
           ticks: {
             display: true,
             fontColor: "#cccccc",
+            userCallback: function (label, index, labels) {
+              return label.split("-")[0];
+            },
           },
           gridLines: {
             zeroLineColor: "transparent",
@@ -80,14 +83,22 @@ export default function line({ labels, datasets }) {
         },
       ],
     },
-    tooltips: {},
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var label = data.datasets[tooltipItem.datasetIndex].label;
+          return label.split("-")[0];
+        },
+      },
+    },
     plugins: {
       datalabels: {
         display: true,
         color: "grey",
         align: "top",
         formatter: function (value, context) {
-          return value + "%";
+          const label = context.chart.data.labels[context.dataIndex];
+          return value + "/" + label.split("-")[1];
         },
       },
     },

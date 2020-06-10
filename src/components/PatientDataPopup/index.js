@@ -1,14 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import lottie from "lottie-web";
 import crying_emoji from "../../assets/lottie/crying-emoji.json";
 import smiley_emoji from "../../assets/lottie/smiley-emoji.json";
 import IconBtn from "../MaterialUI/IconBtn";
 import { IoIosClose } from "react-icons/io";
-import { ThemeProvider } from "@material-ui/core";
+import { ThemeProvider, Button } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import { FiX } from "react-icons/fi";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+
+import Covid19Report from "../pdfReports/Covid19Report";
 
 import {
   Container,
@@ -18,6 +21,8 @@ import {
   ResultPanel,
   Emoji,
   PatientDataList,
+  Footer,
+  LaudoPanel,
 } from "./styles";
 
 export const UseStyles = makeStyles({
@@ -41,6 +46,7 @@ export const UseStyles = makeStyles({
 export default function PatientDataPopup({ patient, handleClosePopup }) {
   const element = useRef(null);
   const classes = UseStyles();
+  const [isLaudoEnabled, setIsLaudoEnabled] = useState(false);
 
   useEffect(() => {
     if (element.current)
@@ -59,7 +65,7 @@ export default function PatientDataPopup({ patient, handleClosePopup }) {
 
   return (
     <Container>
-      <Popup>
+      <Popup isLaudoEnabled={isLaudoEnabled}>
         <Header>
           <Grid container spacing={3}>
             <Grid item xs={4}>
@@ -99,7 +105,7 @@ export default function PatientDataPopup({ patient, handleClosePopup }) {
                 <tbody>
                   <tr>
                     <td className="list-label">
-                      <h5>Genero</h5>
+                      <h5>Gênero</h5>
                     </td>
                     <td className="list-value">{patient.Hl7SexCode}</td>
                   </tr>
@@ -117,7 +123,7 @@ export default function PatientDataPopup({ patient, handleClosePopup }) {
                   </tr>
                   <tr>
                     <td className="list-label">
-                      <h5>Provincia</h5>
+                      <h5>Província</h5>
                     </td>
                     <td className="list-value">
                       {patient.RequestingProvinceName}
@@ -133,7 +139,7 @@ export default function PatientDataPopup({ patient, handleClosePopup }) {
                   </tr>
                   <tr>
                     <td className="list-label">
-                      <h5>Unidade Sanitaria</h5>
+                      <h5>Unidade Sanitária</h5>
                     </td>
                     <td className="list-value">
                       {patient.RequestingFacilityName}
@@ -153,7 +159,7 @@ export default function PatientDataPopup({ patient, handleClosePopup }) {
                   </tr>
                   <tr>
                     <td className="list-label">
-                      <h5>Data de Recepcao no Lab</h5>
+                      <h5>Data de Recepção no Lab</h5>
                     </td>
                     <td className="list-value">{patient.ReceivedDatetime}</td>
                   </tr>
@@ -165,13 +171,13 @@ export default function PatientDataPopup({ patient, handleClosePopup }) {
                   </tr>
                   <tr>
                     <td className="list-label">
-                      <h5>Data de Analise</h5>
+                      <h5>Data de Análise</h5>
                     </td>
                     <td className="list-value">{patient.AnalysisDatetime}</td>
                   </tr>
                   <tr>
                     <td className="list-label">
-                      <h5>Data de Validacao</h5>
+                      <h5>Data de Validação</h5>
                     </td>
                     <td className="list-value">{patient.AuthorisedDatetime}</td>
                   </tr>
@@ -186,7 +192,27 @@ export default function PatientDataPopup({ patient, handleClosePopup }) {
             </Grid>
           </Grid>
         </Body>
+        <Footer>
+          <PDFDownloadLink
+            document={<Covid19Report patientData={patient} />}
+            fileName={`${patient?.RequestID}.pdf`}
+          >
+            {({ blob, url, loading, error }) =>
+              loading ? (
+                "A carregar o documento..."
+              ) : (
+                <Button>Laudo Clínico</Button>
+              )
+            }
+          </PDFDownloadLink>
+        </Footer>
       </Popup>
+
+      {isLaudoEnabled && (
+        <LaudoPanel>
+          <Covid19Report />
+        </LaudoPanel>
+      )}
     </Container>
   );
 }

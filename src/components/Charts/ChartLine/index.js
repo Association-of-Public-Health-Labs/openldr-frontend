@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import hexToRgba from "hex-to-rgba";
+// import "chartjs-plugin-datalabels";
 
 import { Container } from "./styles";
 
 export default function ChartLine({ labels, datasets }) {
-  const data = canvas => {
+  const data = (canvas) => {
     const ctx = canvas.getContext("2d");
 
     var gradientFill = ctx.createLinearGradient(0, 200, 0, 50);
@@ -32,16 +33,16 @@ export default function ChartLine({ labels, datasets }) {
           shadowColor: "rgba(0,0,0,0.08)",
           shadowOffsetX: 0,
           shadowOffsetY: 7,
-          data: datasets.data
-        }
-      ]
+          data: datasets.data,
+        },
+      ],
     };
   };
 
   const options = {
     maintainAspectRatio: false,
     legend: {
-      display: false
+      display: false,
     },
     scales: {
       yAxes: [
@@ -50,16 +51,16 @@ export default function ChartLine({ labels, datasets }) {
           ticks: {
             display: true,
             fontColor: "#cccccc",
-            beginAtZero: true
+            beginAtZero: true,
           },
           gridLines: {
             zeroLineColor: "transparent",
             drawBorder: false,
             drawTicks: true,
             display: true,
-            lineWidth: 0.4
-          }
-        }
+            lineWidth: 0.4,
+          },
+        },
       ],
       xAxes: [
         {
@@ -68,18 +69,18 @@ export default function ChartLine({ labels, datasets }) {
           barPercentage: 0.2,
           ticks: {
             display: true,
-            fontColor: "#cccccc"
+            fontColor: "#cccccc",
           },
           gridLines: {
             zeroLineColor: "transparent",
             drawTicks: false,
             display: false,
-            drawBorder: false
-          }
-        }
-      ]
+            drawBorder: false,
+          },
+        },
+      ],
     },
-    tooltips: {}
+    tooltips: {},
   };
 
   return (

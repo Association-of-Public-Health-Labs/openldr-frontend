@@ -1,11 +1,12 @@
 import React from "react";
 import { Line, Bar } from "react-chartjs-2";
 import hexToRgba from "hex-to-rgba";
+import "chartjs-plugin-datalabels";
 
 import { Container } from "./styles";
 
 export default function OverviewChart({ labels, dataset, color }) {
-  const data = canvas => {
+  const data = (canvas) => {
     const ctx = canvas.getContext("2d");
 
     var gradientFill = ctx.createLinearGradient(248, 162, 0, 50);
@@ -31,16 +32,16 @@ export default function OverviewChart({ labels, dataset, color }) {
           shadowColor: "rgba(0,0,0,0.08)",
           shadowOffsetX: 0,
           shadowOffsetY: 7,
-          data: dataset
-        }
-      ]
+          data: dataset,
+        },
+      ],
     };
   };
 
   const options = {
     maintainAspectRatio: false,
     legend: {
-      display: false
+      display: false,
     },
     tooltips: {
       bodySpacing: 4,
@@ -50,17 +51,17 @@ export default function OverviewChart({ labels, dataset, color }) {
       caretPadding: 2,
       displayColors: false,
       callbacks: {
-        title: function(tooltipItems, data) {
+        title: function (tooltipItems, data) {
           return "";
         },
-        label: function(tooltipItem, data) {
+        label: function (tooltipItem, data) {
           var datasetLabel = "";
           var label = data.labels[tooltipItem.index];
           return data.datasets[tooltipItem.datasetIndex].data[
             tooltipItem.index
           ];
-        }
-      }
+        },
+      },
     },
     responsive: true,
     scales: {
@@ -70,9 +71,9 @@ export default function OverviewChart({ labels, dataset, color }) {
           ticks: {
             display: false,
             padding: 0,
-            beginAtZero: false
-          }
-        }
+            beginAtZero: false,
+          },
+        },
       ],
       xAxes: [
         {
@@ -81,19 +82,24 @@ export default function OverviewChart({ labels, dataset, color }) {
           ticks: {
             display: false,
             padding: 0,
-            beginAtZero: false
-          }
-        }
-      ]
+            beginAtZero: false,
+          },
+        },
+      ],
     },
     layout: {
       padding: {
         left: 20,
         right: 20,
         top: 0,
-        bottom: 0
-      }
-    }
+        bottom: 0,
+      },
+    },
+    plugins: {
+      datalabels: {
+        display: false,
+      },
+    },
   };
   return (
     <Container>

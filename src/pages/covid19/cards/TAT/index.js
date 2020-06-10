@@ -13,7 +13,7 @@ const endDate = moment().format("YYYY-MM-DD");
 
 export default function TAT() {
   const cardId = "tat-by-month";
-  const cardTitle = "Tempo de Resposta as amostras";
+  const cardTitle = "Tempo de Resposta das amostras";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
@@ -66,12 +66,12 @@ export default function TAT() {
         },
         {
           label: "Registo à Análise",
-          backgroundColor: "#00b000",
+          backgroundColor: "#00000",
           data: registration_analysis,
         },
         {
           label: "Análise à Validação",
-          backgroundColor: "#00000",
+          backgroundColor: "#00b000",
           data: analysis_validation,
         },
       ]);

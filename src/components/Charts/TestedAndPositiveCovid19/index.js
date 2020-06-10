@@ -4,7 +4,7 @@ import "chartjs-plugin-style";
 import { ThemeContext } from "styled-components";
 import hexToRgba from "hex-to-rgba";
 
-export default function TATvsDisa({ labels, dataset }) {
+export default function TestedAndPositiveCovid19({ labels, dataset }) {
   const { colors } = useContext(ThemeContext);
   const data = (canvas) => {
     const ctx = canvas.getContext("2d");
@@ -24,7 +24,7 @@ export default function TATvsDisa({ labels, dataset }) {
       labels: labels,
       datasets: [
         {
-          label: "TAT",
+          label: "Casos Positivos",
           borderColor: colors.primary,
           pointBorderColor: "#FFF",
           pointBackgroundColor: colors.primary,
@@ -41,7 +41,7 @@ export default function TATvsDisa({ labels, dataset }) {
           data: dataset[0],
         },
         {
-          label: "#Disalinks",
+          label: "Amostras Testadas",
           borderColor: colors.secondary,
           pointBorderColor: "#FFF",
           pointBackgroundColor: colors.secondary,

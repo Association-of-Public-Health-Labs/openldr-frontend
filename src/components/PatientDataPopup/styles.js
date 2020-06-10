@@ -30,6 +30,7 @@ export const Popup = styled.div`
   @media (max-width: 599px) {
     min-width: 96%;
   }
+  display: ${(props) => (props.isLaudoEnabled ? "none" : "block")};
 `;
 
 export const Header = styled.div`
@@ -96,4 +97,29 @@ export const PatientDataList = styled.table`
       color: ${(props) => props.theme.colors.text};
     }
   }
+`;
+
+export const Footer = styled.div`
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  height: 50px;
+  padding: 10px;
+`;
+
+export const LaudoPanel = styled.div`
+  max-width: 80%;
+  background-color: ${(props) => props.theme.colors.background.secondary};
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(99, 114, 130, 0.16),
+    0 8px 16px rgba(27, 39, 51, 0.08);
+  color: ${(props) => props.theme.colors.text};
+  @media (min-width: 600px) {
+    width: 70%;
+  }
+  @media (max-width: 599px) {
+    min-width: 96%;
+  }
+  height: 95%;
 `;

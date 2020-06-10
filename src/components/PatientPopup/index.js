@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 
-import Menu from "../Menus/CardFullMenu
+import Menu from "../Menus/CardContextMenu";
 
 import { Container, Popup } from "./styles";
 
