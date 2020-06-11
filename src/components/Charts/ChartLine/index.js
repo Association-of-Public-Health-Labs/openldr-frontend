@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import hexToRgba from "hex-to-rgba";
-// import "chartjs-plugin-datalabels";
+import "chartjs-plugin-datalabels";
 
 import { Container } from "./styles";
 
@@ -81,6 +81,11 @@ export default function ChartLine({ labels, datasets }) {
       ],
     },
     tooltips: {},
+    plugins: {
+      datalabels: {
+        display: false,
+      },
+    },
   };
 
   return (

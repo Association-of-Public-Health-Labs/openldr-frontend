@@ -3,6 +3,7 @@ import { Chart, Line } from "react-chartjs-2";
 import "chartjs-plugin-style";
 import { ThemeContext } from "styled-components";
 import hexToRgba from "hex-to-rgba";
+import "chartjs-plugin-datalabels";
 
 export default function TATvsDisa({ labels, dataset }) {
   const { colors } = useContext(ThemeContext);
@@ -111,6 +112,13 @@ export default function TATvsDisa({ labels, dataset }) {
           },
         },
       ],
+    },
+    plugins: {
+      datalabels: {
+        display: true,
+        color: "grey",
+        align: "top",
+      },
     },
   };
 

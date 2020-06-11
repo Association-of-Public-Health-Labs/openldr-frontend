@@ -95,7 +95,7 @@ export default function Overview() {
           <Card>
             <CardText>
               <h5>Numero de amostras</h5>
-              <h1>{numberOfSamples}</h1>
+              <h1>{samplesData[samplesData.length - 1]}</h1>
             </CardText>
             <ChartCanvas>
               <OverviewChart
@@ -110,7 +110,7 @@ export default function Overview() {
           <Card>
             <CardText>
               <h5>Amostras Testadas</h5>
-              <h1>{totalTested}</h1>
+              <h1>{testedData[testedData.length - 1]}</h1>
             </CardText>
             <ChartCanvas>
               <OverviewChart

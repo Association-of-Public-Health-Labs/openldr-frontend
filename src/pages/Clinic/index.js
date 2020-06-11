@@ -54,7 +54,7 @@ export default function Clinic() {
               <Breastfeeding />
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-              <MapSamples />
+              {/* <MapSamples /> */}
             </Grid>
           </Grid>
         </Content>
