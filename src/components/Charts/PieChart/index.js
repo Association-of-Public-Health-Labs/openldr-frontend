@@ -1,11 +1,12 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import hexToRgba from "hex-to-rgba";
+import "chartjs-plugin-datalabels";
 
 import { Container } from "./styles";
 
 export default function PieChart({ labels, datasets }) {
-  const data = canvas => {
+  const data = (canvas) => {
     const ctx = canvas.getContext("2d");
 
     var gradientFill1 = ctx.createLinearGradient(0, 176, 0, 50);
@@ -31,11 +32,17 @@ export default function PieChart({ labels, datasets }) {
             "#9b59b6",
             "#f1c40f",
             "#e74c3c",
-            "#34495e"
+            "#34495e",
           ],
-          data: datasets
-        }
-      ]
+          data: datasets,
+        },
+      ],
+      plugins: {
+        datalabels: {
+          display: true,
+          color: "white",
+        },
+      },
     };
   };
 
@@ -44,8 +51,8 @@ export default function PieChart({ labels, datasets }) {
     maintainAspectRatio: false,
     legend: {
       display: true,
-      position: "bottom"
-    }
+      position: "bottom",
+    },
   };
   return (
     <Container>

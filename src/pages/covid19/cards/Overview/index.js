@@ -23,8 +23,8 @@ export default function Overview() {
   const [positivityLabels, setPositivityLabels] = useState([]);
   const [positivityData, setPositivityData] = useState([]);
   const [dates, setDates] = useState([
-    moment().subtract(18, "day").format("YYYY-MM-DD"),
-    moment().subtract(6, "day").format("YYYY-MM-DD"),
+    moment().subtract(15, "day").format("YYYY-MM-DD"),
+    moment().subtract(1, "day").format("YYYY-MM-DD"),
   ]);
 
   useEffect(() => {

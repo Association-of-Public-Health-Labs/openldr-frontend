@@ -106,7 +106,7 @@ export default function Map({ data, label }) {
       }
       if (maputoCidade) {
         tippy("#maputo", {
-          content: `<strong>Maputo Cidade</strong><br/><span>Amostras Testadas: ${maputoCidade?.tested}</span><br/><span>Amostras Pendentes: ${maputoCidade?.pending}</span><br/><span>Casos Positivos: ${maputoCidade?.positive}</span>`,
+          content: `<strong>Maputo Provincia</strong><br/><span>Amostras Testadas: ${maputoProvincia?.tested}</span><br/><span>Amostras Pendentes: ${maputoProvincia?.pending}</span><br/><span>Casos Positivos: ${maputoProvincia?.positive}</span><br/><strong>Maputo Cidade</strong><br/><span>Amostras Testadas: ${maputoCidade?.tested}</span><br/><span>Amostras Pendentes: ${maputoCidade?.pending}</span><br/><span>Casos Positivos: ${maputoCidade?.positive}</span>`,
           allowHTML: true,
           distance: 0,
           delay: 300,
@@ -521,10 +521,16 @@ export default function Map({ data, label }) {
         <text x="180" y="550" className="vl_sup_text">
           {inhambane?.positive}
         </text>
-        <text x="80" y="645" className="st1 st2">
+        <text x="76" y="635" className="st1 st2">
           MP
         </text>
-        <text x="100" y="665" className="vl_sup_text">
+        <text x="110" y="635" className="vl_sup_text">
+          {maputoProvincia?.positive}
+        </text>
+        <text x="81" y="690" className="st1 st2">
+          MC
+        </text>
+        <text x="120" y="690" className="vl_sup_text">
           {maputoCidade?.positive}
         </text>
       </MapSvg>

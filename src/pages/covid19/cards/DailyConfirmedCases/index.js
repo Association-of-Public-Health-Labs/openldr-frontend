@@ -10,7 +10,7 @@ import Card from "../../../../components/MainCard";
 import { Container, Progress } from "./styles";
 
 const startDate = moment().subtract(12, "day").format("YYYY-MM-DD");
-const endDate = moment().format("YYYY-MM-DD");
+const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
 export default function DailyConfirmedCases() {
   const cardId = "dash-covid-19";

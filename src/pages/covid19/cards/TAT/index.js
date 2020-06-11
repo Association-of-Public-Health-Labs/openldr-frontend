@@ -45,7 +45,7 @@ export default function TAT() {
         analysis_validation = [];
 
       results.map((result) => {
-        chartLabels.push(result.month_name + "-" + result.day);
+        chartLabels.push(result.day + " " + result.month_name);
         collection_reception.push(result.collection_reception);
         reception_registration.push(result.reception_registration);
         registration_analysis.push(result.registration_analysis);

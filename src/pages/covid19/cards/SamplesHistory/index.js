@@ -9,7 +9,7 @@ import Card from "../../../../components/MainCard";
 
 import { Container, Progress } from "./styles";
 
-const startDate = moment().subtract(12, "day").format("YYYY-MM-DD");
+const startDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
 export default function Indicators() {
