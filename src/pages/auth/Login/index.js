@@ -240,7 +240,7 @@ function Login({ history }) {
               </div>
               <a href="/signup">Não possui conta?</a>
             </LoginButtons>
-            <OrPanel>
+            {/* <OrPanel>
               <h5>ou</h5>
             </OrPanel>
             <GoogleLogin
@@ -259,7 +259,7 @@ function Login({ history }) {
                   Aceder usando a conta do Google
                 </ButtonGoogleSign>
               )}
-            />
+            /> */}
           </Form>
         </section>
       </RightPanel>

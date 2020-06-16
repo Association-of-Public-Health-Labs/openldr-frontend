@@ -9,7 +9,7 @@ import Card from "../../../../components/MainCard";
 
 import { Container, Progress } from "./styles";
 
-const startDate = moment().subtract(12, "day").format("YYYY-MM-DD");
+const startDate = moment().subtract(16, "day").format("YYYY-MM-DD");
 const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
 export default function DailyConfirmedCases() {
@@ -74,7 +74,7 @@ export default function DailyConfirmedCases() {
         cardLabel={
           dates[0] !== startDate || dates[1] !== endDate
             ? `De ${dates[0]} à ${dates[1]}`
-            : "Últimos 12 meses"
+            : "Últimos 15 dias"
         }
         excelData={dataExcel}
         excelLabels={labelsExcel}

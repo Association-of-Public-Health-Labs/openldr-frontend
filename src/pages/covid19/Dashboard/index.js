@@ -23,7 +23,12 @@ function Dashboard() {
       <Container>
         <SideBar active="home" menu={covid19} />
         <MainPanel>
-          <Header page="COVID19 Dashboard" id="home" menu={covid19} />
+          <Header
+            page="COVID19 Dashboard"
+            id="home"
+            menu={covid19}
+            selectedDashboard="Carga Viral"
+          />
           <Content>
             <Grid container spacing={3} alignItems="stretch">
               <Grid item xs={12} sm={12} md={8} lg={8}>

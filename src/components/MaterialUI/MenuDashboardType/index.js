@@ -7,23 +7,24 @@ import {
   Popover,
   Menu,
   MenuItem,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 
 import { Container, UseStyles, Theme } from "./styles";
 
-export default function MenuDashboardType() {
+export default function MenuDashboardType({ selectedDashboard }) {
   const [dashboardType, setDashboardType] = useState(null);
   const { colors } = useContext(ThemeContext);
   const classes = UseStyles(colors);
   const theme = Theme(colors);
 
-  const handleClickDashboardType = event => {
+  const handleClickDashboardType = (event) => {
     setDashboardType(event.currentTarget);
+    // history.push(`/${event}`);
   };
 
-  const handleCloseDashboardType = () => {
-    setDashboardType(null);
+  const handleCloseDashboardType = (type) => {
+    setDashboardType(type);
   };
 
   return (
@@ -35,7 +36,7 @@ export default function MenuDashboardType() {
           onClick={handleClickDashboardType}
           className={classes.buttonDashboardType}
         >
-          Viral Load
+          {selectedDashboard}
         </Button>
         <Menu
           id="simple-menu"
@@ -44,12 +45,11 @@ export default function MenuDashboardType() {
           open={Boolean(dashboardType)}
           onClose={handleCloseDashboardType}
         >
-          <MenuItem onClick={handleCloseDashboardType}>Viral Load</MenuItem>
-          <MenuItem onClick={handleCloseDashboardType} disabled>
-            Early Infant Diagnosis
+          <MenuItem onClick={() => handleCloseDashboardType("dashboard")}>
+            Carga Viral
           </MenuItem>
-          <MenuItem onClick={handleCloseDashboardType} disabled>
-            Tuberculose
+          <MenuItem onClick={() => handleCloseDashboardType("covid19")}>
+            Covid-19 (SARS Cov - 2)
           </MenuItem>
         </Menu>
       </ThemeProvider>
