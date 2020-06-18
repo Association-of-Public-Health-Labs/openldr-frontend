@@ -8,7 +8,14 @@ import api from "../../../../services/api";
 
 import OverviewChart from "../../../../components/Charts/OverviewChart";
 
-import { Container, Card, ChartCanvas, CardText, useStyles } from "./styles";
+import {
+  Container,
+  Card,
+  ChartCanvas,
+  CardText,
+  PeriodLabel,
+  useStyles,
+} from "./styles";
 
 export default function Overview() {
   const classes = useStyles();
@@ -104,6 +111,7 @@ export default function Overview() {
                 color={colors.primary}
               />
             </ChartCanvas>
+            <PeriodLabel>Últimas 24 horas</PeriodLabel>
           </Card>
         </Grid>
         <Grid item xs={6} sm={4} md={4} lg={4}>
@@ -119,6 +127,7 @@ export default function Overview() {
                 color="#ef5350"
               />
             </ChartCanvas>
+            <PeriodLabel>Últimas 24 horas</PeriodLabel>
           </Card>
         </Grid>
         <Grid item xs={6} sm={4} md={4} lg={4}>
@@ -134,6 +143,7 @@ export default function Overview() {
                 color={colors.tertiary}
               />
             </ChartCanvas>
+            <PeriodLabel>Últimas 24 horas</PeriodLabel>
           </Card>
         </Grid>
       </Grid>

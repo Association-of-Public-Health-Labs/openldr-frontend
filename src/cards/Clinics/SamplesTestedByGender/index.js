@@ -18,6 +18,7 @@ export default function SamplesTestedByGender() {
   const [type, setType] = useState("province");
   const [facilities, setFacilities] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -32,6 +33,7 @@ export default function SamplesTestedByGender() {
         },
       });
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         male_suppressed = [],
         female_suppressed = [],
@@ -96,6 +98,7 @@ export default function SamplesTestedByGender() {
       setType(param.facilityType);
     }
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -116,6 +119,7 @@ export default function SamplesTestedByGender() {
       expandable={true}
       menuFixed={true}
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
+import TempPrivateRoute from "./components/TempPrivateRoute";
 
 import Dashboard from "./pages/Dashboard";
 import Lab from "./pages/Lab";
@@ -20,7 +21,7 @@ export default function Routes() {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
       <PrivateRoute path="/covid19" component={Covid19} />
-      <PrivateRoute path="/covid19results" component={Covid19Results} />
+      <TempPrivateRoute path="/covid19results" component={Covid19Results} />
     </BrowserRouter>
   );
 }

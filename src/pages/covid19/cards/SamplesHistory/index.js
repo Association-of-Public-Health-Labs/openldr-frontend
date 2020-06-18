@@ -6,6 +6,7 @@ import qs from "qs";
 import api from "../../../../services/api";
 
 import Card from "../../../../components/MainCard";
+import CardLoader from "../../../../components/CardLoader";
 
 import { Container, Progress } from "./styles";
 
@@ -93,11 +94,7 @@ export default function Indicators() {
 
   return (
     <Container>
-      {!isDataLoaded && (
-        <Progress>
-          <CircularProgress />
-        </Progress>
-      )}
+      {!isDataLoaded && <CardLoader />}
       <Card
         cardId={cardId}
         cardTitle={cardTitle}

@@ -72,27 +72,34 @@ export default function SideBar(props) {
       <Content>
         <MenuItems isLabelOn={isLabelVisible}>
           {menu.map((item) => {
-            return (
-              <MenuTooltip
-                placement="right"
-                disableHoverListener={isLabelVisible}
-                title={
-                  <MenuTooltipPanel>
-                    <h5>{item.menuTitle}</h5>
-                  </MenuTooltipPanel>
-                }
-              >
-                <li>
-                  <a
-                    className={active === item.id ? "active" : ""}
-                    href={item.url}
-                  >
-                    {item.icon}
-                    <span>{item.menuTitle}</span>
-                  </a>
-                </li>
-              </MenuTooltip>
-            );
+            if (
+              item.id === "covid19results" &&
+              localStorage.getItem("@RAuth:user") === "cer9@cdc.gov"
+            ) {
+              return <></>;
+            } else {
+              return (
+                <MenuTooltip
+                  placement="right"
+                  disableHoverListener={isLabelVisible}
+                  title={
+                    <MenuTooltipPanel>
+                      <h5>{item.menuTitle}</h5>
+                    </MenuTooltipPanel>
+                  }
+                >
+                  <li>
+                    <a
+                      className={active === item.id ? "active" : ""}
+                      href={item.url}
+                    >
+                      {item.icon}
+                      <span>{item.menuTitle}</span>
+                    </a>
+                  </li>
+                </MenuTooltip>
+              );
+            }
           })}
         </MenuItems>
         <MenuConfig>

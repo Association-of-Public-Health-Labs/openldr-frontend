@@ -17,6 +17,7 @@ export default function SamplesTestedByLab() {
   const [dataExcel, setDataExcel] = useState([]);
   const [labs, setLabs] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -30,6 +31,7 @@ export default function SamplesTestedByLab() {
         },
       });
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         suppressed = [],
         non_suppressed = [];
@@ -62,6 +64,7 @@ export default function SamplesTestedByLab() {
   const handleGetParams = (param) => {
     setLabs(param.labs);
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -82,6 +85,7 @@ export default function SamplesTestedByLab() {
       expandable={false}
       menuFixed={false}
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

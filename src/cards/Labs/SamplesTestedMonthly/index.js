@@ -17,6 +17,7 @@ export default function SamplesTestedMonthly() {
   const [dataExcel, setDataExcel] = useState([]);
   const [labs, setLabs] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -30,6 +31,7 @@ export default function SamplesTestedMonthly() {
         },
       });
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         suppressed = [],
         non_suppressed = [];
@@ -60,6 +62,7 @@ export default function SamplesTestedMonthly() {
   const handleGetParams = (param) => {
     setLabs(param.labs);
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -81,6 +84,7 @@ export default function SamplesTestedMonthly() {
       expandable={false}
       menuFixed={false}
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

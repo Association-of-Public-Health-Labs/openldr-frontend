@@ -23,6 +23,7 @@ export default function Indicators() {
   const [nonValidatedSamples, setNonValidatedSamples] = useState([]);
   const [suppressedSamples, setSuppressedSamples] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -36,6 +37,7 @@ export default function Indicators() {
       });
 
       const results = response.data;
+      setIsLoading(false);
       var tableLabels = ["Indicadores"],
         registered = ["Amostras Registadas"],
         tested = ["Amostras Testadas"],
@@ -63,6 +65,7 @@ export default function Indicators() {
 
   const handleGetParams = (param) => {
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   const header = labels;
@@ -91,6 +94,7 @@ export default function Indicators() {
       menuType="national"
       borderRadius="4px"
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

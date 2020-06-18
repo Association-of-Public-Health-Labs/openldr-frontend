@@ -17,6 +17,7 @@ export default function TAT() {
   const [dataExcel, setDataExcel] = useState([]);
   const [labs, setLabs] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -29,6 +30,7 @@ export default function TAT() {
         },
       });
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         collection_reception = [],
         reception_registration = [],
@@ -79,6 +81,7 @@ export default function TAT() {
 
   const handleGetParams = (param) => {
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -96,6 +99,7 @@ export default function TAT() {
       chartLabels={labels}
       menuType="national"
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

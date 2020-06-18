@@ -18,6 +18,7 @@ export default function SamplesTestedBreastfeeding() {
   const [dataExcel, setDataExcel] = useState([]);
   const [labs, setLabs] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -31,6 +32,7 @@ export default function SamplesTestedBreastfeeding() {
         },
       });
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         suppressed = [],
         non_suppressed = [];
@@ -61,6 +63,7 @@ export default function SamplesTestedBreastfeeding() {
   const handleGetParams = (param) => {
     setLabs(param.labs);
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -81,6 +84,7 @@ export default function SamplesTestedBreastfeeding() {
       expandable={false}
       menuFixed={false}
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

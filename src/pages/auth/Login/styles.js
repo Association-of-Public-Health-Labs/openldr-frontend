@@ -12,7 +12,6 @@ export const LeftPanel = styled.div`
   width: 60%;
   height: 100%;
   position: absolute;
-  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -20,13 +19,18 @@ export const LeftPanel = styled.div`
   img {
     width: 60%;
   }
+  @media (min-width: 800px) {
+    display: flex;
+  }
+
+  @media (max-width: 799px) {
+    display: none;
+  }
 `;
 
 export const RightPanel = styled.div`
-  width: 40%;
   height: 100%;
   position: absolute;
-  margin-left: 60%;
   padding: 0;
   top: 0;
   section {
@@ -37,6 +41,15 @@ export const RightPanel = styled.div`
     align-items: center;
     padding: 0;
     position: relative;
+  }
+  @media (min-width: 800px) {
+    width: 40%;
+    margin-left: 60%;
+  }
+
+  @media (max-width: 799px) {
+    width: 100%;
+    margin-left: 0;
   }
 `;
 

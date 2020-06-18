@@ -10,9 +10,9 @@ import {
   IconButton,
 } from "@material-ui/core";
 
-import { Container, UseStyles, Theme } from "./styles";
+import { Container, UseStyles, Theme, MenuLink } from "./styles";
 
-export default function MenuDashboardType({ selectedDashboard }) {
+export default function MenuDashboardType({ history, selectedDashboard }) {
   const [dashboardType, setDashboardType] = useState(null);
   const { colors } = useContext(ThemeContext);
   const classes = UseStyles(colors);
@@ -20,11 +20,11 @@ export default function MenuDashboardType({ selectedDashboard }) {
 
   const handleClickDashboardType = (event) => {
     setDashboardType(event.currentTarget);
-    // history.push(`/${event}`);
+    // history.push(`/dashboard`);
   };
 
-  const handleCloseDashboardType = (type) => {
-    setDashboardType(type);
+  const handleCloseDashboardType = () => {
+    setDashboardType(null);
   };
 
   return (
@@ -36,7 +36,7 @@ export default function MenuDashboardType({ selectedDashboard }) {
           onClick={handleClickDashboardType}
           className={classes.buttonDashboardType}
         >
-          {selectedDashboard}
+          Ver outra Dashboard
         </Button>
         <Menu
           id="simple-menu"
@@ -45,11 +45,17 @@ export default function MenuDashboardType({ selectedDashboard }) {
           open={Boolean(dashboardType)}
           onClose={handleCloseDashboardType}
         >
-          <MenuItem onClick={() => handleCloseDashboardType("dashboard")}>
-            Carga Viral
+          <MenuItem
+            style={{ padding: 0 }}
+            onClick={() => handleCloseDashboardType("dashboard")}
+          >
+            <MenuLink href="/dashboard">Carga Viral de HIV</MenuLink>
           </MenuItem>
-          <MenuItem onClick={() => handleCloseDashboardType("covid19")}>
-            Covid-19 (SARS Cov - 2)
+          <MenuItem
+            style={{ padding: 0 }}
+            onClick={() => handleCloseDashboardType("covid19")}
+          >
+            <MenuLink href="/covid19">Covid-19 (SARS Cov - 2)</MenuLink>
           </MenuItem>
         </Menu>
       </ThemeProvider>

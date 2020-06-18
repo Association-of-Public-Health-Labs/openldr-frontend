@@ -18,6 +18,7 @@ export default function TATMonthly() {
   const [type, setType] = useState("province");
   const [facilities, setFacilities] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -31,6 +32,7 @@ export default function TATMonthly() {
         },
       });
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         collection_reception = [],
         reception_registration = [],
@@ -91,6 +93,7 @@ export default function TATMonthly() {
       setType(param.facilityType);
     }
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -111,6 +114,7 @@ export default function TATMonthly() {
       expandable={true}
       menuFixed={true}
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

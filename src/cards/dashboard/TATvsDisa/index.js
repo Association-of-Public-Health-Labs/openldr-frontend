@@ -14,6 +14,7 @@ export default function TATvsDisa() {
   const [dataExcel, setDataExcel] = useState([]);
   const [disalinks, setDisalinks] = useState([]);
   const [tat, setTat] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {

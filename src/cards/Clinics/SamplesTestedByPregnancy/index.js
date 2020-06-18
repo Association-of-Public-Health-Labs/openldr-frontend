@@ -18,6 +18,7 @@ export default function SamplesTestedByPregnancy() {
   const [type, setType] = useState("province");
   const [facilities, setFacilities] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -32,6 +33,7 @@ export default function SamplesTestedByPregnancy() {
         },
       });
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         suppressed = [],
         non_suppressed = [];
@@ -71,6 +73,7 @@ export default function SamplesTestedByPregnancy() {
       setType(param.facilityType);
     }
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -91,6 +94,7 @@ export default function SamplesTestedByPregnancy() {
       expandable={true}
       menuFixed={true}
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

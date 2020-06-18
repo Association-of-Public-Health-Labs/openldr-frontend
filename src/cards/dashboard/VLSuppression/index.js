@@ -5,6 +5,7 @@ import qs from "qs";
 import api from "../../../services/api";
 
 import Card from "../../../components/MainCard";
+import CardLoader from "../../../components/CardLoader";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -18,6 +19,7 @@ export default function VlSuppression() {
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -31,10 +33,9 @@ export default function VlSuppression() {
       });
 
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         chartData = [];
-
-      // console.log(results);
 
       results.map((result) => {
         chartLabels.push(result.month_name.substring(0, 3));
@@ -55,28 +56,32 @@ export default function VlSuppression() {
 
   const handleGetParams = (param) => {
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
-    <Card
-      cardId={cardId}
-      cardTitle={cardTitle}
-      cardLabel={
-        dates[0] !== startDate || dates[1] !== endDate
-          ? `De ${dates[0]} à ${dates[1]}`
-          : "Últimos 12 meses"
-      }
-      excelData={dataExcel}
-      excelLabels={labelsExcel}
-      chartData={{
-        label: "Supressao Viral",
-        color: colors.primary,
-        data: data,
-      }}
-      chartLabels={labels}
-      menuType="national"
-      height="400px"
-      handleParams={handleGetParams}
-    />
+    <>
+      <Card
+        cardId={cardId}
+        cardTitle={cardTitle}
+        cardLabel={
+          dates[0] !== startDate || dates[1] !== endDate
+            ? `De ${dates[0]} à ${dates[1]}`
+            : "Últimos 12 meses"
+        }
+        excelData={dataExcel}
+        excelLabels={labelsExcel}
+        chartData={{
+          label: "Supressao Viral",
+          color: colors.primary,
+          data: data,
+        }}
+        chartLabels={labels}
+        menuType="national"
+        height="400px"
+        handleParams={handleGetParams}
+        isLoading={isLoading}
+      />
+    </>
   );
 }

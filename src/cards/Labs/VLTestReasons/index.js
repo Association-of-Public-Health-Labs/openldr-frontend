@@ -20,6 +20,7 @@ export default function VLTestReasons() {
   const [data, setData] = useState([]);
   const [labs, setLabs] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -37,6 +38,7 @@ export default function VLTestReasons() {
         routine,
         treatment_failure,
       } = response.data[0];
+      setIsLoading(false);
       setData([reason_not_specified, routine, treatment_failure]);
     }
     loadData();
@@ -45,6 +47,7 @@ export default function VLTestReasons() {
   const handleGetParams = (param) => {
     setLabs(param.labs);
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -65,6 +68,7 @@ export default function VLTestReasons() {
       expandable={false}
       menuFixed={false}
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

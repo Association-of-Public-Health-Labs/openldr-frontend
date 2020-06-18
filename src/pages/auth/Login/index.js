@@ -238,7 +238,7 @@ function Login({ history }) {
                   />
                 )}
               </div>
-              <a href="/signup">Não possui conta?</a>
+              {/* <a href="/signup">Não possui conta?</a> */}
             </LoginButtons>
             {/* <OrPanel>
               <h5>ou</h5>

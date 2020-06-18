@@ -8,9 +8,9 @@ import { SelectStyles } from "./styles";
 
 const customFilter = createFilter({ ignoreAccents: false });
 const customComponents = {
-  ClearIndicator: props => (
+  ClearIndicator: (props) => (
     <components.ClearIndicator {...props}>clear</components.ClearIndicator>
-  )
+  ),
 };
 
 export default function FacilitiesSelect({
@@ -18,11 +18,74 @@ export default function FacilitiesSelect({
   isDistrictEnabled,
   isClinicEnabled,
   isLabEnabled,
-  handleGetFacilities
+  handleGetFacilities,
 }) {
   const { colors } = useContext(ThemeContext);
   const customStyles = SelectStyles(colors);
-  const { clinicsList, districtsList, labsList } = useContext(ContextProvider);
+  const { clinicsList, districtsList } = useContext(ContextProvider);
+
+  const labsList = [
+    {
+      LabCode: "PCA",
+      LabName: "Carmelo",
+    },
+    {
+      LabCode: "PCD",
+      LabName: "Cabo Delgado",
+    },
+    {
+      LabCode: "PCV",
+      LabName: "Chimoio",
+    },
+    {
+      LabCode: "PDB",
+      LabName: "DREAM Beira",
+    },
+    {
+      LabCode: "PDM",
+      LabName: "DREAM Maputo",
+    },
+    {
+      LabCode: "PEM",
+      LabName: "Clinica da UEM",
+    },
+    {
+      LabCode: "PIV",
+      LabName: "H Militar de Maputo",
+    },
+    {
+      LabCode: "PJV",
+      LabName: "Jose Macamo",
+    },
+    {
+      LabCode: "PMB",
+      LabName: "INS",
+    },
+    {
+      LabCode: "PMV",
+      LabName: "HG Machava",
+    },
+    {
+      LabCode: "PNC",
+      LabName: "Nampula",
+    },
+    {
+      LabCode: "PPG",
+      LabName: "Ponta Gea",
+    },
+    {
+      LabCode: "PQM",
+      LabName: "Quelimane",
+    },
+    {
+      LabCode: "PTV",
+      LabName: "HP Tete",
+    },
+    {
+      LabCode: "PXM",
+      LabName: "Xai-Xai",
+    },
+  ];
 
   const districtOptions = [],
     clinicOptions = [],
@@ -39,27 +102,27 @@ export default function FacilitiesSelect({
     { value: "Inhambane", label: "Inhambane" },
     { value: "Gaza", label: "Gaza" },
     { value: "Maputo Cidade", label: "Maputo Cidade" },
-    { value: "Maputo Provincia", label: "Maputo Provincia" }
+    { value: "Maputo Provincia", label: "Maputo Provincia" },
   ];
 
-  clinicsList.map(clinic =>
+  clinicsList.map((clinic) =>
     clinicOptions.push({
       value: clinic.Description,
-      label: clinic.Description
+      label: clinic.Description,
     })
   );
 
-  districtsList.map(district =>
+  districtsList.map((district) =>
     districtOptions.push({
       value: district.DistrictName,
-      label: district.DistrictName
+      label: district.DistrictName,
     })
   );
 
-  labsList.map(lab =>
+  labsList.map((lab) =>
     labsOptions.push({
       value: lab.LabCode,
-      label: lab.LabName
+      label: lab.LabName,
     })
   );
 
@@ -76,40 +139,40 @@ export default function FacilitiesSelect({
   async function handleChangeProvinces(provinces) {
     setSelectedProvinces(provinces);
     if (provinces) {
-      const districtsArray = await districtsList.filter(district =>
-        provinces.some(province => province.value === district.ProvinceName)
+      const districtsArray = await districtsList.filter((district) =>
+        provinces.some((province) => province.value === district.ProvinceName)
       );
       const updatedDistrictArray = [];
-      districtsArray.map(district =>
+      districtsArray.map((district) =>
         updatedDistrictArray.push({
           value: district.DistrictName,
-          label: district.DistrictName
+          label: district.DistrictName,
         })
       );
       setDistricts(updatedDistrictArray);
 
-      const clinicsArray = await clinicsList.filter(clinic => {
+      const clinicsArray = await clinicsList.filter((clinic) => {
         if (typeof selectedDistricts !== undefined) {
           if (selectedDistricts.length === 0) {
             return provinces.some(
-              province => province.value === clinic.ProvinceName
+              (province) => province.value === clinic.ProvinceName
             );
           } else {
             return selectedDistricts.some(
-              district => district.value === clinic.DistrictName
+              (district) => district.value === clinic.DistrictName
             );
           }
         } else {
           return provinces.some(
-            province => province.value === clinic.ProvinceName
+            (province) => province.value === clinic.ProvinceName
           );
         }
       });
       const updatedClinicArray = [];
-      clinicsArray.map(clinic =>
+      clinicsArray.map((clinic) =>
         updatedClinicArray.push({
           value: clinic.Description,
-          label: clinic.Description
+          label: clinic.Description,
         })
       );
       setClinics(updatedClinicArray);
@@ -122,7 +185,7 @@ export default function FacilitiesSelect({
         labs: selectedLabs,
         provinces: selectedProvinces,
         districts: selectedDistricts,
-        clinics: selectedClinics
+        clinics: selectedClinics,
       });
     }
     loadFacilities();
@@ -131,22 +194,22 @@ export default function FacilitiesSelect({
   async function handleChangeDistricts(districts) {
     setSelectedDistricts(districts);
     if (districts) {
-      const clinicsArray = await clinicsList.filter(clinic => {
+      const clinicsArray = await clinicsList.filter((clinic) => {
         if (districts.lenght === 0) {
           return selectedProvinces.some(
-            province => province.value === clinic.ProvinceName
+            (province) => province.value === clinic.ProvinceName
           );
         } else {
           return districts.some(
-            district => district.value === clinic.DistrictName
+            (district) => district.value === clinic.DistrictName
           );
         }
       });
       const updatedClinicArray = [];
-      clinicsArray.map(clinic =>
+      clinicsArray.map((clinic) =>
         updatedClinicArray.push({
           value: clinic.Description,
-          label: clinic.Description
+          label: clinic.Description,
         })
       );
       setClinics(updatedClinicArray);

@@ -71,7 +71,7 @@ export default function MenuHeader(props) {
                   handleOnSubmitDateRange={props.handleOnSubmitDateRange}
                 />
               )} */}
-              {/* <MenuDashboard selectedDashboard={props?.selectedDashboard} /> */}
+              <MenuDashboard selectedDashboard={props?.selectedDashboard} />
               {/* {reports.length > 0 && (
                 <ReportsBadge totalReports={reports.length} />
               )} */}

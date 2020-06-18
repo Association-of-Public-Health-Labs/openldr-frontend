@@ -5,8 +5,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import api from "../../../../services/api";
 
 import Card from "../../../../components/MainCard";
+import CardLoader from "../../../../components/CardLoader";
 
-import { Container, Progress } from "./styles";
+import { Container } from "./styles";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -57,11 +58,7 @@ export default function PositiveByGender() {
 
   return (
     <Container>
-      {!isDataLoaded && (
-        <Progress>
-          <CircularProgress />
-        </Progress>
-      )}
+      {!isDataLoaded && <CardLoader />}
       <Card
         cardId={cardId}
         cardTitle={cardTitle}

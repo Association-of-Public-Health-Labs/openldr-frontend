@@ -16,6 +16,7 @@ export default function ViralSuppMap() {
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -29,6 +30,7 @@ export default function ViralSuppMap() {
       });
 
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         mapData = [];
 
@@ -65,6 +67,7 @@ export default function ViralSuppMap() {
 
   const handleGetParams = (param) => {
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -83,6 +86,7 @@ export default function ViralSuppMap() {
       menuType="national"
       height="530px"
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

@@ -5,8 +5,9 @@ import qs from "qs";
 import api from "../../../../services/api";
 
 import Card from "../../../../components/MainCard";
+import CardLoader from "../../../../components/CardLoader";
 
-import { Container, Progress } from "./styles";
+import { Container } from "./styles";
 
 const startDate = moment().subtract(15, "day").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -93,11 +94,7 @@ export default function TAT() {
 
   return (
     <Container>
-      {!isDataLoaded && (
-        <Progress>
-          <CircularProgress color="green" />
-        </Progress>
-      )}
+      {!isDataLoaded && <CardLoader />}
       <Card
         cardId={cardId}
         cardTitle={cardTitle}

@@ -17,6 +17,7 @@ export default function SamplesTestedByGenderAndLab() {
   const [dataExcel, setDataExcel] = useState([]);
   const [labs, setLabs] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -30,6 +31,7 @@ export default function SamplesTestedByGenderAndLab() {
         },
       });
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         male_suppressed = [],
         female_suppressed = [],
@@ -85,6 +87,7 @@ export default function SamplesTestedByGenderAndLab() {
   const handleGetParams = (param) => {
     setLabs(param.labs);
     setDates([param.startDate, param.endDate]);
+    setIsLoading(true);
   };
 
   return (
@@ -105,6 +108,7 @@ export default function SamplesTestedByGenderAndLab() {
       expandable={false}
       menuFixed={false}
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }

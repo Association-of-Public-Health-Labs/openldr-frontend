@@ -7,7 +7,7 @@ export const Container = styled.div`
 `;
 
 export const Card = styled.div`
-  background-color: ${props => props.theme.colors.background.secondary};
+  background-color: ${(props) => props.theme.colors.background.secondary};
   height: 122px;
   padding: 0;
   border-radius: 0.375rem;
@@ -29,13 +29,21 @@ export const CardText = styled.div`
   h5 {
     margin-bottom: 10px;
     text-transform: uppercase;
-    color: ${props => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.text};
   }
   h2 {
-    color: ${props => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.text};
   }
 `;
 
-export const useStyles = makeStyles(theme => ({
-  grid: {}
+export const PeriodLabel = styled.span`
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+  font-size: 10px;
+  color: ${(props) => props.theme.colors.text};
+`;
+
+export const useStyles = makeStyles((theme) => ({
+  grid: {},
 }));

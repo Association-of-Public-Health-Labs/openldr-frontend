@@ -7,7 +7,8 @@ import Card from "../../../../components/MainCard";
 import MapCard from "../../../../components/Charts/MapGraph";
 import EditButton from "../../../../components/MaterialUI/EditButton";
 import MenuCard from "../../../../components/Menus/CardMenu";
-import { Container, Header, CardTitle, CardMenu, Progress } from "./styles";
+import CardLoader from "../../../../components/CardLoader";
+import { Container, Header, CardTitle, CardMenu } from "./styles";
 
 const startDate = moment().subtract(2, "day").format("YYYY-MM-DD");
 const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
@@ -68,11 +69,7 @@ export default function Map() {
 
   return (
     <Container>
-      {!isDataLoaded && (
-        <Progress>
-          <CircularProgress />
-        </Progress>
-      )}
+      {!isDataLoaded && <CardLoader />}
       {isMenuOpen && (
         <MenuCard
           borderRadius="20px"

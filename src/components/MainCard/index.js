@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Context from "../../context";
 import Cards from "../../cards/index";
 
@@ -7,6 +7,7 @@ import CardContextMenu from "../Menus/CardContextMenu";
 import Header from "../CardHeader";
 import MainPopup from "../MainPopup";
 import MenuCard from "../Menus/CardMenu";
+import CardLoader from "../CardLoader";
 
 import { Container, Content } from "./styles";
 
@@ -31,20 +32,17 @@ export default function MainCard({
   height,
   borderRadius,
   handleParams,
+  isLoading,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState(initialState);
   const [age, setAge] = useState(false);
   const [sampleType, setSampleType] = useState(false);
   const [expandCard, setExpandCard] = useState(false);
-  const [params, setParams] = useState({});
 
-  const {
-    handleAddReport,
-    clinicsList,
-    districtsList,
-    labsList,
-  } = React.useContext(Context);
+  const { handleAddReport, clinicsList, districtsList, labsList } = useContext(
+    Context
+  );
 
   const { content } = Cards[cardId];
 
@@ -157,8 +155,8 @@ export default function MainCard({
         borderRadius={borderRadius || "20px"}
         height={height || "auto"}
       >
+        {isLoading && <CardLoader />}
         {isOpen && menus[menuType]}
-
         <Content isExpanded={expandCard}>{createContent()}</Content>
         <CardContextMenu state={state} handleClose={handleClose} />
         {expandCard && <MainPopup lab={isLab} content={createContent()} />}

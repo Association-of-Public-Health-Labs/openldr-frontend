@@ -19,6 +19,7 @@ export default function SamplesTestedByAge() {
   const [labs, setLabs] = useState([]);
   const [age, setAge] = useState([15, 49]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
@@ -33,6 +34,7 @@ export default function SamplesTestedByAge() {
         },
       });
       const results = response.data;
+      setIsLoading(false);
       var chartLabels = [],
         suppressed = [],
         non_suppressed = [];
@@ -64,6 +66,7 @@ export default function SamplesTestedByAge() {
     setLabs(param.labs);
     setDates([param.startDate, param.endDate]);
     setAge([param.age.start, param.age.end]);
+    setIsLoading(true);
   };
 
   return (
@@ -85,6 +88,7 @@ export default function SamplesTestedByAge() {
       expandable={false}
       menuFixed={false}
       handleParams={handleGetParams}
+      isLoading={isLoading}
     />
   );
 }
