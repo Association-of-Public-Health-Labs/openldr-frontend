@@ -18,7 +18,9 @@ export default function TempPrivateRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated() && user !== "cer9@cdc.gov" ? (
+        isAuthenticated() &&
+        user !== "cer9@cdc.gov" &&
+        user !== "ralph.timperi@aphl.org" ? (
           <Component {...props} />
         ) : (
           <Redirect
