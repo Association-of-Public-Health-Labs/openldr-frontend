@@ -74,7 +74,9 @@ export default function SideBar(props) {
           {menu.map((item) => {
             if (
               item.id === "covid19results" &&
-              localStorage.getItem("@RAuth:user") === "cer9@cdc.gov"
+              (localStorage.getItem("@RAuth:user") === "cer9@cdc.gov" ||
+                localStorage.getItem("@RAuth:user") ===
+                  "ralph.timperi@aphl.org")
             ) {
               return <></>;
             } else {
