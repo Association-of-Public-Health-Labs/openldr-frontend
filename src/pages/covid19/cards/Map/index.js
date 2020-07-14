@@ -10,7 +10,7 @@ import MenuCard from "../../../../components/Menus/CardMenu";
 import CardLoader from "../../../../components/CardLoader";
 import { Container, Header, CardTitle, CardMenu } from "./styles";
 
-const startDate = moment().subtract(2, "day").format("YYYY-MM-DD");
+const startDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
 export default function Map() {

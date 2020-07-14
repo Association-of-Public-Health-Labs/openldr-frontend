@@ -10,7 +10,7 @@ import CardLoader from "../../../../components/CardLoader";
 
 import { Container, Progress } from "./styles";
 
-const startDate = moment().subtract(2, "day").format("YYYY-MM-DD");
+const startDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
 export default function Indicators() {
