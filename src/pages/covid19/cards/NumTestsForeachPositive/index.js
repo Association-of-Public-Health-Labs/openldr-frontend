@@ -10,12 +10,12 @@ import CardLoader from "../../../../components/CardLoader";
 
 import { Container } from "./styles";
 
-const startDate = moment().subtract(180, "day").format("YYYY-MM-DD");
+const startDate = moment().subtract(15, "day").format("YYYY-MM-DD");
 const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
-export default function DailyConfirmedCases() {
-  const cardId = "dash-covid-19";
-  const cardTitle = "Amostras Positivas cumulativas";
+export default function NumTestsForeachPositive() {
+  const cardId = "number-of-tests-foreach-positive";
+  const cardTitle = "Numero de testes por caso positivo";
   const { colors } = useContext(ThemeContext);
   const [labels, setLabels] = useState([]);
   const [totals, setTotals] = useState([]);
@@ -51,12 +51,16 @@ export default function DailyConfirmedCases() {
       var cumulative = 0;
 
       results.map((result) => {
-        chartLabels.push(`${result.day}/${result.month_name}`);
         chartPositives.push(result.positive + cumulativePos);
         chartTotals.push(result.total + cumulative);
         chartDailyPositives.push(result.positive);
         cumulative += result.total;
         cumulativePos += result.positive;
+        chartLabels.push(
+          `${result.day}/${result.month_name}*${Math.round(
+            cumulative / cumulativePos
+          ).toFixed(1)}`
+        );
       });
 
       setLabels(chartLabels);
@@ -83,19 +87,24 @@ export default function DailyConfirmedCases() {
         cardLabel={
           dates[0] !== startDate || dates[1] !== endDate
             ? `De ${dates[0]} à ${dates[1]}`
-            : "Desde o inicio"
+            : "Últimos 15 dias"
         }
         excelData={dataExcel}
         excelLabels={labelsExcel}
         chartData={{
+          tested: {
+            label: "Casos Testados",
+            color: "#00b000",
+            data: totals,
+          },
           positives: {
             label: "Casos Positivos",
-            color: "#fb8686",
+            color: "#111111",
             data: positives,
           },
           dailyPositives: {
-            label: "Casos Diarios Positivos",
-            color: "#000000",
+            label: "Testes por caso positivo",
+            color: "#00b000",
             data: dailyPositives,
           },
         }}

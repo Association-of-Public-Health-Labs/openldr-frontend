@@ -57,6 +57,12 @@ export default function MenuDashboardType({ history, selectedDashboard }) {
           >
             <MenuLink href="/covid19">Covid-19 (SARS Cov - 2)</MenuLink>
           </MenuItem>
+          <MenuItem
+            style={{ padding: 0 }}
+            onClick={() => handleCloseDashboardType("covid19")}
+          >
+            <MenuLink href="/covid19"></MenuLink>
+          </MenuItem>
         </Menu>
       </ThemeProvider>
     </Container>

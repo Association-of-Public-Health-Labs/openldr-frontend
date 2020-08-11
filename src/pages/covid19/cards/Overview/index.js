@@ -133,7 +133,7 @@ export default function Overview() {
         <Grid item xs={6} sm={4} md={4} lg={4}>
           <Card>
             <CardText>
-              <h5>Casos Positivos</h5>
+              <h5>Amostras Positivos</h5>
               <h1>{positivityData[positivityData.length - 1]}</h1>
             </CardText>
             <ChartCanvas>

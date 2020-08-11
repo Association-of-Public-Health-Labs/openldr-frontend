@@ -16,6 +16,8 @@ import TAT from "../cards/TAT";
 import SamplesHistory from "../cards/SamplesHistory";
 import DailyConfirmedCases from "../cards/DailyConfirmedCases";
 import PositiveByGender from "../cards/PositiveByGender";
+import TestedPositives from "../cards/TestedPositives";
+import NumTestsForeachPositive from "../cards/NumTestsForeachPositive";
 
 function Dashboard() {
   return (
@@ -47,6 +49,14 @@ function Dashboard() {
               </Grid>
               <Grid item xs={12} sm={12} md={4} lg={4}>
                 <PositiveByGender />
+              </Grid>
+            </Grid>
+            <Grid container spacing={3} alignItems="stretch">
+              <Grid item xs={12} sm={12} md={6} lg={6}>
+                <NumTestsForeachPositive />
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={6}>
+                <TestedPositives />
               </Grid>
             </Grid>
             <Grid container spacing={3}>

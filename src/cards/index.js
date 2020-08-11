@@ -5,11 +5,14 @@ import Bar from "../components/Charts/Bar";
 import BarGroup from "../components/Charts/BarGroup";
 import Line from "../components/Charts/Line";
 import LineCovid19 from "../components/Charts/LineCovid19";
+import ConfirmedCases from "../components/Charts/ConfirmedCases";
 import SvgMap from "../components/Charts/Map";
 import SvgMapCovid19 from "../components/Charts/MapCovid19";
 import TATvsDisa from "../components/Charts/TATvsDisa";
 import TestedAndPositiveCovid19 from "../components/Charts/TestedAndPositiveCovid19";
 import DataTable from "../components/DataTable";
+import TestedPositives from "../components/Charts/TestedPositives";
+import NumTestsByPositive from "../components/Charts/NumTestsByPositive";
 const cards = [];
 
 cards["vl-test-reason"] = {
@@ -117,7 +120,25 @@ cards["dash-covid-19"] = {
   name: "Casos diarios positivos",
   description: "",
   content: function (data, labels) {
-    return <LineCovid19 labels={labels} datasets={data} />;
+    return <ConfirmedCases labels={labels} datasets={data} />;
+  },
+};
+
+cards["dash-covid19-tested-positives"] = {
+  id: "dash-covid19-tested-positives",
+  name: "Amostras Testadas e Amostras Positivas",
+  description: "",
+  content: function (data, labels) {
+    return <TestedPositives labels={labels} datasets={data} />;
+  },
+};
+
+cards["number-of-tests-foreach-positive"] = {
+  id: "number-of-tests-foreach-positive",
+  name: "Numero de testes por cada caso positivo",
+  description: "",
+  content: function (data, labels) {
+    return <NumTestsByPositive labels={labels} datasets={data} />;
   },
 };
 
