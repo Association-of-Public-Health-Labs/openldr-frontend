@@ -17,12 +17,13 @@ import Covid19ResultsTable from "../../../components/Covid19ResultsTable";
 import Card from "../../../components/MainCard";
 import CardLoader from "../../../components/CardLoader";
 
-const startDate = moment().subtract(15, "day").format("YYYY-MM-DD");
-const endDate = moment().format("YYYY-MM-DD");
+const startDate = moment().subtract(1, "day").format("YYYY-MM-DD");
+const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
 function SamplesIndicators({ props }) {
+  const { province } = useParams();
   const cardId = "dash-samples-history";
-  const cardTitle = "Resumo de Indicadores";
+  const cardTitle = province;
   const { colors } = useContext(ThemeContext);
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
@@ -36,7 +37,6 @@ function SamplesIndicators({ props }) {
   const [dates, setDates] = useState([startDate, endDate]);
   const [rows, setRows] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const { province } = useParams();
 
   useEffect(() => {
     async function loadData() {
