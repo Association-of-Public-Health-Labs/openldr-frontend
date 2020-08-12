@@ -59,7 +59,7 @@ export default function Covid19Positivity() {
         cumulative += result.total;
         cumulativePos += result.positive;
         chartLabels.push(`${result.day} ${result.month_name}`);
-        positivity.push(Math.round((result.positive / result.total) * 100));
+        positivity.push(Math.round((cumulativePos / cumulative) * 100));
       });
 
       setLabels(chartLabels);
