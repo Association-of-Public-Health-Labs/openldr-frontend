@@ -54,6 +54,7 @@ export default function Indicators() {
           "Amostras Pendentes",
           "Amostras Rejeitadas",
           "Casos Positivos",
+          "Positividade (%)",
         ],
         registered = [],
         tested = [],
@@ -72,6 +73,11 @@ export default function Indicators() {
           result.samples_pending,
           result.samples_rejected,
           result.samples_positive,
+          result.samples_tested === 0
+            ? null
+            : Math.round(
+                (result.samples_positive / result.samples_tested) * 100
+              ),
         ];
       });
       setLabels(tableLabels);
