@@ -13,6 +13,7 @@ import TestedAndPositiveCovid19 from "../components/Charts/TestedAndPositiveCovi
 import DataTable from "../components/DataTable";
 import TestedPositives from "../components/Charts/TestedPositives";
 import NumTestsByPositive from "../components/Charts/NumTestsByPositive";
+import Covid19Positivity from "../components/Charts/Covid19Positivity";
 const cards = [];
 
 cards["vl-test-reason"] = {
@@ -139,6 +140,15 @@ cards["number-of-tests-foreach-positive"] = {
   description: "",
   content: function (data, labels) {
     return <NumTestsByPositive labels={labels} datasets={data} />;
+  },
+};
+
+cards["covid19-positivity"] = {
+  id: "covid19-positivity",
+  name: "Taxa de Positividade",
+  description: "",
+  content: function (data, labels) {
+    return <Covid19Positivity labels={labels} datasets={data} />;
   },
 };
 
