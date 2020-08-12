@@ -10,6 +10,7 @@ import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Covid19 from "./pages/covid19/Dashboard";
 import Covid19Results from "./pages/covid19/Results";
+import SamplesIndicators from "./pages/covid19/SamplesIndicators";
 
 export default function Routes() {
   return (
@@ -21,6 +22,7 @@ export default function Routes() {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
       <PrivateRoute path="/covid19" component={Covid19} />
+      <PrivateRoute path="/samples/:province" component={SamplesIndicators} />
       <TempPrivateRoute path="/covid19results" component={Covid19Results} />
     </BrowserRouter>
   );

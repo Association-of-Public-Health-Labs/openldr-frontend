@@ -18,9 +18,14 @@ import MenuCard from "../Menus/CardMenu";
 
 import { Container, UseStyles, Theme } from "./styles";
 
-export default function DataTable({ header, rows }) {
+export default function Covid19SamplesIndicatorsTable({ header, rows }) {
   const { colors } = useContext(ThemeContext);
   const classes = UseStyles(colors);
+
+  const handleClick = (province) => {
+    var win = window.open(`/samples/${province}`, "_blank");
+    win.focus();
+  };
 
   return (
     <Container>
@@ -39,7 +44,12 @@ export default function DataTable({ header, rows }) {
             {rows.map((row) => (
               <TableRow key={row.name} className={classes.tableLastRow}>
                 {row.map((r) => (
-                  <TableCell className={classes.tableCell}>{r}</TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    onClick={() => handleClick(row[0])}
+                  >
+                    {r}
+                  </TableCell>
                 ))}
               </TableRow>
             ))}

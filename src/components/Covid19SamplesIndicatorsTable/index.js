@@ -18,7 +18,7 @@ import MenuCard from "../Menus/CardMenu";
 
 import { Container, UseStyles, Theme } from "./styles";
 
-export default function DataTable({ header, rows }) {
+export default function Covid19SamplesIndicatorsTable({ header, rows }) {
   const { colors } = useContext(ThemeContext);
   const classes = UseStyles(colors);
 

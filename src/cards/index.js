@@ -14,6 +14,8 @@ import DataTable from "../components/DataTable";
 import TestedPositives from "../components/Charts/TestedPositives";
 import NumTestsByPositive from "../components/Charts/NumTestsByPositive";
 import Covid19Positivity from "../components/Charts/Covid19Positivity";
+import Covid19SamplesIndicatorsTable from "../components/Covid19SamplesIndicatorsTable";
+import SamplesIndicators from "../components/SamplesIndicators";
 const cards = [];
 
 cards["vl-test-reason"] = {
@@ -167,6 +169,24 @@ cards["covid-19-positive-per-tested-cases"] = {
   description: "",
   content: function (data, labels) {
     return <TestedAndPositiveCovid19 labels={labels} dataset={data} />;
+  },
+};
+
+cards["covid19-samples-indicators"] = {
+  id: "covid19-samples-indicators",
+  name: "Amostras por Provincia",
+  description: "",
+  content: function (data, labels) {
+    return <Covid19SamplesIndicatorsTable header={labels} rows={data} />;
+  },
+};
+
+cards["covid19-dashboard-samples-indicators"] = {
+  id: "covid19-dashboard-samples-indicators",
+  name: "Amostras por Provincia",
+  description: "",
+  content: function (data, labels) {
+    return <SamplesIndicators header={labels} rows={data} />;
   },
 };
 
