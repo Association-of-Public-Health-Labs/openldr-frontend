@@ -76,7 +76,7 @@ export default function Indicators() {
           result.samples_tested === 0
             ? null
             : Math.round(
-                (result.samples_positive / result.samples_tested) * 100
+                (result.samples_positive / result.samples_authorised) * 100
               ),
         ];
       });
