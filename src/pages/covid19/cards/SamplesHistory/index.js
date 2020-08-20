@@ -73,7 +73,7 @@ export default function Indicators() {
           result.samples_pending,
           result.samples_rejected,
           result.samples_positive,
-          result.samples_tested === 0
+          result.samples_authorised === 0
             ? null
             : Math.round(
                 (result.samples_positive / result.samples_authorised) * 100

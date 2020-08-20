@@ -11,12 +11,12 @@ import CardLoader from "../../../../components/CardLoader";
 
 import { Container } from "./styles";
 
-const startDate = moment().subtract(15, "day").format("YYYY-MM-DD");
+const startDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
 export default function SamplesByLab() {
   const cardId = "covid19-samples-by-lab";
-  const cardTitle = "Amostras por Laboratorio";
+  const cardTitle = "Amostras Testadas por Laboratorio";
   const { colors } = useContext(ThemeContext);
   const [labels, setLabels] = useState([]);
   const [tested, setTested] = useState([]);
@@ -108,6 +108,8 @@ export default function SamplesByLab() {
         excelLabels={labelsExcel}
         chartData={data}
         chartLabels={labels}
+        menuType="national"
+        handleParams={handleGetParams}
       />
     </Container>
   );

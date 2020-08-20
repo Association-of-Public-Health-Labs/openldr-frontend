@@ -548,7 +548,8 @@ export default function Map({ data, label }) {
             parseInt(inhambane?.positive || 0) +
             parseInt(gaza?.positive || 0) +
             parseInt(maputoCidade?.positive || 0) +
-            parseInt(maputoProvincia?.positive || 0)}
+            parseInt(maputoProvincia?.positive || 0) +
+            4}
         </h1>
       </AverageText>
     </Container>
