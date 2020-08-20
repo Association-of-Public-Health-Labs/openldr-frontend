@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { ThemeContext } from "styled-components";
+import hexToRgba from "hex-to-rgba";
 import qs from "qs";
 import api from "../../../../services/api";
 
@@ -10,27 +11,27 @@ import CardLoader from "../../../../components/CardLoader";
 
 import { Container } from "./styles";
 
-const startDate = moment().subtract(300, "day").format("YYYY-MM-DD");
+const startDate = moment().subtract(15, "day").format("YYYY-MM-DD");
 const endDate = moment().subtract(1, "day").format("YYYY-MM-DD");
 
-export default function Covid19Positivity() {
-  const cardId = "covid19-positivity";
-  const cardTitle = "Amostras Testadas por cada 1000 habitantes";
+export default function SamplesByLab() {
+  const cardId = "covid19-samples-by-lab";
+  const cardTitle = "Amostras por Laboratorio";
   const { colors } = useContext(ThemeContext);
   const [labels, setLabels] = useState([]);
-  const [totals, setTotals] = useState([]);
+  const [tested, setTested] = useState([]);
+  const [authorised, setAuthorised] = useState([]);
   const [positives, setPositives] = useState([]);
-  const [dailyPositives, setDailyPositives] = useState([]);
-  const [positivity, setPositivity] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
+  const [data, setData] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
     async function loadData() {
       const token = await localStorage.getItem("@RAuth:token");
-      const response = await api.get("/testedsamples", {
+      const response = await api.get("/covid19/samples_by_lab/", {
         params: {
           dates: dates,
         },
@@ -44,28 +45,45 @@ export default function Covid19Positivity() {
 
       const results = response.data;
       setIsDataLoaded(true);
-      var chartLabels = [],
-        chartPositives = [],
-        chartTotals = [],
-        positivity = [],
-        chartDailyPositives = [];
-      var cumulativePos = 0;
-      var cumulative = 0;
+
+      var arrLabels = [],
+        arrTested = [],
+        arrAuthorised = [],
+        arrPositives = [];
 
       results.map((result) => {
-        chartPositives.push(result.positive + cumulativePos);
-        chartTotals.push(result.total + cumulative);
-        chartDailyPositives.push(result.positive);
-        cumulative += result.total;
-        cumulativePos += result.positive;
-        chartLabels.push(`${result.day} ${result.month_name}`);
-        positivity.push(cumulative / 30000);
+        arrLabels.push(result.TestingFacilityName);
+        arrTested.push(result.tested);
+        arrAuthorised.push(result.authorised);
+        arrPositives.push(result.positives);
       });
 
-      setLabels(chartLabels);
-      setPositivity(positivity);
-      setLabelsExcel(chartLabels);
-      setDataExcel([positivity]);
+      setLabels(arrLabels);
+      setTested(arrTested);
+      setAuthorised(arrAuthorised);
+      setPositives(arrPositives);
+      setData([
+        {
+          label: "Amostras Testadas",
+          backgroundColor: "#00b000",
+          stack: "Stack 0",
+          data: arrTested,
+        },
+        {
+          label: "Amostras Validadas",
+          backgroundColor: "#e74c3c",
+          stack: "Stack 1",
+          data: arrAuthorised,
+        },
+        {
+          label: "Amostras Positivas",
+          backgroundColor: hexToRgba("#e74c3c", "0.4"),
+          stack: "Stack 1",
+          data: arrPositives,
+        },
+      ]);
+      setLabelsExcel(arrLabels);
+      setDataExcel([arrTested, arrAuthorised, arrPositives]);
     }
     loadData();
   }, [dates]);
@@ -84,21 +102,12 @@ export default function Covid19Positivity() {
         cardLabel={
           dates[0] !== startDate || dates[1] !== endDate
             ? `De ${dates[0]} à ${dates[1]}`
-            : "Últimos 15 dias"
+            : "Últimas 24 horas"
         }
         excelData={dataExcel}
         excelLabels={labelsExcel}
-        chartData={{
-          positivity: {
-            label: "Casos Positivos",
-            color: "#00b000",
-            data: positivity,
-          },
-        }}
+        chartData={data}
         chartLabels={labels}
-        menuType="national"
-        height="400px"
-        handleParams={handleGetParams}
       />
     </Container>
   );

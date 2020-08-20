@@ -16,6 +16,7 @@ import NumTestsByPositive from "../components/Charts/NumTestsByPositive";
 import Covid19Positivity from "../components/Charts/Covid19Positivity";
 import Covid19SamplesIndicatorsTable from "../components/Covid19SamplesIndicatorsTable";
 import SamplesIndicators from "../components/SamplesIndicators";
+import Covid19SamplesByLab from "../components/Charts/Covid19SamplesByLab";
 const cards = [];
 
 cards["vl-test-reason"] = {
@@ -147,7 +148,7 @@ cards["number-of-tests-foreach-positive"] = {
 
 cards["covid19-positivity"] = {
   id: "covid19-positivity",
-  name: "Taxa de Positividade",
+  name: "Amostras Testadas por cada 1000 habitantes",
   description: "",
   content: function (data, labels) {
     return <Covid19Positivity labels={labels} datasets={data} />;
@@ -187,6 +188,15 @@ cards["covid19-dashboard-samples-indicators"] = {
   description: "",
   content: function (data, labels) {
     return <SamplesIndicators header={labels} rows={data} />;
+  },
+};
+
+cards["covid19-samples-by-lab"] = {
+  id: "covid19-samples-by-lab",
+  name: "Amostras por Laboratorio",
+  description: "",
+  content: function (data, labels) {
+    return <Covid19SamplesByLab datasets={data} labels={labels} />;
   },
 };
 

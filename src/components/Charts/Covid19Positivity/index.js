@@ -22,7 +22,7 @@ export default function Covid19Positivity({ datasets, labels }) {
       datasets: [
         {
           type: "line",
-          label: "Positividade",
+          label: "Amostras Testadas",
           borderColor: hexToRgba(positivity.color, "1"),
           pointBorderColor: "#FFF",
           pointBackgroundColor: hexToRgba(positivity.color, "1"),
@@ -105,10 +105,10 @@ export default function Covid19Positivity({ datasets, labels }) {
     tooltips: {},
     plugins: {
       datalabels: {
-        display: true,
+        display: false,
         align: "top",
         formatter: function (value, context) {
-          return value + "%";
+          // return Math.round(value).toFixed(1);
         },
       },
     },
