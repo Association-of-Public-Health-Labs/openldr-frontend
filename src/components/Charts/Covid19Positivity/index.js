@@ -102,7 +102,19 @@ export default function Covid19Positivity({ datasets, labels }) {
         bottom: 0,
       },
     },
-    tooltips: {},
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var label = data.datasets[tooltipItem.datasetIndex].label || "";
+
+          if (label) {
+            label += ": ";
+          }
+          label += parseFloat(tooltipItem.yLabel).toFixed(1);
+          return label;
+        },
+      },
+    },
     plugins: {
       datalabels: {
         display: false,
