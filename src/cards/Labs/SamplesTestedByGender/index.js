@@ -74,12 +74,12 @@ export default function SamplesTestedByGender() {
           data: female_not_suppressed,
         },
       ]);
-      setLabelsExcel(chartLabels);
+      setLabelsExcel(["", ...chartLabels]);
       setDataExcel([
-        male_suppressed,
-        male_not_suppressed,
-        female_suppressed,
-        female_not_suppressed,
+        ["Homens (CV < 1000)", ...male_suppressed],
+        ["Homens (CV > 1000)", ...male_not_suppressed],
+        ["Mulheres (CV < 1000)", ...female_suppressed],
+        ["Mulheres (CV > 1000)", ...female_not_suppressed],
       ]);
     }
     loadData();

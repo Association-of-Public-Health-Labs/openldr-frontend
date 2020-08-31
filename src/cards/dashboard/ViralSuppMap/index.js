@@ -32,7 +32,14 @@ export default function ViralSuppMap() {
       const results = response.data;
       setIsLoading(false);
       var chartLabels = [],
-        mapData = [];
+        mapData = [],
+        arr_suppressed = [],
+        arr_total = [],
+        arr_routine = [],
+        arr_treatment_failure = [],
+        arr_reason_not_specified = [],
+        arr_total = [],
+        arr_suppressed_perc = [];
 
       results.map((result) => {
         chartLabels.push(result.province);
@@ -58,9 +65,25 @@ export default function ViralSuppMap() {
             (reason_not_specified / suppressed) * 100
           ),
         };
+
+        arr_suppressed.push(suppressed);
+        arr_routine.push(routine);
+        arr_treatment_failure.push(treatment_failure);
+        arr_reason_not_specified.push(reason_not_specified);
+        arr_total.push(total);
+        arr_suppressed_perc.push(Math.round((suppressed / total) * 100));
       });
       setLabels(chartLabels);
       setData(results);
+      setLabelsExcel(["Motivo de Teste", ...chartLabels]);
+      setDataExcel([
+        ["Rotina", ...arr_routine],
+        ["Falência Terapeutica", ...arr_treatment_failure],
+        ["Motivo não especificado", ...arr_reason_not_specified],
+        ["Supressão Viral", ...arr_suppressed],
+        ["Taxa de Supressão (%)", ...arr_suppressed_perc],
+        ["Amostras Testadas", ...arr_total],
+      ]);
     }
     loadData();
   }, [dates]);

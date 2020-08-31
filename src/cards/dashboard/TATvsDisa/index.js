@@ -32,8 +32,11 @@ export default function TATvsDisa() {
 
       setLabels(chartLabels);
       setData([chartTat, chartDisalinks]);
-      setLabelsExcel(chartLabels);
-      setDataExcel([chartTat, chartDisalinks]);
+      setLabelsExcel(["", ...chartLabels]);
+      setDataExcel([
+        ["Tempo de Resposta", ...chartTat],
+        ["# Disalinks", ...chartDisalinks],
+      ]);
     }
     loadData();
   }, []);

@@ -68,12 +68,12 @@ export default function TAT() {
           data: analysis_validation,
         },
       ]);
-      setLabelsExcel(chartLabels);
+      setLabelsExcel(["Tempo Resposta", ...chartLabels]);
       setDataExcel([
-        collection_reception,
-        reception_registration,
-        registration_analysis,
-        analysis_validation,
+        ["Colheita à Recepção", ...collection_reception],
+        ["Recepção ao Registo", ...reception_registration],
+        ["Registo à Analise", ...registration_analysis],
+        ["Analise à Validação", ...analysis_validation],
       ]);
     }
     loadData();

@@ -54,8 +54,11 @@ export default function SamplesTestedByPregnancy() {
           data: suppressed,
         },
       ]);
-      setLabelsExcel(chartLabels);
-      setDataExcel([suppressed, non_suppressed]);
+      setLabelsExcel(["", ...chartLabels]);
+      setDataExcel([
+        ["CV < 1000", ...suppressed],
+        ["CV > 1000", ...non_suppressed],
+      ]);
     }
     loadData();
   }, [labs, dates]);

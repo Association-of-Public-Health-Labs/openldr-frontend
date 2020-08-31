@@ -13,7 +13,7 @@ const startDate = moment().subtract(15, "day").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
 
 export default function TatByLab() {
-  const cardId = "tat-by-month";
+  const cardId = "covid-tat-by-lab";
   const cardTitle = "Tempo de Resposta das amostras por Lab";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);

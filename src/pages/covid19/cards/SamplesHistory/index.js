@@ -56,11 +56,13 @@ export default function Indicators() {
           "Casos Positivos",
           "Positividade (%)",
         ],
-        registered = [],
-        tested = [],
-        non_validated = [],
-        rejected = [],
-        suppressed = [];
+        registered = 0,
+        tested = 0,
+        pending = 0,
+        validated = 0,
+        rejected = 0,
+        positives = 0,
+        positivity = 0;
 
       var tableRows = [];
 
@@ -79,13 +81,25 @@ export default function Indicators() {
                 (result.samples_positive / result.samples_authorised) * 100
               ),
         ];
+
+        registered += result.samples_receipt;
+        tested += result.samples_tested;
+        pending += result.samples_pending;
+        validated += result.samples_authorised;
+        rejected += result.samples_rejected;
+        positives += result.samples_positive;
+        tableRows[results.length] = [
+          "Total",
+          registered,
+          tested,
+          validated,
+          pending,
+          rejected,
+          positives,
+          validated !== 0 ? Math.round((positives / validated) * 100) : null,
+        ];
       });
       setLabels(tableLabels);
-      setRegisteredSamples(registered);
-      setTestedSamples(tested);
-      setRejectedSamples(rejected);
-      setNonValidatedSamples(non_validated);
-      setSuppressedSamples(suppressed);
       setRows(tableRows);
     }
     loadData();

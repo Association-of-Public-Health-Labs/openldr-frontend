@@ -200,6 +200,15 @@ cards["covid19-samples-by-lab"] = {
   },
 };
 
+cards["covid-tat-by-lab"] = {
+  id: "covid-tat-by-lab",
+  name: "Tempo de Resposta das amostras por Lab",
+  description: "",
+  content: function (data, labels) {
+    return <Bar datasets={data} labels={labels} />;
+  },
+};
+
 cards["dash-viral-suppression-map"] = {
   id: "dash-viral-suppression-map",
   name: "Viral Suppression",

@@ -48,8 +48,8 @@ export default function VlSuppression() {
       });
       setLabels(chartLabels);
       setData(chartData);
-      setLabelsExcel(chartLabels);
-      setDataExcel([chartData]);
+      setLabelsExcel(["Supressão Viral", ...chartLabels]);
+      setDataExcel([["Total %", ...chartData]]);
     }
     loadData();
   }, [dates]);
