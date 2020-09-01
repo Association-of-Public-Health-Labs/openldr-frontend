@@ -26,6 +26,7 @@ export default function SamplesByLab() {
   const [dataExcel, setDataExcel] = useState([]);
   const [data, setData] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
+  const [labs, setLabs] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export default function SamplesByLab() {
       const token = await localStorage.getItem("@RAuth:token");
       const response = await api.get("/covid19/samples_by_lab/", {
         params: {
+          codes: labs,
           dates: dates,
         },
         paramsSerializer: (params) => {
@@ -89,6 +91,15 @@ export default function SamplesByLab() {
   }, [dates]);
 
   const handleGetParams = (param) => {
+    const laboratories = [];
+    const labCodes = param.labs;
+    if (labCodes && labCodes.length > 0) {
+      labCodes.map((lab) => {
+        laboratories.push(...lab);
+      });
+    }
+
+    setLabs(laboratories);
     setDates([param.startDate, param.endDate]);
     setIsDataLoaded(false);
   };
@@ -108,7 +119,8 @@ export default function SamplesByLab() {
         excelLabels={labelsExcel}
         chartData={data}
         chartLabels={labels}
-        menuType="national"
+        menuType="byFacility"
+        isLab={true}
         handleParams={handleGetParams}
       />
     </Container>

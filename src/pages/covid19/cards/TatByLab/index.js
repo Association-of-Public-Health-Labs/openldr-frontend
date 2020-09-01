@@ -28,6 +28,7 @@ export default function TatByLab() {
       const token = await localStorage.getItem("@RAuth:token");
       const response = await api.get("/covid19/lab_tat", {
         params: {
+          codes: labs,
           dates: dates,
         },
         paramsSerializer: (params) => {
@@ -96,6 +97,15 @@ export default function TatByLab() {
   }, [labs, dates]);
 
   const handleGetParams = (param) => {
+    const laboratories = [];
+    const labCodes = param.labs;
+    if (labCodes && labCodes.length > 0) {
+      labCodes.map((lab) => {
+        laboratories.push(...lab);
+      });
+    }
+
+    setLabs(laboratories);
     setDates([param.startDate, param.endDate]);
     setIsDataLoaded(false);
   };
@@ -115,7 +125,8 @@ export default function TatByLab() {
         excelLabels={labelsExcel}
         chartData={data}
         chartLabels={labels}
-        menuType="national"
+        menuType="byFacility"
+        isLab={true}
         handleParams={handleGetParams}
       />
     </Container>

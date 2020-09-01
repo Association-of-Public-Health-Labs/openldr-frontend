@@ -86,7 +86,15 @@ export default function SamplesTestedByGender() {
   }, [labs, dates]);
 
   const handleGetParams = (param) => {
-    setLabs(param.labs);
+    const laboratories = [];
+    const labCodes = param.labs;
+    if (labCodes && labCodes.length > 0) {
+      labCodes.map((lab) => {
+        laboratories.push(...lab);
+      });
+    }
+
+    setLabs(laboratories);
     setDates([param.startDate, param.endDate]);
     setIsLoading(true);
   };

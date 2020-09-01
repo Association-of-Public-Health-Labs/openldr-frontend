@@ -26,63 +26,67 @@ export default function FacilitiesSelect({
 
   const labsList = [
     {
-      LabCode: "PCA",
+      LabCode: ["PCA"],
       LabName: "Carmelo",
     },
     {
-      LabCode: "PCD",
+      LabCode: ["PCD", "PDD"],
       LabName: "Cabo Delgado",
     },
     {
-      LabCode: "PCV",
+      LabCode: ["PCV", "PCM"],
       LabName: "Chimoio",
     },
     {
-      LabCode: "PDB",
+      LabCode: ["PDB"],
       LabName: "DREAM Beira",
     },
     {
-      LabCode: "PDM",
+      LabCode: ["PDM"],
       LabName: "DREAM Maputo",
     },
     {
-      LabCode: "PEM",
+      LabCode: ["PEM", "PBU"],
       LabName: "Clinica da UEM",
     },
     {
-      LabCode: "PIV",
+      LabCode: ["PIC", "PIT", "PIV"],
       LabName: "H Militar de Maputo",
     },
     {
-      LabCode: "PJV",
+      LabCode: ["PJC", "PJV"],
       LabName: "Jose Macamo",
     },
     {
-      LabCode: "PMB",
+      LabCode: ["PMB"],
       LabName: "INS",
     },
     {
-      LabCode: "PMV",
+      LabCode: ["PMV", "PMC"],
       LabName: "HG Machava",
     },
     {
-      LabCode: "PNC",
+      LabCode: ["PMA", "PVM"],
+      LabName: "HG Mavalane",
+    },
+    {
+      LabCode: ["PNC", "PNT"],
       LabName: "Nampula",
     },
     {
-      LabCode: "PPG",
+      LabCode: ["PPG"],
       LabName: "Ponta Gea",
     },
     {
-      LabCode: "PQM",
+      LabCode: ["PQM", "PQA", "PQE"],
       LabName: "Quelimane",
     },
     {
-      LabCode: "PTV",
+      LabCode: ["PTV", "PTC"],
       LabName: "HP Tete",
     },
     {
-      LabCode: "PXM",
+      LabCode: ["PXM", "PXE", "PXA"],
       LabName: "Xai-Xai",
     },
   ];
