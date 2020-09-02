@@ -26,8 +26,11 @@ export default function Lab() {
         <Header page="Laboratório" id="lab" menu={viralload} />
         <Content>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <VlTestReasons />
+            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+              {/* Volume das amostras recebidas por Laboratorio */}
+            </Grid>
+            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+              {/* Volume das amostras recebidas por mes */}
             </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesTestedMonthly />
@@ -55,6 +58,9 @@ export default function Lab() {
             </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesTestedByGenderAndLab />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <VlTestReasons />
             </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}></Grid>
           </Grid>

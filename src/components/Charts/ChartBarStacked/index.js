@@ -68,6 +68,9 @@ export default function ChartBarStacked({ dataChart, labels }) {
         bottom: 0,
       },
     },
+    onClick: () => {
+      // alert("APHL");
+    },
     tooltips: {},
     plugins: {
       datalabels: {

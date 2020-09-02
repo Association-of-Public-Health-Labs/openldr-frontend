@@ -11,7 +11,7 @@ const endDate = moment().format("YYYY-MM-DD");
 
 export default function SamplesTestedByGender() {
   const cardId = "samples-tested-by-gender";
-  const cardTitle = "Amostras Testadas por gênero";
+  const cardTitle = "Volume das Amostras testadas por mes";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);

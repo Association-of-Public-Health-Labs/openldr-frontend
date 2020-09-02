@@ -9,7 +9,7 @@ const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
 
 export default function VLTestReasons() {
-  const cardTitle = "Amostras Testadas";
+  const cardTitle = "Amostras Testadas por Motivo";
   const cardId = "clinic-vl-test-reason";
   const [labels, setlabels] = useState([
     "Motivo não especificado",

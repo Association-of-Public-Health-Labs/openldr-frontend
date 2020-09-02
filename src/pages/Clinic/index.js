@@ -26,9 +26,6 @@ export default function Clinic() {
         <Header page="Clinics" id="clinic" menu={viralload} />
         <Content>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <VlTestReasons />
-            </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesTestedMonthly />
             </Grid>
@@ -54,7 +51,7 @@ export default function Clinic() {
               <Breastfeeding />
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-              {/* <MapSamples /> */}
+              <VlTestReasons />
             </Grid>
           </Grid>
         </Content>

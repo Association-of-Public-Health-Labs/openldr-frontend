@@ -10,7 +10,7 @@ const endDate = moment().format("YYYY-MM-DD");
 
 export default function ViralSuppMap() {
   const cardId = "dash-viral-suppression-map";
-  const cardTitle = "Taxa de Supressão Viral";
+  const cardTitle = "Média da Supressão Viral";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);

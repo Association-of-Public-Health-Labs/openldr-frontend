@@ -144,7 +144,7 @@ export default function Overview() {
         <Grid item xs={6} sm={4} md={4} lg={4}>
           <Card>
             <CardText>
-              <h5>Supressao Viral</h5>
+              <h5>Supressão Viral das amostras</h5>
               <h1>{Math.round(average(suppData))}%</h1>
             </CardText>
             <ChartCanvas>

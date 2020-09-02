@@ -69,6 +69,9 @@ export default function bar({ dataChart, labels }) {
       },
     },
     tooltips: {},
+    onClick: () => {
+      // alert("APHL");
+    },
     plugins: {
       datalabels: {
         display: false,

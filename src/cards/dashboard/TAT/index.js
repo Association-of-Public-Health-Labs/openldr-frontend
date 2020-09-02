@@ -10,7 +10,7 @@ const endDate = moment().format("YYYY-MM-DD");
 
 export default function TAT() {
   const cardId = "tat-by-month";
-  const cardTitle = "Tempo de Resposta por mês";
+  const cardTitle = "Tempo de Resposta médio Nacional";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);

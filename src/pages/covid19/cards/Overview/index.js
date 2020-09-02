@@ -29,6 +29,7 @@ export default function Overview() {
   const [totalTested, setTotalTested] = useState(null);
   const [positivityLabels, setPositivityLabels] = useState([]);
   const [positivityData, setPositivityData] = useState([]);
+  const [tested, setTested] = useState(null);
   const [dates, setDates] = useState([
     moment().subtract(15, "day").format("YYYY-MM-DD"),
     moment().subtract(1, "day").format("YYYY-MM-DD"),
@@ -53,12 +54,13 @@ export default function Overview() {
         data = [];
 
       results.map((result) => {
-        labels.push(result.month);
-        data.push(result.total);
-        setNumberOfSamples((prevState) => prevState + result.total);
+        // labels.push(result.month);
+        // data.push(result.tested);
+        // setNumberOfSamples((prevState) => prevState + result.total);
+        setTested(result.tested);
       });
-      setSamplesLabels(labels);
-      setSamplesData(data);
+      // setSamplesLabels(labels);
+      // setSamplesData(data);
     }
     loadData();
   }, [dates]);
@@ -91,6 +93,9 @@ export default function Overview() {
       setTestedLabels(labels);
       setTestedData(data);
       setPositivityData(positive);
+
+      setSamplesLabels(labels);
+      setSamplesData(data);
     }
     loadData();
   }, [dates]);
@@ -101,8 +106,8 @@ export default function Overview() {
         <Grid item xs={6} sm={4} md={4} lg={4}>
           <Card>
             <CardText>
-              <h5>Amostras Recebidas</h5>
-              <h1>{samplesData[samplesData.length - 1]}</h1>
+              <h5>Total de Amostras Testadas</h5>
+              <h1>{tested}</h1>
             </CardText>
             <ChartCanvas>
               <OverviewChart
@@ -111,7 +116,7 @@ export default function Overview() {
                 color={colors.primary}
               />
             </ChartCanvas>
-            <PeriodLabel>Últimas 24 horas</PeriodLabel>
+            <PeriodLabel>Desde o inicio</PeriodLabel>
           </Card>
         </Grid>
         <Grid item xs={6} sm={4} md={4} lg={4}>
