@@ -3,7 +3,10 @@ import hexToRgba from "hex-to-rgba";
 import moment from "moment";
 import qs from "qs";
 import api from "../../../services/api";
-import Card from "../../../components/MainCard";
+// import Card from "../../../components/MainCard";
+
+import Card from "../../../components/MasterCard";
+import Bar from "../../../components/Charts/Bar";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -16,31 +19,37 @@ export default function SamplesTestedByAge() {
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
   const [type, setType] = useState("province");
+  const [chartType, setChartType] = useState("province");
   const [facilities, setFacilities] = useState([]);
+  const [disaggregation, setDisaggregation] = useState(false);
   const [age, setAge] = useState([15, 49]);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
-      const response = await api.get("/clinic_tat_by_age", {
-        params: {
-          codes: facilities,
-          dates: dates,
-          age: age,
-          type: type,
-        },
-        paramsSerializer: (params) => {
-          return qs.stringify(params);
-        },
-      });
+      const response = await api.get(
+        "/clinic_samples_tested_by_age_and_facility",
+        {
+          params: {
+            codes: facilities,
+            dates: dates,
+            age: age,
+            type: type,
+            disaggregation: disaggregation,
+          },
+          paramsSerializer: (params) => {
+            return qs.stringify(params);
+          },
+        }
+      );
       const results = response.data;
       setIsLoading(false);
       var chartLabels = [],
         suppressed = [],
         non_suppressed = [];
       results.map((result) => {
-        chartLabels.push(result.month_name.substring(0, 3));
+        chartLabels.push(result.facility);
         suppressed.push(result.suppressed);
         non_suppressed.push(result.non_suppressed);
       });
@@ -70,16 +79,36 @@ export default function SamplesTestedByAge() {
     if (param.facilityType === "province") {
       setFacilities(param.provinces);
       setType(param.facilityType);
+      setDisaggregation(false);
     } else if (param.facilityType === "district") {
       setFacilities(param.districts);
       setType(param.facilityType);
+      setDisaggregation(false);
     } else if (param.facilityType === "clinic") {
       setFacilities(param.clinics);
       setType(param.facilityType);
+      setDisaggregation(false);
     }
     setAge([param.age.start, param.age.end]);
     setDates([param.startDate, param.endDate]);
     setIsLoading(true);
+  };
+
+  const handleChartClick = (value) => {
+    setDisaggregation(true);
+    if (chartType === "province") {
+      setFacilities([value]);
+      setDisaggregation(true);
+      setType("district");
+      setIsLoading(true);
+    } else if (chartType === "district") {
+      setFacilities([value]);
+      setDisaggregation(true);
+      setType("clinic");
+      setIsLoading(true);
+    } else if (chartType === "clinic") {
+      // setFacilities([value]);
+    }
   };
 
   return (
@@ -102,6 +131,8 @@ export default function SamplesTestedByAge() {
       menuFixed={true}
       handleParams={handleGetParams}
       isLoading={isLoading}
-    />
+    >
+      <Bar datasets={data} labels={labels} onClick={handleChartClick} />
+    </Card>
   );
 }

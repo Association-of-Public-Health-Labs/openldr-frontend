@@ -3,12 +3,13 @@ import moment from "moment";
 import qs from "qs";
 import api from "../../../services/api";
 
-import Card from "../../../components/MainCard";
+import Card from "../../../components/MasterCard";
+import Bar from "../../../components/Charts/Bar";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
 
-export default function TATMonthly() {
+export default function TATbyFacility() {
   const cardId = "tat-by-clinic";
   const cardTitle = "Tempo de Resposta";
   const [labels, setLabels] = useState([]);
@@ -16,6 +17,8 @@ export default function TATMonthly() {
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
   const [type, setType] = useState("province");
+  const [chartType, setChartType] = useState("province");
+  const [disaggregation, setDisaggregation] = useState(false);
   const [facilities, setFacilities] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,6 +30,7 @@ export default function TATMonthly() {
           codes: facilities,
           dates: dates,
           type: type,
+          disaggregation: disaggregation,
         },
         paramsSerializer: (params) => {
           return qs.stringify(params);
@@ -34,6 +38,7 @@ export default function TATMonthly() {
       });
       const results = response.data;
       setIsLoading(false);
+
       var chartLabels = [],
         collection_reception = [],
         reception_registration = [],
@@ -46,6 +51,7 @@ export default function TATMonthly() {
         reception_registration.push(result.reception_registration);
         registration_analysis.push(result.registration_analysis);
         analysis_validation.push(result.analysis_validation);
+        setChartType(result.type);
       });
 
       setLabels(chartLabels);
@@ -86,15 +92,35 @@ export default function TATMonthly() {
     if (param.facilityType === "province") {
       setFacilities(param.provinces);
       setType(param.facilityType);
+      setDisaggregation(false);
     } else if (param.facilityType === "district") {
       setFacilities(param.districts);
       setType(param.facilityType);
+      setDisaggregation(false);
     } else if (param.facilityType === "clinic") {
       setFacilities(param.clinics);
       setType(param.facilityType);
+      setDisaggregation(false);
     }
     setDates([param.startDate, param.endDate]);
     setIsLoading(true);
+  };
+
+  const handleChartClick = (value) => {
+    setDisaggregation(true);
+    if (chartType === "province") {
+      setFacilities([value]);
+      setDisaggregation(true);
+      setType("district");
+      setIsLoading(true);
+    } else if (chartType === "district") {
+      setFacilities([value]);
+      setDisaggregation(true);
+      setType("clinic");
+      setIsLoading(true);
+    } else if (chartType === "clinic") {
+      // setFacilities([value]);
+    }
   };
 
   return (
@@ -116,6 +142,8 @@ export default function TATMonthly() {
       menuFixed={true}
       handleParams={handleGetParams}
       isLoading={isLoading}
-    />
+    >
+      <Bar datasets={data} labels={labels} onClick={handleChartClick} />
+    </Card>
   );
 }

@@ -11,36 +11,30 @@ import BarGroup from "../../../components/Charts/BarGroup";
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
 
-export default function SamplesTestedByGender() {
-  const cardId = "clinic-samples-tested-by-gender";
-  const cardTitle = "Amostras Testadas por gênero";
+export default function SamplesTestedByGenderMonthly() {
+  const cardId = "clinic-samples-tested-by-gender-monthly";
+  const cardTitle = "Amostras Testadas por mês";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
   const [dataExcel, setDataExcel] = useState([]);
   const [type, setType] = useState("province");
   const [facilities, setFacilities] = useState([]);
-  const [chartType, setChartType] = useState("province");
-  const [disaggregation, setDisaggregation] = useState(false);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
-      const response = await api.get(
-        "/clinic_samples_tested_by_gender_and_facility",
-        {
-          params: {
-            codes: facilities,
-            dates: dates,
-            type: type,
-            disaggregation: disaggregation,
-          },
-          paramsSerializer: (params) => {
-            return qs.stringify(params);
-          },
-        }
-      );
+      const response = await api.get("/clinic_samples_tested_by_gender", {
+        params: {
+          codes: facilities,
+          dates: dates,
+          type: type,
+        },
+        paramsSerializer: (params) => {
+          return qs.stringify(params);
+        },
+      });
       const results = response.data;
       setIsLoading(false);
       var chartLabels = [],
@@ -50,7 +44,7 @@ export default function SamplesTestedByGender() {
         female_not_suppressed = [];
 
       results.map((result) => {
-        chartLabels.push(result.facility);
+        chartLabels.push(result.month_name.substring(0, 3));
         male_suppressed.push(result.male_suppressed);
         female_suppressed.push(result.female_suppressed);
         male_not_suppressed.push(result.male_not_suppressed);
@@ -99,35 +93,15 @@ export default function SamplesTestedByGender() {
     if (param.facilityType === "province") {
       setFacilities(param.provinces);
       setType(param.facilityType);
-      setDisaggregation(false);
     } else if (param.facilityType === "district") {
       setFacilities(param.districts);
       setType(param.facilityType);
-      setDisaggregation(false);
     } else if (param.facilityType === "clinic") {
       setFacilities(param.clinics);
       setType(param.facilityType);
-      setDisaggregation(false);
     }
     setDates([param.startDate, param.endDate]);
     setIsLoading(true);
-  };
-
-  const handleChartClick = (value) => {
-    setDisaggregation(true);
-    if (chartType === "province") {
-      setFacilities([value]);
-      setDisaggregation(true);
-      setType("district");
-      setIsLoading(true);
-    } else if (chartType === "district") {
-      setFacilities([value]);
-      setDisaggregation(true);
-      setType("clinic");
-      setIsLoading(true);
-    } else if (chartType === "clinic") {
-      // setFacilities([value]);
-    }
   };
 
   return (
@@ -150,7 +124,7 @@ export default function SamplesTestedByGender() {
       handleParams={handleGetParams}
       isLoading={isLoading}
     >
-      <BarGroup datasets={data} labels={labels} onClick={handleChartClick} />
+      <BarGroup datasets={data} labels={labels} onClick={null} />
     </Card>
   );
 }

@@ -7,7 +7,7 @@ import "chartjs-plugin-datalabels";
 
 import { Container } from "./styles";
 
-export default function BarGroup({ labels, datasets }) {
+export default function BarGroup({ labels, datasets, onClick }) {
   const data = (canvas) => {
     return {
       labels: labels,
@@ -70,6 +70,14 @@ export default function BarGroup({ labels, datasets }) {
       },
     },
     tooltips: {},
+    onClick: function (c, i) {
+      var e = i[0];
+      if (e && onClick) {
+        var x_value = this.data.labels[e._index];
+        var y_value = this.data.datasets[0].data[e._index];
+        onClick(x_value);
+      }
+    },
     plugins: {
       datalabels: {
         display: false,

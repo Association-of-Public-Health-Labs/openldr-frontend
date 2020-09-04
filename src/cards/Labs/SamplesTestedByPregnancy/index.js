@@ -4,7 +4,8 @@ import moment from "moment";
 import qs from "qs";
 import api from "../../../services/api";
 
-import Card from "../../../components/MainCard";
+import Card from "../../../components/MasterCard";
+import Bar from "../../../components/Charts/Bar";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -96,6 +97,8 @@ export default function SamplesTestedByPregnancy() {
       menuFixed={false}
       handleParams={handleGetParams}
       isLoading={isLoading}
-    />
+    >
+      <Bar datasets={data} labels={labels} onClick={null} />
+    </Card>
   );
 }

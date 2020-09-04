@@ -10,13 +10,15 @@ import { viralload } from "../../utils/menuConfig";
 import MapSamples from "../../cards/Clinics/MapSamples";
 import VlTestReasons from "../../cards/Clinics/VLTestReasons";
 import SamplesTestedMonthly from "../../cards/Clinics/SamplesTestedMonthly";
+import SamplesTestedByGenderMonthly from "../../cards/Clinics/SamplesTestedByGenderMonthly";
 import SamplesTestedByGender from "../../cards/Clinics/SamplesTestedByGender";
-import SamplesTestedByLab from "../../cards/Clinics/SamplesTestedByLab";
+import SamplesTestedByFacility from "../../cards/Clinics/SamplesTestedByLab";
 import TATMonthly from "../../cards/Clinics/TATMonthly";
 import TatByLab from "../../cards/Clinics/TATbyLab";
 import SamplesTestedByAge from "../../cards/Clinics/SamplesTestedByAge";
 import Pregnant from "../../cards/Clinics/SamplesTestedByPregnancy";
 import Breastfeeding from "../../cards/Clinics/SamplesTestedBreastfeeding";
+import SamplesRegisteredByFacility from "../../cards/Clinics/SamplesRegisteredByFacility";
 
 export default function Clinic() {
   return (
@@ -27,13 +29,16 @@ export default function Clinic() {
         <Content>
           <Grid container spacing={3}>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
-              <SamplesTestedMonthly />
+              <SamplesRegisteredByFacility />
+            </Grid>
+            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+              <SamplesTestedByFacility />
             </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesTestedByGender />
             </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
-              <SamplesTestedByLab />
+              <SamplesTestedByGenderMonthly />
             </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <TATMonthly />

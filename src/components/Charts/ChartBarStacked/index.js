@@ -6,7 +6,7 @@ import "chartjs-plugin-datalabels";
 
 import { Container } from "./styles";
 
-export default function ChartBarStacked({ dataChart, labels }) {
+export default function ChartBarStacked({ dataChart, labels, onClick }) {
   const data = (canvas) => {
     return {
       labels: labels,
@@ -68,8 +68,13 @@ export default function ChartBarStacked({ dataChart, labels }) {
         bottom: 0,
       },
     },
-    onClick: () => {
-      // alert("APHL");
+    onClick: function (c, i) {
+      var e = i[0];
+      if (e && onClick) {
+        var x_value = this.data.labels[e._index];
+        var y_value = this.data.datasets[0].data[e._index];
+        onClick(x_value);
+      }
     },
     tooltips: {},
     plugins: {
