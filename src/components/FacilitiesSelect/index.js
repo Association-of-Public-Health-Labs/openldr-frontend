@@ -125,7 +125,7 @@ export default function FacilitiesSelect({
 
   labsList.map((lab) =>
     labsOptions.push({
-      value: lab.LabCode,
+      value: lab,
       label: lab.LabName,
     })
   );

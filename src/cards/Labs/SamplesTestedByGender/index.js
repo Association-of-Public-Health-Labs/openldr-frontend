@@ -20,6 +20,7 @@ export default function SamplesTestedByGender() {
   const [labs, setLabs] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
+  const [labNames, setLabNames] = useState([]);
 
   useEffect(() => {
     async function loadData() {
@@ -88,14 +89,18 @@ export default function SamplesTestedByGender() {
 
   const handleGetParams = (param) => {
     const laboratories = [];
-    const labCodes = param.labs;
-    if (labCodes && labCodes.length > 0) {
-      labCodes.map((lab) => {
-        laboratories.push(...lab);
+    const labNames = [];
+    const labList = param.labs;
+    if (labList && labList.length > 0) {
+      labList.map((lab) => {
+        const labCode = lab.LabCode;
+        laboratories.push(...labCode);
+        labNames.push(lab.LabName);
       });
     }
 
     setLabs(laboratories);
+    setLabNames(labNames);
     setDates([param.startDate, param.endDate]);
     setIsLoading(true);
   };
@@ -119,6 +124,7 @@ export default function SamplesTestedByGender() {
       menuFixed={false}
       handleParams={handleGetParams}
       isLoading={isLoading}
+      footerFacilitiesList={labNames}
     >
       <Bar datasets={data} labels={labels} onClick={null} />
     </Card>

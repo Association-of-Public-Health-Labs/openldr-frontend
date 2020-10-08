@@ -47,10 +47,13 @@ export default function VLTestReasons() {
 
   const handleGetParams = (param) => {
     const laboratories = [];
-    const labCodes = param.labs;
-    if (labCodes && labCodes.length > 0) {
-      labCodes.map((lab) => {
-        laboratories.push(...lab);
+    const labNames = [];
+    const labList = param.labs;
+    if (labList && labList.length > 0) {
+      labList.map((lab) => {
+        const labCode = lab.LabCode;
+        laboratories.push(...labCode);
+        labNames.push(lab.LabName);
       });
     }
 

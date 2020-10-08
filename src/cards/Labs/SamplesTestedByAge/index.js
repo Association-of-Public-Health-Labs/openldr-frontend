@@ -21,6 +21,7 @@ export default function SamplesTestedByAge() {
   const [age, setAge] = useState([15, 49]);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
+  const [labNames, setLabNames] = useState([]);
 
   useEffect(() => {
     async function loadData() {
@@ -68,14 +69,18 @@ export default function SamplesTestedByAge() {
 
   const handleGetParams = (param) => {
     const laboratories = [];
-    const labCodes = param.labs;
-    if (labCodes && labCodes.length > 0) {
-      labCodes.map((lab) => {
-        laboratories.push(...lab);
+    const labNames = [];
+    const labList = param.labs;
+    if (labList && labList.length > 0) {
+      labList.map((lab) => {
+        const labCode = lab.LabCode;
+        laboratories.push(...labCode);
+        labNames.push(lab.LabName);
       });
     }
 
     setLabs(laboratories);
+    setLabNames(labNames);
     setDates([param.startDate, param.endDate]);
     setAge([param.age.start, param.age.end]);
     setIsLoading(true);
@@ -102,6 +107,7 @@ export default function SamplesTestedByAge() {
       handleParams={handleGetParams}
       isLoading={isLoading}
       ageLabels={age}
+      footerFacilitiesList={labNames}
     >
       <Bar datasets={data} labels={labels} onClick={null} />
     </Card>
