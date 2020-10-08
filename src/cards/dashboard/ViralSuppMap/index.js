@@ -3,7 +3,8 @@ import moment from "moment";
 import groupBy from "json-groupby";
 import qs from "qs";
 import api from "../../../services/api";
-import Card from "../../../components/MainCard";
+import Card from "../../../components/MasterCard";
+import SvgMap from "../../../components/Charts/Map";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -110,6 +111,8 @@ export default function ViralSuppMap() {
       height="530px"
       handleParams={handleGetParams}
       isLoading={isLoading}
-    />
+    >
+      <SvgMap data={data} labels={labels} />
+    </Card>
   );
 }

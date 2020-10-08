@@ -97,6 +97,7 @@ export default function SamplesTestedMonthly() {
       menuFixed={false}
       handleParams={handleGetParams}
       isLoading={isLoading}
+      footerFacilitiesList={labs}
     >
       <Bar datasets={data} labels={labels} onClick={null} />
     </Card>

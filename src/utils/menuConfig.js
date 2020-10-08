@@ -46,7 +46,7 @@ const viralload = [
   {
     id: "home",
     page: "Dashboard",
-    menuTitle: "Home",
+    menuTitle: "Principal",
     icon: <FiGrid size={16} />,
     url: "/dashboard",
   },
@@ -59,8 +59,8 @@ const viralload = [
   },
   {
     id: "clinic",
-    page: "Clinics",
-    menuTitle: "Clinic",
+    page: "Provincia/Distrito/US",
+    menuTitle: "Provincia",
     icon: <FiMapPin size={16} />,
     url: "/clinic",
   },

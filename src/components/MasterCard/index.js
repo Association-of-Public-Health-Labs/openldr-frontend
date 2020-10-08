@@ -8,7 +8,14 @@ import MainPopup from "../MainPopup";
 import MenuCard from "../Menus/CardMenu";
 import CardLoader from "../CardLoader";
 
-import { Container, Content } from "./styles";
+import {
+  Container,
+  Content,
+  Footer,
+  CardLabels,
+  Label,
+  AgeLabel,
+} from "./styles";
 
 const initialState = {
   mouseX: null,
@@ -33,6 +40,8 @@ export default function MasterCard({
   borderRadius,
   handleParams,
   isLoading,
+  footerFacilitiesList,
+  ageLabels,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState(initialState);
@@ -114,6 +123,21 @@ export default function MasterCard({
           handleExpandCard={handleExpandCard}
         />
         <div id={cardId}>{children}</div>
+        <Footer>
+          {ageLabels && ageLabels.length > 0 && (
+            <CardLabels>
+              <p>Idade: </p>
+              <AgeLabel>{ageLabels[0] + "-" + ageLabels[1]} anos</AgeLabel>
+            </CardLabels>
+          )}
+          {footerFacilitiesList && footerFacilitiesList.length > 0 && (
+            <CardLabels>
+              {footerFacilitiesList.map((facility) => (
+                <Label>{facility}</Label>
+              ))}
+            </CardLabels>
+          )}
+        </Footer>
       </>
     );
   }

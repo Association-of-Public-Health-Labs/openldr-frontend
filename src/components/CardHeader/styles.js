@@ -20,11 +20,11 @@ export const CardMenu = styled.div`
     width: 30px;
     height: 30px;
     border-radius: 5px;
-    background-color: ${props => props.theme.colors.background.primary};
+    background-color: ${(props) => props.theme.colors.background.primary};
     border: none;
     margin-right: 5px;
     outline: none;
-    color: ${props => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.text};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,8 +41,9 @@ export const CardTitle = styled.div`
   flex-direction: column;
   h5 {
     text-transform: uppercase;
-    color: ${props => hexToRgba(props.theme.colors.text, "0.4")};
+    color: ${(props) => hexToRgba(props.theme.colors.text, "0.4")};
     margin-bottom: 5px;
+    margin-right: 5px;
   }
 `;
 
@@ -54,4 +55,19 @@ export const MenuButton = styled.button`
   border: none;
   margin-left: 5px;
   outline: none;
+`;
+
+export const CardLabels = styled.div`
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  display: flex;
+`;
+
+export const Label = styled.span`
+  background-color: ${(props) => hexToRgba("#f8a200", 0.2)};
+  color: #f8a200;
+  padding: 5px;
+  font-size: 12px;
 `;

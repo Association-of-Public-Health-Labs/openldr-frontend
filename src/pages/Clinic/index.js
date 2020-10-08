@@ -25,7 +25,7 @@ export default function Clinic() {
     <Container>
       <SideBar active="clinic" menu={viralload} />
       <MainPanel>
-        <Header page="Clinics" id="clinic" menu={viralload} />
+        <Header page="Provincia/Distrito/US" id="clinic" menu={viralload} />
         <Content>
           <Grid container spacing={3}>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>

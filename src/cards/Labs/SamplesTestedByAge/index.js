@@ -101,6 +101,7 @@ export default function SamplesTestedByAge() {
       menuFixed={false}
       handleParams={handleGetParams}
       isLoading={isLoading}
+      ageLabels={age}
     >
       <Bar datasets={data} labels={labels} onClick={null} />
     </Card>

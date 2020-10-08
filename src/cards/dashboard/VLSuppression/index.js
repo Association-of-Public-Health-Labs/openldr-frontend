@@ -4,8 +4,9 @@ import { ThemeContext } from "styled-components";
 import qs from "qs";
 import api from "../../../services/api";
 
-import Card from "../../../components/MainCard";
+import Card from "../../../components/MasterCard";
 import CardLoader from "../../../components/CardLoader";
+import Line from "../../../components/Charts/Line";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -81,7 +82,16 @@ export default function VlSuppression() {
         height="400px"
         handleParams={handleGetParams}
         isLoading={isLoading}
-      />
+      >
+        <Line
+          labels={labels}
+          datasets={{
+            label: "Supressao Viral",
+            color: colors.primary,
+            data: data,
+          }}
+        />
+      </Card>
     </>
   );
 }

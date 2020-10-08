@@ -70,6 +70,7 @@ export default function TATMonthly() {
           data: analysis_validation,
         },
       ]);
+
       setLabelsExcel(["Tempo Resposta", ...chartLabels]);
       setDataExcel([
         ["Colheita à Recepção", ...collection_reception],
@@ -114,6 +115,7 @@ export default function TATMonthly() {
       menuFixed={false}
       handleParams={handleGetParams}
       isLoading={isLoading}
+      footerFacilitiesList={labs}
     >
       <Bar datasets={data} labels={labels} onClick={null} />
     </Card>

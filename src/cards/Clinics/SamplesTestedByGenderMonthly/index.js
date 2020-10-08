@@ -123,6 +123,7 @@ export default function SamplesTestedByGenderMonthly() {
       menuFixed={true}
       handleParams={handleGetParams}
       isLoading={isLoading}
+      footerFacilitiesList={facilities}
     >
       <BarGroup datasets={data} labels={labels} onClick={null} />
     </Card>

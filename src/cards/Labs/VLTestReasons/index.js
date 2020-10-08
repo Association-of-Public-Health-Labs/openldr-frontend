@@ -4,7 +4,8 @@ import api from "../../../services/api";
 import CardContextProvider from "../../../context";
 import moment from "moment";
 
-import Card from "../../../components/MainCard";
+import Card from "../../../components/MasterCard";
+import Pie from "../../../components/Charts/PieChart";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -77,6 +78,8 @@ export default function VLTestReasons() {
       menuFixed={false}
       handleParams={handleGetParams}
       isLoading={isLoading}
-    />
+    >
+      <Pie datasets={data} labels={labels} />
+    </Card>
   );
 }

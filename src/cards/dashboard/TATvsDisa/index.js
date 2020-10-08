@@ -3,7 +3,8 @@ import moment from "moment";
 import qs from "qs";
 import api from "../../../services/api";
 
-import Card from "../../../components/MainCard";
+import Card from "../../../components/MasterCard";
+import Chart from "../../../components/Charts/TATvsDisa";
 
 export default function TATvsDisa() {
   const cardId = "dash-tat-vs-disalinks";
@@ -55,6 +56,8 @@ export default function TATvsDisa() {
       chartLabels={labels}
       menuType="national"
       handleParams={handleGetParams}
-    />
+    >
+      <Chart labels={labels} dataset={data} />
+    </Card>
   );
 }

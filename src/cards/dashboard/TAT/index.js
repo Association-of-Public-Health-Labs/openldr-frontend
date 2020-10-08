@@ -3,7 +3,8 @@ import moment from "moment";
 import qs from "qs";
 import api from "../../../services/api";
 
-import Card from "../../../components/MainCard";
+import Card from "../../../components/MasterCard";
+import Chart from "../../../components/Charts/ChartBarStacked";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -100,6 +101,8 @@ export default function TAT() {
       menuType="national"
       handleParams={handleGetParams}
       isLoading={isLoading}
-    />
+    >
+      <Chart dataChart={data} labels={labels} />
+    </Card>
   );
 }
