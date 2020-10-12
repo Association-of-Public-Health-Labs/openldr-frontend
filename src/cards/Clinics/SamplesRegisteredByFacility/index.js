@@ -4,6 +4,7 @@ import qs from "qs";
 import api from "../../../services/api";
 
 import Card from "../../../components/MasterCard";
+import PatientsListPopup from "../../../components/PatientsListPopup";
 import Bar from "../../../components/Charts/Bar";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
@@ -22,6 +23,9 @@ export default function SamplesRegisteredByFacility() {
   const [facilities, setFacilities] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
+  const [samplesList, setSamplesList] = useState([])
+  const [location, setLocation] = useState(null)
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     async function loadData() {
@@ -80,7 +84,7 @@ export default function SamplesRegisteredByFacility() {
     setIsLoading(true);
   };
 
-  const handleChartClick = (value) => {
+  const handleChartClick = async (value) => {
     setDisaggregation(true);
     if (chartType === "province") {
       setFacilities([value]);
@@ -93,11 +97,33 @@ export default function SamplesRegisteredByFacility() {
       setType("clinic");
       setIsLoading(true);
     } else if (chartType === "clinic") {
-      // setFacilities([value]);
+      // setIsLoading(true);
+      // const query = `RegisteredDatetime >= '${dates[0]}' AND ResgisteredDatetime <= '${dates[1]}' AND RequestingFacilityName='${value}'`
+      // const {data} = await api.get(`/results/query/20/1/${query}`, {
+      //   params: {
+      //     codes: facilities,
+      //     dates: dates,
+      //     type: type,
+      //     disaggregation: disaggregation,
+      //   },
+      //   paramsSerializer: (params) => {
+      //     return qs.stringify(params);
+      //   },
+      // });
+      // setLocation(value)
+      // setSamplesList(data?.docs)
+      // setIsLoading(false);
+      // setVisible(true)
     }
   };
 
+  const handleCloseMenu = (value) => {
+    setVisible(value)
+  }
+
   return (
+    <>
+    {visible && <PatientsListPopup location={location} data={samplesList} dates={dates} handleCloseMenu={handleCloseMenu}/>}
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
@@ -118,6 +144,6 @@ export default function SamplesRegisteredByFacility() {
       isLoading={isLoading}
     >
       <Bar datasets={data} labels={labels} onClick={handleChartClick} />
-    </Card>
+    </Card></>
   );
 }

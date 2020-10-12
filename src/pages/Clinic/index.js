@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import { Container, MainPanel, Content } from "../styles";
 import SideBar from "../../components/Menus/SideBar";
 import Header from "../../components/Menus/MenuHeader";
+import PatientsListPopup from "../../components/PatientsListPopup";
 
 import { viralload } from "../../utils/menuConfig";
 
@@ -22,6 +23,8 @@ import SamplesRegisteredByFacility from "../../cards/Clinics/SamplesRegisteredBy
 
 export default function Clinic() {
   return (
+    <>
+    {/* <PatientsListPopup/> */}
     <Container>
       <SideBar active="clinic" menu={viralload} />
       <MainPanel>
@@ -61,6 +64,6 @@ export default function Clinic() {
           </Grid>
         </Content>
       </MainPanel>
-    </Container>
+    </Container></>
   );
 }

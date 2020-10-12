@@ -11,7 +11,7 @@ const endDate = moment().format("YYYY-MM-DD");
 
 export default function TATbyFacility() {
   const cardId = "tat-by-clinic";
-  const cardTitle = "Tempo de Resposta";
+  const cardTitle = "Tempo de Resposta por Provincia";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);

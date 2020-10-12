@@ -11,7 +11,7 @@ const endDate = moment().format("YYYY-MM-DD");
 
 export default function SamplesTestedMonthly() {
   const cardId = "clinic-sampes-tested";
-  const cardTitle = "Amostras Testadas por mês";
+  const cardTitle = "Amostras Testadas por Provincia/mês";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
