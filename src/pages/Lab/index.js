@@ -17,6 +17,8 @@ import TatByLab from "../../cards/Labs/TATbyLab";
 import SamplesTestedByAge from "../../cards/Labs/SamplesTestedByAge";
 import Pregnant from "../../cards/Labs/SamplesTestedByPregnancy";
 import Breastfeeding from "../../cards/Labs/SamplesTestedBreastfeeding";
+import SamplesRejected from "../../cards/Labs/SamplesRejected"
+import SamplesRejectedByMonth from "../../cards/Labs/SamplesRejectedByMonth";
 
 export default function Lab() {
   return (
@@ -27,27 +29,21 @@ export default function Lab() {
         <Content>
           <Grid container spacing={3}>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
-              {/* Volume das amostras recebidas por Laboratorio */}
-            </Grid>
-            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
-              {/* Volume das amostras recebidas por mes */}
+              <SamplesTestedByLab />
             </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesTestedMonthly />
             </Grid>
-            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+            {/* <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesTestedByGender />
-            </Grid>
-            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
-              <SamplesTestedByLab />
-            </Grid>
-            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
-              <TATMonthly />
-            </Grid>
+            </Grid> */}
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <TatByLab />
             </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+              <TATMonthly />
+            </Grid>
+            {/* <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesTestedByAge />
             </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
@@ -61,8 +57,13 @@ export default function Lab() {
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <VlTestReasons />
+            </Grid> */}
+            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+              <SamplesRejected />
             </Grid>
-            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}></Grid>
+            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+              <SamplesRejectedByMonth />
+            </Grid>
           </Grid>
         </Content>
       </MainPanel>

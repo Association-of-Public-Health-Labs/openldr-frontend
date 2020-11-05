@@ -7,6 +7,7 @@ import api from "../../../services/api";
 
 import Card from "../../../components/MasterCard";
 import BarGroup from "../../../components/Charts/BarGroup";
+import PatientsListPopup from "../../../components/PatientsListPopup";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -24,6 +25,9 @@ export default function SamplesTestedByGender() {
   const [disaggregation, setDisaggregation] = useState(false);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
+  const [location, setLocation] = useState(null)
+  const [visible, setVisible] = useState(false)
+  const [sqlQuery, setSQLQuery] = useState(null)
 
   useEffect(() => {
     async function loadData() {
@@ -55,6 +59,7 @@ export default function SamplesTestedByGender() {
         female_suppressed.push(result.female_suppressed);
         male_not_suppressed.push(result.male_not_suppressed);
         female_not_suppressed.push(result.female_not_suppressed);
+        setChartType(result.type)
       });
 
       setLabels(chartLabels);
@@ -125,12 +130,20 @@ export default function SamplesTestedByGender() {
       setDisaggregation(true);
       setType("clinic");
       setIsLoading(true);
-    } else if (chartType === "clinic") {
-      // setFacilities([value]);
+    }else if (chartType === "clinic") {
+      setSQLQuery(`AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND RequestingFacilityName='${value}' AND ViralLoadResultCategory IS NOT NULL`)
+      setLocation(value)
+      setVisible(true)
     }
   };
 
+  const handleClosePopup = (value) => {
+    setVisible(value)
+  }
+
   return (
+    <>
+    {visible && <PatientsListPopup location={location} dates={dates} query={sqlQuery} handleClosePopup={handleClosePopup}/>}
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
@@ -152,5 +165,6 @@ export default function SamplesTestedByGender() {
     >
       <BarGroup datasets={data} labels={labels} onClick={handleChartClick} />
     </Card>
+    </>
   );
 }

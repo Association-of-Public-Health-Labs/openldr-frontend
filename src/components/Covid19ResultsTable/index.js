@@ -220,6 +220,7 @@ function Covid19ResultsTable({ dates }) {
                 )
                 .then((result) => {
                   const { data } = result;
+                  // console.log(data);
                   resolve({
                     data: data.docs,
                     page: data.page - 1,

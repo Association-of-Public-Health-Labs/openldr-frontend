@@ -7,6 +7,7 @@ import api from "../../../services/api";
 
 import Card from "../../../components/MasterCard";
 import Bar from "../../../components/Charts/Bar";
+import PatientsListPopup from "../../../components/PatientsListPopup";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -24,10 +25,13 @@ export default function SamplesTestedBreastfeeding() {
   const [disaggregation, setDisaggregation] = useState(false);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
+  const [location, setLocation] = useState(null)
+  const [visible, setVisible] = useState(false)
+  const [sqlQuery, setSQLQuery] = useState(null)
 
   useEffect(() => {
     async function loadData() {
-      const response = await api.get("/clinic_tests_by_pregnancy", {
+      const response = await api.get("/clinic_tests_by_breastfeeding", {
         params: {
           codes: facilities,
           dates: dates,
@@ -47,6 +51,7 @@ export default function SamplesTestedBreastfeeding() {
         chartLabels.push(result.facility);
         suppressed.push(result.suppressed);
         non_suppressed.push(result.non_suppressed);
+        setChartType(result.type);
       });
       setLabels(chartLabels);
       setData([
@@ -82,7 +87,7 @@ export default function SamplesTestedBreastfeeding() {
     } else if (param.facilityType === "clinic") {
       setFacilities(param.clinics);
       setType(param.facilityType);
-      setDisaggregation(false);
+      // setDisaggregation(false);
     }
     setDates([param.startDate, param.endDate]);
     setIsLoading(true);
@@ -101,11 +106,19 @@ export default function SamplesTestedBreastfeeding() {
       setType("clinic");
       setIsLoading(true);
     } else if (chartType === "clinic") {
-      // setFacilities([value]);
+      setSQLQuery(`AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND RequestingFacilityName='${value}' AND ViralLoadResultCategory IS NOT NULL AND Breastfeeding IN ('Yes','YES','yes','Sim','SIM','sim')`)
+      setLocation(value)
+      setVisible(true)
     }
   };
 
+  const handleClosePopup = (value) => {
+    setVisible(value)
+  }
+
   return (
+    <>
+    {visible && <PatientsListPopup location={location} dates={dates} query={sqlQuery} handleClosePopup={handleClosePopup}/>}
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
@@ -127,5 +140,6 @@ export default function SamplesTestedBreastfeeding() {
     >
       <Bar datasets={data} labels={labels} onClick={handleChartClick} />
     </Card>
+    </>
   );
 }

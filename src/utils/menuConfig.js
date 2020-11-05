@@ -64,6 +64,13 @@ const viralload = [
     icon: <FiMapPin size={16} />,
     url: "/clinic",
   },
+  // {
+  //   id: "reports",
+  //   page: "Relatorio Semanal",
+  //   menuTitle: "Relatorios",
+  //   icon: <FiMapPin size={16} />,
+  //   url: "/weeklyreports",
+  // },
 ];
 
 export { covid19, viralload };

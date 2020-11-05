@@ -6,6 +6,7 @@ import TempPrivateRoute from "./components/TempPrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import Lab from "./pages/Lab";
 import Clinic from "./pages/Clinic";
+import WeeklyReports from "./pages/WeeklyReports"
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Covid19 from "./pages/covid19/Dashboard";
@@ -19,6 +20,7 @@ export default function Routes() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/lab" component={Lab} />
       <Route path="/clinic" component={Clinic} />
+      <Route path="/weeklyreports" component={WeeklyReports} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
       <PrivateRoute path="/covid19" component={Covid19} />

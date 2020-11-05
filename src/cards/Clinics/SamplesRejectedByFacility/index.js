@@ -10,9 +10,9 @@ import Bar from "../../../components/Charts/Bar";
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
 
-export default function SamplesRegisteredByFacility() {
-  const cardId = "samples-registered-by-facility";
-  const cardTitle = "Amostras Registadas por Provincia";
+export default function SamplesRejectedByFacility() {
+  const cardId = "samples-rejected-by-facility";
+  const cardTitle = "Amostras Rejeitadas por Provincia";
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
@@ -30,7 +30,7 @@ export default function SamplesRegisteredByFacility() {
 
   useEffect(() => {
     async function loadData() {
-      const response = await api.get("/clinic_registered_samples_by_facility", {
+      const response = await api.get("/clinic_samples_rejected_by_facility", {
         params: {
           codes: facilities,
           dates: dates,
@@ -45,24 +45,24 @@ export default function SamplesRegisteredByFacility() {
       setIsLoading(false);
 
       var chartLabels = [],
-        registered_samples = [];
+        rejected_samples = [];
 
       results.map((result) => {
         chartLabels.push(result.facility);
-        registered_samples.push(result.total);
+        rejected_samples.push(result.total);
         setChartType(result.type);
       });
 
       setLabels(chartLabels);
       setData([
         {
-          label: "Amostras Registadas",
+          label: "Amostras Rejeitadas",
           backgroundColor: "#ef5350",
-          data: registered_samples,
+          data: rejected_samples,
         },
       ]);
       setLabelsExcel(["", ...chartLabels]);
-      setDataExcel([["Amostras Registadas", ...registered_samples]]);
+      setDataExcel([["Amostras Rejeitadas", ...rejected_samples]]);
     }
     loadData();
   }, [facilities, dates]);
@@ -98,7 +98,7 @@ export default function SamplesRegisteredByFacility() {
       setType("clinic");
       setIsLoading(true);
     } else if (chartType === "clinic") {
-      setSQLQuery(`RegisteredDatetime >= '${dates[0]}' AND RegisteredDatetime <= '${dates[1]}' AND RequestingFacilityName='${value}'`)
+      setSQLQuery(`RegisteredDatetime >= '${dates[0]}' AND RegisteredDatetime <= '${dates[1]}' AND RequestingFacilityName='${value}' AND ((LIMSRejectionCode IS NOT NULL AND LIMSRejectionCode <> '') OR (HIVVL_LIMSRejectionCode IS NOT NULL AND HIVVL_LIMSRejectionCode <> ''))`)
       setLocation(value)
       setVisible(true)
     }

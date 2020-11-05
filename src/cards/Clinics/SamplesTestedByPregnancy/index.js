@@ -7,6 +7,7 @@ import api from "../../../services/api";
 
 import Card from "../../../components/MasterCard";
 import Bar from "../../../components/Charts/Bar";
+import PatientsListPopup from "../../../components/PatientsListPopup";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -24,6 +25,9 @@ export default function SamplesTestedByPregnancy() {
   const [disaggregation, setDisaggregation] = useState(false);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
+  const [location, setLocation] = useState(null)
+  const [visible, setVisible] = useState(false)
+  const [sqlQuery, setSQLQuery] = useState(null)
 
   useEffect(() => {
     async function loadData() {
@@ -47,6 +51,7 @@ export default function SamplesTestedByPregnancy() {
         chartLabels.push(result.facility);
         suppressed.push(result.suppressed);
         non_suppressed.push(result.non_suppressed);
+        setChartType(result.type)
       });
       setLabels(chartLabels);
       setData([
@@ -88,7 +93,7 @@ export default function SamplesTestedByPregnancy() {
     setIsLoading(true);
   };
 
-  const handleChartClick = (value) => {
+  const handleChartClick = (value) => { 
     setDisaggregation(true);
     if (chartType === "province") {
       setFacilities([value]);
@@ -100,32 +105,42 @@ export default function SamplesTestedByPregnancy() {
       setDisaggregation(true);
       setType("clinic");
       setIsLoading(true);
-    } else if (chartType === "clinic") {
-      // setFacilities([value]);
+    }else if (chartType === "clinic") {
+      setSQLQuery(`AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND RequestingFacilityName='${value}' AND ViralLoadResultCategory IS NOT NULL AND Pregnant IN ('Yes','YES','yes','Sim','SIM','sim')`)
+      setLocation(value)
+      setVisible(true)
     }
   };
 
+  const handleClosePopup = (value) => {
+    setVisible(value)
+  }
+
+
   return (
-    <Card
-      cardId={cardId}
-      cardTitle={cardTitle}
-      cardLabel={
-        dates[0] !== startDate || dates[1] !== endDate
-          ? `De ${dates[0]} à ${dates[1]}`
-          : "Últimos 12 meses"
-      }
-      excelData={dataExcel}
-      excelLabels={labelsExcel}
-      chartData={data}
-      chartLabels={labels}
-      menuType="byFacility"
-      isLab={false}
-      expandable={true}
-      menuFixed={true}
-      handleParams={handleGetParams}
-      isLoading={isLoading}
-    >
-      <Bar datasets={data} labels={labels} onClick={handleChartClick} />
-    </Card>
+    <>
+      {visible && <PatientsListPopup location={location} dates={dates} query={sqlQuery} handleClosePopup={handleClosePopup}/>}
+      <Card
+        cardId={cardId}
+        cardTitle={cardTitle}
+        cardLabel={
+          dates[0] !== startDate || dates[1] !== endDate
+            ? `De ${dates[0]} à ${dates[1]}`
+            : "Últimos 12 meses"
+        }
+        excelData={dataExcel}
+        excelLabels={labelsExcel}
+        chartData={data}
+        chartLabels={labels}
+        menuType="byFacility"
+        isLab={false}
+        expandable={true}
+        menuFixed={true}
+        handleParams={handleGetParams}
+        isLoading={isLoading}
+      >
+        <Bar datasets={data} labels={labels} onClick={handleChartClick} />
+      </Card>
+    </>
   );
 }

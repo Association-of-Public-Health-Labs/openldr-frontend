@@ -20,6 +20,9 @@ import SamplesTestedByAge from "../../cards/Clinics/SamplesTestedByAge";
 import Pregnant from "../../cards/Clinics/SamplesTestedByPregnancy";
 import Breastfeeding from "../../cards/Clinics/SamplesTestedBreastfeeding";
 import SamplesRegisteredByFacility from "../../cards/Clinics/SamplesRegisteredByFacility";
+import SamplesRejectedByMonth from "../../cards/Clinics/SamplesRejectedByMonth"
+import SamplesRejectedByFacility from "../../cards/Clinics/SamplesRejectedByFacility"
+
 
 export default function Clinic() {
   return (
@@ -60,6 +63,12 @@ export default function Clinic() {
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <VlTestReasons />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <SamplesRejectedByMonth />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <SamplesRejectedByFacility />
             </Grid>
           </Grid>
         </Content>
