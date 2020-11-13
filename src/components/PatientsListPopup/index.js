@@ -63,11 +63,11 @@ export default function PatientsListPopup({location,dates, query, handleClosePop
                         `/viralload/results/query/${query_details.page + 1}/${
                             query_details.pageSize
                         }/${query}`,
-                        //   {
-                        //     headers: {
-                        //       authorization: `Bearer ${jwt_token}`,
-                        //     },
-                        //   }
+                          {
+                            headers: {
+                              authorization: `Bearer ${jwt_token}`,
+                            },
+                          }
                         )
                         .then((result) => {
                         const { data } = result;
