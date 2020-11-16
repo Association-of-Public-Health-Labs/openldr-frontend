@@ -3,6 +3,7 @@ import MaterialTable from "material-table";
 import { ThemeProvider } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { ThemeContext } from "styled-components";
+import { useHistory } from "react-router-dom";
 
 import { FiX } from "react-icons/fi";
 import IconBtn from "../MaterialUI/IconBtn";
@@ -27,6 +28,7 @@ const columns = [
 ]
 
 export default function PatientsListPopup({location,dates, query, handleClosePopup}) {
+    let history = useHistory()
   const { colors } = useContext(ThemeContext);
   const classes = UseStyles(colors);
   const theme = Theme(colors);
@@ -54,29 +56,47 @@ export default function PatientsListPopup({location,dates, query, handleClosePop
                 }}
                 data={(query_details) =>
                     new Promise((resolve, reject) => {
-                    const jwt_token = localStorage.getItem("@RAuth:token");
-                    console.log(`/viralload/results/query/${query_details.page + 1}/${
-                        query_details.pageSize
-                    }/${query}`)
-                    api
-                        .get(
-                        `/viralload/results/query/${query_details.page + 1}/${
-                            query_details.pageSize
-                        }/${query}`,
-                          {
-                            headers: {
-                              authorization: `Bearer ${jwt_token}`,
-                            },
-                          }
-                        )
-                        .then((result) => {
-                        const { data } = result;
-                        resolve({
-                            data: data.docs,
-                            page: data.page - 1,
-                            totalCount: data.total,
-                        });
-                        });
+                        const jwt_token = localStorage.getItem("@RAuth:token");
+                        if(jwt_token){
+                            api.interceptors.response.use(response => response, error => {
+                                if(error.response.status === 401){
+                                    history.push("/login")
+                                }
+                                return error;
+                            });
+                            api
+                            .get(
+                                `/viralload/results/query/${query_details.page + 1}/${
+                                    query_details.pageSize
+                                }/${query}`,
+                                {
+                                    headers: {
+                                        authorization: `Bearer ${jwt_token}`,
+                                    },
+                                }
+                            )
+                            .then((result) => {
+                                if (result.status === 401) {
+                                    console.log("Error: Unauthorized access!")
+                                }
+                                const { data } = result;
+                                if(data?.docs){
+                                    resolve({
+                                        data: data.docs,
+                                        page: data.page - 1,
+                                        totalCount: data.total,
+                                    });
+                                }
+                                else{
+                                    handleClosePopup(true)
+                                }
+                                
+                            })
+                        }
+                        else{
+                            // handleClosePopup(true)
+                            history.push("/login")
+                        }
                     })
                 }
                 components={{
