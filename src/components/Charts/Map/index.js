@@ -658,10 +658,10 @@ export default function Map({ data, labels }) {
         </text>
       </MapSvg>
 
-      <AverageText>
+      {/* <AverageText>
         <h5>Media Nacional</h5>
         <h1>{Math.round(average(suppression))}%</h1>
-      </AverageText>
+      </AverageText> */}
     </Container>
   );
 }
