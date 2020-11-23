@@ -69,8 +69,8 @@ function Login({ history }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [option, setOption] = useState({
-    option: "covid19",
-    name: "Covid-19 (SARS Cov2)",
+    option: "dashboard",
+    name: "Carga Viral de HIV",
   });
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -184,13 +184,13 @@ function Login({ history }) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem
+              {/* <MenuItem
                 onClick={() =>
                   handleChangeMenu("covid19", "Covid 19 (SARS Cov2)")
                 }
               >
                 Covid 19 (SARS Cov2)
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem
                 onClick={() =>
                   handleChangeMenu("dashboard", "Carga Viral de HIV")
@@ -198,13 +198,13 @@ function Login({ history }) {
               >
                 Carga Viral de HIV
               </MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 onClick={() =>
                   handleChangeMenu("dpi", "Diagnostico Precoce Infantil")
                 }
               >
                 Diagnostico Precoce Infantil
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
             <input
               type="email"
