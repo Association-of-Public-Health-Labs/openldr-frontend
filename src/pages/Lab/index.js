@@ -19,6 +19,7 @@ import Pregnant from "../../cards/Labs/SamplesTestedByPregnancy";
 import Breastfeeding from "../../cards/Labs/SamplesTestedBreastfeeding";
 import SamplesRejected from "../../cards/Labs/SamplesRejected"
 import SamplesRejectedByMonth from "../../cards/Labs/SamplesRejectedByMonth";
+import SamplesBackloggedByLab from "../../cards/Labs/SamplesBackloggedByLab";
 
 export default function Lab() {
   return (
@@ -28,6 +29,9 @@ export default function Lab() {
         <Header page="Laboratório" id="lab" menu={viralload} />
         <Content>
           <Grid container spacing={3}>
+            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+              <SamplesBackloggedByLab />
+            </Grid>
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesTestedByLab />
             </Grid>
