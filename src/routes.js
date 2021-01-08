@@ -12,6 +12,7 @@ import SignUp from "./pages/auth/SignUp";
 import Covid19 from "./pages/covid19/Dashboard";
 import Covid19Results from "./pages/covid19/Results";
 import SamplesIndicators from "./pages/covid19/SamplesIndicators";
+import QrResult from "./pages/covid19/QrResult";
 
 export default function Routes() {
   return (
@@ -23,6 +24,7 @@ export default function Routes() {
       <Route path="/weeklyreports" component={WeeklyReports} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
+      <Route path="/covid/:id" component={QrResult} />
       <PrivateRoute path="/covid19" component={Covid19} />
       <PrivateRoute path="/samples/:province" component={SamplesIndicators} />
       <TempPrivateRoute path="/covid19results" component={Covid19Results} />

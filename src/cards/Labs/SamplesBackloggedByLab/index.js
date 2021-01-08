@@ -34,6 +34,7 @@ export default function SamplesBackloggededByLab() {
         },
       });
       const results = response.data;
+      console.log("backlog", response.data);
       setIsLoading(false);
       var chartLabels = [],
         backlogs = [],
