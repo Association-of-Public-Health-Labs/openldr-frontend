@@ -15,7 +15,7 @@ import Btn from "../Btn";
 
 import { Container, DateRangePanel, UseStyles } from "./styles";
 
-export default function DateRange({ handleOnSubmitDateRange }) {
+export default function DateRange({ handleOnSubmitDateRange, type }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const { colors } = useContext(ThemeContext);
   const classes = UseStyles(colors);
@@ -80,11 +80,13 @@ export default function DateRange({ handleOnSubmitDateRange }) {
               label="Inicio"
               handleDateRange={handleDateStart}
               defaultDate={moment().subtract(1, "year")}
+              type={type || "date"}
             />
             <DatePicker
               label="Fim"
               handleDateRange={handleDateEnd}
               defaultDate={moment()}
+              type={type || "date"}
             />
             <Btn label="Aplicar" type="submit" />
           </form>

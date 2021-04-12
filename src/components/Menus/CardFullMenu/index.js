@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 
 import { ThemeProvider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
 import IconButton from "@material-ui/core/IconButton";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -15,6 +16,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { ThemeContext } from "styled-components";
 import moment from "moment";
+import { makeStyles } from '@material-ui/core/styles';
 
 import ContextProvider from "../../../context";
 
@@ -24,6 +26,14 @@ import AgeRange from "../../MaterialUI/AgeRange";
 import SelectSamples from "../../MaterialUI/SelectSamples";
 
 import FacilitiesSelect from "../../FacilitiesSelect";
+
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+  DatePicker as MuiDatePicker
+} from "@material-ui/pickers";
+
+import DateFnsUtils from '@date-io/date-fns'; 
 
 import {
   Container,
@@ -38,6 +48,18 @@ import {
   Theme,
   SelectStyles
 } from "./styles";
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+}));
 
 export default function CardFullMenu(props) {
   const classes = UseStyles();
@@ -58,6 +80,7 @@ export default function CardFullMenu(props) {
       .subtract(1, "year")
       .format("YYYY-MM-DD")
   );
+  const [week, setWeek] = useState([])
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
   const [age, setAge] = useState({ start: 15, end: 49 });
   const [samplesType, setSamplesType] = useState(null);
@@ -102,6 +125,25 @@ export default function CardFullMenu(props) {
   const handleEndDate = dateRange => {
     setEndDate(dateRange);
   };
+
+  const handleWeek = e => {
+    const value = e.target.value;
+    const arr = value.split("-");
+    const year = parseInt(arr[0]);
+    const week = parseInt(arr[1].replace("W",""));
+
+    var sunday = new Date(year, 0, (1 + (week - 1) * 7));
+    while (sunday.getDay() !== 0) {
+        sunday.setDate(sunday.getDate() - 1);
+    }
+
+    setStartDate(moment(sunday).format('YYYY-MM-DD'));
+    setEndDate(moment(sunday).add(6,"days").format('YYYY-MM-DD'));
+    setWeek([
+      moment(sunday).format('YYYY-MM-DD'),
+      moment(sunday).add(6,"days").format('YYYY-MM-DD')
+    ])
+  }
 
   const handleGetAge = age => {
     setAge({ start: age.start, end: age.end });
@@ -221,18 +263,39 @@ export default function CardFullMenu(props) {
                   handleGetAge={handleGetAge}
                 />
               )}
-              <DatePicker
-                label="Inicio"
-                defaultDate={moment().subtract(1, "year")}
-                handleDateRange={handleStartDate}
-                minDate="2015-01-01"
+            {props?.dateType == 'week' ?
+              <TextField
+                id="date"
+                label={week.length > 0 ? `${week[0]} à ${week[1]}` : "Selecione a semana"}
+                type="week"
+                defaultValue="2017-05-24"
+                placeholder="Semana"
+                variant="outlined"
+                size="small"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={handleWeek}
               />
-              <DatePicker
-                label="Fim"
-                defaultDate={moment()}
-                minDate={startDate}
-                handleDateRange={handleEndDate}
-              />
+              : 
+              <>
+                <DatePicker
+                  label="Inicio"
+                  defaultDate={moment().subtract(1, "year")}
+                  handleDateRange={handleStartDate}
+                  minDate="2015-01-01"
+                />
+                <DatePicker
+                  label="Fim"
+                  defaultDate={moment()}
+                  minDate={startDate}
+                  handleDateRange={handleEndDate}
+                />
+              </>
+            }
+              
+              
             </Grid>
           </Grid>
           <Grid container spacing={3}>

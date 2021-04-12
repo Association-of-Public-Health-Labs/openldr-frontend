@@ -20,6 +20,7 @@ export default function DatePicker({
   label,
   defaultDate,
   minDate,
+  type
 }) {
   const { colors } = useContext(ThemeContext);
   const [date, setDate] = useState(defaultDate);
@@ -54,6 +55,7 @@ export default function DatePicker({
             keyboardIcon={<IoIosArrowDown size={14} />}
             format="dd/MM/yyyy"
             minDate={minDate}
+            type={type}
             margin="none"
             inputProps={{
               style: { color: colors.text },

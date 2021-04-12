@@ -6,9 +6,11 @@ import IconButton from "@material-ui/core/IconButton";
 import { FiX } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 
+
 import {
   KeyboardDatePicker,
-  MuiPickersUtilsProvider
+  MuiPickersUtilsProvider,
+  DatePicker as MuiDatePicker
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 

@@ -22,7 +22,7 @@ const initialState = {
   mouseY: null,
 };
 
-export default function MasterCard({
+export default function Card({
   children,
   cardId,
   cardTitle,
@@ -42,7 +42,6 @@ export default function MasterCard({
   isLoading,
   footerFacilitiesList,
   ageLabels,
-  dateType
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState(initialState);
@@ -108,7 +107,6 @@ export default function MasterCard({
         borderRadius={borderRadius || "20px"}
         handleCloseMenu={handleMenu}
         handleGetParams={handleGetParams}
-        dateType={dateType}
       />
     ),
   };
