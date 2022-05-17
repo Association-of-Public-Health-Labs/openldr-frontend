@@ -37,9 +37,9 @@ export default function Lab() {
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesResume />
             </Grid>
-            <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
-              <SamplesBackloggedByLab />
-            </Grid>
+            {/* <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
+              <SamplesBackloggedByLab /> 
+            </Grid> */}
             <Grid item xs={6} xs={12} sm={12} md={6} lg={6}>
               <SamplesTestedByLab />
             </Grid>
