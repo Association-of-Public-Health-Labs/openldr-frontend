@@ -48,7 +48,7 @@ const viralload = [
     page: "Dashboard",
     menuTitle: "Principal",
     icon: <FiGrid size={16} />,
-    url: "/dashboard",
+    url: "/",
   },
   {
     id: "lab",

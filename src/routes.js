@@ -18,7 +18,7 @@ export default function Routes() {
   return (
     <BrowserRouter>
       {/* <Route path="/" exact component={Login} /> */}
-      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/" component={Dashboard} />
       <Route path="/lab" component={Lab} />
       <Route path="/clinic" component={Clinic} />
       <Route path="/weeklyreports" component={WeeklyReports} />
