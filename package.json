@@ -62,6 +62,7 @@
   "scripts": {
     "build": "react-scripts --openssl-legacy-provider build",
     "start": "react-scripts --openssl-legacy-provider start",
+    "local-start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
