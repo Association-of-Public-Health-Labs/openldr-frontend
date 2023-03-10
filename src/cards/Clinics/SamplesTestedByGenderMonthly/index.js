@@ -87,7 +87,7 @@ export default function SamplesTestedByGenderMonthly() {
       ]);
     }
     loadData();
-  }, [facilities, dates]);
+  }, [facilities, dates, type]);
 
   const handleGetParams = (param) => {
     if (param.facilityType === "province") {

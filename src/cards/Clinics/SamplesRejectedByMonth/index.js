@@ -6,6 +6,9 @@ import api from "../../../services/api";
 import Card from "../../../components/MasterCard";
 import Chart from "../../../components/Charts/ChartBarStacked";
 
+import exportToExcel from "../../../utils/exportToExcel";
+import excelConfig from "../../../config/excel";
+
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
 
@@ -36,7 +39,7 @@ export default function SamplesRejectedByMonth() {
       const results = response.data;
       setIsLoading(false);
       var chartLabels = [],
-        rejected = [];
+          rejected    = [];
       results.map((result) => {
         chartLabels.push(result.month_name.substring(0, 3));
         rejected.push(result.rejected);
@@ -52,11 +55,10 @@ export default function SamplesRejectedByMonth() {
       setLabelsExcel(["", ...chartLabels]);
       setDataExcel([
         ["Amostras Rejeitadas", ...rejected],
-
       ]);
     }
     loadData();
-  }, [facilities, dates]);
+  }, [facilities, dates, type]);
 
   const handleGetParams = (param) => {
     if (param.facilityType === "province") {
@@ -72,6 +74,12 @@ export default function SamplesRejectedByMonth() {
     setDates([param.startDate, param.endDate]);
     setIsLoading(true);
   };
+
+  const handleChartClick = async () => {
+    // const query = `RegisteredDatetime >= '${dates[0]}' AND RegisteredDatetime <= '${dates[1]}' AND RequestingFacilityName='${value}'`
+    // const response = await api.get("/viralload/all_patients/query/" + query);
+    // await exportToExcel(value, value, excelConfig?.headers, response.data);
+  }
 
   return (
     <Card
@@ -95,7 +103,7 @@ export default function SamplesRejectedByMonth() {
       isLoading={isLoading}
       footerFacilitiesList={facilities}
     >
-      <Chart dataChart={data} labels={labels} />
+      <Chart dataChart={data} labels={labels} onClick={handleChartClick} />
     </Card>
   );
 }

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import hexToRgba from "hex-to-rgba";
 import moment from "moment";
 import qs from "qs";
 import api from "../../../services/api";
-// import Card from "../../../components/MainCard";
 
 import Card from "../../../components/MasterCard";
 import Bar from "../../../components/Charts/Bar";
-import PatientsListPopup from "../../../components/PatientsListPopup";
+
+import exportToExcel from "../../../utils/exportToExcel";
+import excelConfig from "../../../config/excel";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -25,9 +25,6 @@ export default function SamplesTestedByLab() {
   const [disaggregation, setDisaggregation] = useState(false);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
-  const [location, setLocation] = useState(null)
-  const [visible, setVisible] = useState(false)
-  const [sqlQuery, setSQLQuery] = useState(null)
 
   useEffect(() => {
     async function loadData() {
@@ -43,39 +40,12 @@ export default function SamplesTestedByLab() {
         },
       });
       const results = response.data;
+      setChartData(results);
       setIsLoading(false);
-      var chartLabels = [],
-        suppressed = [],
-        non_suppressed = [];
-
-      results.map((result) => {
-        chartLabels.push(result.facility);
-        suppressed.push(result.suppressed);
-        non_suppressed.push(result.non_suppressed);
-        setChartType(result.type)
-      });
-
-      setLabels(chartLabels);
-      setData([
-        {
-          label: "CV > 1000",
-          backgroundColor: "#fb8c00",
-          data: non_suppressed,
-        },
-        {
-          label: "CV < 1000",
-          backgroundColor: "#ef5350",
-          data: suppressed,
-        },
-      ]);
-      setLabelsExcel(["", ...chartLabels]);
-      setDataExcel([
-        ["CV < 1000", ...suppressed],
-        ["CV > 1000", ...non_suppressed],
-      ]);
+      
     }
     loadData();
-  }, [facilities, dates]);
+  }, [facilities, dates, type, disaggregation]);
 
   const handleGetParams = (param) => {
     if (param.facilityType === "province") {
@@ -95,33 +65,76 @@ export default function SamplesTestedByLab() {
     setIsLoading(true);
   };
 
-  const handleChartClick = (value) => {
-    setDisaggregation(true);
-    if (chartType === "province") {
-      setFacilities([value]);
-      setDisaggregation(true);
-      setType("district");
-      setIsLoading(true);
-    } else if (chartType === "district") {
-      setFacilities([value]);
-      setDisaggregation(true);
-      setType("clinic");
-      setIsLoading(true);
-    }else if (chartType === "clinic") {
-      setSQLQuery(`AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND RequestingFacilityName='${value}' AND ViralLoadResultCategory IS NOT NULL`)
-      setLocation(value)
-      setVisible(true)
+  const handleChartClick = async (value) => {
+    setIsLoading(true)
+    if (chartType === "clinic") {
+      await exportRawData(value)
+      setIsLoading(false)
+      return
     }
+    const response = await api.get("/clinic_samples_tested_by_facility", {
+      params: {
+        codes: [value],
+        dates: dates,
+        type: chartType,
+        disaggregation: true,
+      },
+      paramsSerializer: (params) => {
+        return qs.stringify(params);
+      },
+    });
+    const results = response.data;
+    setChartData(results);
+    setChartType(chartType => chartType === "district" ? "district" : (chartType === "clinic" ? "clinic" : "province"))
+    setIsLoading(false)
   };
 
-  const handleClosePopup = (value) => {
-    setVisible(value)
+  async function exportRawData (healthFacility) {
+    const jwt_token = localStorage.getItem("@RAuth:token");
+    const query = `AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND RequestingFacilityName='${healthFacility}' AND ViralLoadResultCategory IS NOT NULL`;
+    const response = await api.get("/viralload/all_patients/query/" + query, {
+      headers: {
+          authorization: `Bearer ${jwt_token}`,
+      },
+    });
+    await exportToExcel(healthFacility, healthFacility, excelConfig?.headers, response.data);
+    setIsLoading(false)
+  }
+
+  function setChartData(results) {
+    var chartLabels = [],
+        suppressed = [],
+        non_suppressed = [];
+
+    results.map((result) => {
+      chartLabels.push(result.facility);
+      suppressed.push(result.suppressed);
+      non_suppressed.push(result.non_suppressed);
+      setChartType(result.type)
+    });
+
+    setLabels(chartLabels);
+    setData([
+      {
+        label: "CV > 1000",
+        backgroundColor: "#fb8c00",
+        data: non_suppressed,
+      },
+      {
+        label: "CV < 1000",
+        backgroundColor: "#ef5350",
+        data: suppressed,
+      },
+    ]);
+    setLabelsExcel(["", ...chartLabels]);
+    setDataExcel([
+      ["CV < 1000", ...suppressed],
+      ["CV > 1000", ...non_suppressed],
+    ]);
   }
 
   return (
-    <>
-      {visible && <PatientsListPopup location={location} dates={dates} query={sqlQuery} handleClosePopup={handleClosePopup}/>}
-      <Card
+    <Card
         cardId={cardId}
         cardTitle={cardTitle}
         cardLabel={
@@ -141,7 +154,6 @@ export default function SamplesTestedByLab() {
         isLoading={isLoading}
       >
         <Bar datasets={data} labels={labels} onClick={handleChartClick} />
-      </Card>
-    </>
+    </Card>
   );
 }

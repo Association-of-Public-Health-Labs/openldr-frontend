@@ -6,6 +6,9 @@ import api from "../../../services/api";
 import Card from "../../../components/MasterCard";
 import Bar from "../../../components/Charts/Bar";
 
+import exportToExcel from "../../../utils/exportToExcel";
+import excelConfig from "../../../config/excel";
+
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
 
@@ -86,7 +89,7 @@ export default function TATbyFacility() {
       ]);
     }
     loadData();
-  }, [facilities, dates]);
+  }, [facilities, dates, type, disaggregation]);
 
   const handleGetParams = (param) => {
     if (param.facilityType === "province") {
@@ -106,22 +109,106 @@ export default function TATbyFacility() {
     setIsLoading(true);
   };
 
-  const handleChartClick = (value) => {
-    setDisaggregation(true);
-    if (chartType === "province") {
-      setFacilities([value]);
-      setDisaggregation(true);
-      setType("district");
-      setIsLoading(true);
-    } else if (chartType === "district") {
-      setFacilities([value]);
-      setDisaggregation(true);
-      setType("clinic");
-      setIsLoading(true);
-    } else if (chartType === "clinic") {
-      // setFacilities([value]);
+  // const handleChartClick = (value) => {
+  //   setDisaggregation(true);
+  //   if (chartType === "province") {
+  //     setFacilities([value]);
+  //     setDisaggregation(true);
+  //     setType("district");
+  //     setIsLoading(true);
+  //   } else if (chartType === "district") {
+  //     setFacilities([value]);
+  //     setDisaggregation(true);
+  //     setType("clinic");
+  //     setIsLoading(true);
+  //   } else if (chartType === "clinic") {
+  //     // setFacilities([value]);
+  //   }
+  // };
+
+  const handleChartClick = async (value) => {
+    setIsLoading(true)
+    if (chartType === "clinic") {
+      await exportRawData(value)
+      setIsLoading(false)
+      return
     }
+    const response = await api.get("/clinic_tat_by_facility", {
+      params: {
+        codes: [value],
+        dates: dates,
+        type: chartType,
+        disaggregation: true,
+      },
+      paramsSerializer: (params) => {
+        return qs.stringify(params);
+      },
+    });
+    const results = response.data;
+    setChartData(results);
+    setChartType(chartType => chartType === "district" ? "district" : (chartType === "clinic" ? "clinic" : "province"))
+    setIsLoading(false)
   };
+
+  async function exportRawData (healthFacility) {
+    const jwt_token = localStorage.getItem("@RAuth:token");
+    const query =`(((datediff(day, [SpecimenDatetime], [ReceivedDatetime]) >= 0 AND AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND [ViralLoadResultCategory] NOT LIKE N'') AND [RequestingFacilityName] IN (N'${healthFacility}')))`
+    const response = await api.get("/viralload/all_patients/query/" + query, {
+      headers: {
+          authorization: `Bearer ${jwt_token}`,
+      },
+    });
+    await exportToExcel(healthFacility, healthFacility, excelConfig?.headers, response.data);
+    setIsLoading(false)
+  }
+
+  function setChartData(results) {
+    var chartLabels = [],
+      collection_reception = [],
+      reception_registration = [],
+      registration_analysis = [],
+      analysis_validation = [];
+
+    results.map((result) => {
+      chartLabels.push(result.facility);
+      collection_reception.push(result.collection_reception);
+      reception_registration.push(result.reception_registration);
+      registration_analysis.push(result.registration_analysis);
+      analysis_validation.push(result.analysis_validation);
+      setChartType(result.type);
+    });
+
+    setLabels(chartLabels);
+    setData([
+      {
+        label: "Colheita à Recepção",
+        backgroundColor: "#fb8c00",
+        data: collection_reception,
+      },
+      {
+        label: "Recepção ao Registo",
+        backgroundColor: "#ef5350",
+        data: reception_registration,
+      },
+      {
+        label: "Registo à Análise",
+        backgroundColor: "#00000",
+        data: registration_analysis,
+      },
+      {
+        label: "Análise à Validação",
+        backgroundColor: "#00b000",
+        data: analysis_validation,
+      },
+    ]);
+    setLabelsExcel(["Tempo Resposta", ...chartLabels]);
+    setDataExcel([
+      ["Colheita à Recepção", ...collection_reception],
+      ["Recepção ao Registo", ...reception_registration],
+      ["Registo à Analise", ...registration_analysis],
+      ["Analise à Validação", ...analysis_validation],
+    ]);
+  }
 
   return (
     <Card

@@ -104,12 +104,13 @@ export default function PatientsListPopup({location,dates, query, handleClosePop
                 }}
                 options={{
                     exportButton: true,
+                    exportAllData: false,
                     rowStyle: {
-                    borderBottomColor: colors.background.primary,
-                    borderBottomWidth: 6,
-                    borderBottomStyle: "solid",
-                    backgroundColor: colors.background.secondary,
-                    color: colors.text,
+                        borderBottomColor: colors.background.primary,
+                        borderBottomWidth: 6,
+                        borderBottomStyle: "solid",
+                        backgroundColor: colors.background.secondary,
+                        color: colors.text,
                     },
                     headerStyle: {
                     borderBottomColor: colors.background.primary,
@@ -129,7 +130,8 @@ export default function PatientsListPopup({location,dates, query, handleClosePop
                     actionsCellStyle: {
                     color: colors.text,
                     },
-                    search: false
+                    search: false,
+
                 }}
                 />
         </Popup>

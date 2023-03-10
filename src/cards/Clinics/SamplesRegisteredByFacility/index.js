@@ -4,8 +4,10 @@ import qs from "qs";
 import api from "../../../services/api";
 
 import Card from "../../../components/MasterCard";
-import PatientsListPopup from "../../../components/PatientsListPopup";
 import Bar from "../../../components/Charts/Bar";
+
+import exportToExcel from "../../../utils/exportToExcel";
+import excelConfig from "../../../config/excel";
 
 const startDate = moment().subtract(1, "year").format("YYYY-MM-DD");
 const endDate = moment().format("YYYY-MM-DD");
@@ -23,13 +25,9 @@ export default function SamplesRegisteredByFacility() {
   const [facilities, setFacilities] = useState([]);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
-  const [samplesList, setSamplesList] = useState([])
-  const [location, setLocation] = useState(null)
-  const [visible, setVisible] = useState(false)
-  const [sqlQuery, setSQLQuery] = useState(null)
 
   useEffect(() => {
-    async function loadData() {
+    async function defaultLoadData() {
       const response = await api.get("/clinic_registered_samples_by_facility", {
         params: {
           codes: facilities,
@@ -64,8 +62,8 @@ export default function SamplesRegisteredByFacility() {
       setLabelsExcel(["", ...chartLabels]);
       setDataExcel([["Amostras Registadas", ...registered_samples]]);
     }
-    loadData();
-  }, [facilities, dates]);
+    defaultLoadData();
+  }, [dates, disaggregation, facilities, type]);
 
   const handleGetParams = (param) => {
     if (param.facilityType === "province") {
@@ -86,31 +84,64 @@ export default function SamplesRegisteredByFacility() {
   };
 
   const handleChartClick = async (value) => {
-    setDisaggregation(true);
-    if (chartType === "province") {
-      setFacilities([value]);
-      setDisaggregation(true);
-      setType("district");
-      setIsLoading(true);
-    } else if (chartType === "district") {
-      setFacilities([value]);
-      setDisaggregation(true);
-      setType("clinic");
-      setIsLoading(true);
-    } else if (chartType === "clinic") {
-      setSQLQuery(`RegisteredDatetime >= '${dates[0]}' AND RegisteredDatetime <= '${dates[1]}' AND RequestingFacilityName='${value}'`)
-      setLocation(value)
-      setVisible(true)
+    setIsLoading(true)
+    if (chartType === "clinic") {
+      await exportRawData(value)
+      setIsLoading(false)
+      return
     }
+    const response = await api.get("/clinic_registered_samples_by_facility", {
+      params: {
+        codes: [value],
+        dates: dates,
+        type: chartType,
+        disaggregation: true,
+      },
+      paramsSerializer: (params) => {
+        return qs.stringify(params);
+      },
+    });
+    const results = response.data;
+    setChartData(results);
+    setChartType(chartType => chartType === "district" ? "district" : (chartType === "clinic" ? "clinic" : "province"))
+    setIsLoading(false)
   };
 
-  const handleClosePopup = (value) => {
-    setVisible(value)
+  async function exportRawData (healthFacility) {
+    const jwt_token = localStorage.getItem("@RAuth:token");
+    const query = `RegisteredDatetime >= '${dates[0]}' AND RegisteredDatetime <= '${dates[1]}' AND RequestingFacilityName='${healthFacility}'`
+    const response = await api.get("/viralload/all_patients/query/" + query, {
+      headers: {
+          authorization: `Bearer ${jwt_token}`,
+      },
+    });
+    await exportToExcel(healthFacility, healthFacility, excelConfig?.headers, response.data);
+    setIsLoading(false)
+  }
+
+  function setChartData(results) {
+    var chartLabels = [],
+        registered_samples = [];
+
+    results.map((result) => {
+      chartLabels.push(result.facility);
+      registered_samples.push(result.total);
+      setChartType(result.type);
+    });
+
+    setLabels(chartLabels);
+    setData([
+      {
+        label: "Amostras Registadas",
+        backgroundColor: "#ef5350",
+        data: registered_samples,
+      },
+    ]);
+    setLabelsExcel(["", ...chartLabels]);
+    setDataExcel([["Amostras Registadas", ...registered_samples]]);
   }
 
   return (
-    <>
-    {visible && <PatientsListPopup location={location} dates={dates} query={sqlQuery} handleClosePopup={handleClosePopup}/>}
     <Card
       cardId={cardId}
       cardTitle={cardTitle}
@@ -132,6 +163,5 @@ export default function SamplesRegisteredByFacility() {
     >
       <Bar datasets={data} labels={labels} onClick={handleChartClick} />
     </Card>
-    </>
   );
 }
