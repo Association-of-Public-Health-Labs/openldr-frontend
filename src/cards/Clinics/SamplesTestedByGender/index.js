@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import hexToRgba from "hex-to-rgba";
 import moment from "moment";
 import qs from "qs";
+import { useHistory } from "react-router-dom";
 import api from "../../../services/api";
 
 import Card from "../../../components/MasterCard";
@@ -16,6 +17,7 @@ const endDate = moment().format("YYYY-MM-DD");
 export default function SamplesTestedByGender() {
   const cardId = "clinic-samples-tested-by-gender";
   const cardTitle = "Amostras Testadas por Provincia/gênero";
+  let history = useHistory()
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
@@ -94,12 +96,14 @@ export default function SamplesTestedByGender() {
 
   async function exportRawData (healthFacility) {
     const jwt_token = localStorage.getItem("@RAuth:token");
+    if(!jwt_token) {history.push("/login")}
     const query = `AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND RequestingFacilityName='${healthFacility}' AND ViralLoadResultCategory IS NOT NULL`
     const response = await api.get("/viralload/all_patients/query/" + query, {
       headers: {
           authorization: `Bearer ${jwt_token}`,
       },
     });
+    if(response.status === 401){history.push("/login")}
     await exportToExcel(healthFacility, healthFacility, excelConfig?.headers, response.data);
     setIsLoading(false)
   }

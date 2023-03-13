@@ -33,6 +33,7 @@ export const RightPanel = styled.div`
   position: absolute;
   padding: 0;
   top: 0;
+  background-color: white;
   section {
     height: 100%;
     display: flex;

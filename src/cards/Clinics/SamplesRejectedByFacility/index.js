@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import qs from "qs";
+import { useHistory } from "react-router-dom";
 import api from "../../../services/api";
 
 import Card from "../../../components/MasterCard";
@@ -16,6 +17,7 @@ const endDate = moment().format("YYYY-MM-DD");
 export default function SamplesRejectedByFacility() {
   const cardId = "samples-rejected-by-facility";
   const cardTitle = "Amostras Rejeitadas por Provincia";
+  let history = useHistory()
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
@@ -91,12 +93,14 @@ export default function SamplesRejectedByFacility() {
 
   async function exportRawData (healthFacility) {
     const jwt_token = localStorage.getItem("@RAuth:token");
+    if(!jwt_token) {history.push("/login")}
     const query = `RegisteredDatetime >= '${dates[0]}' AND RegisteredDatetime <= '${dates[1]}' AND RequestingFacilityName='${healthFacility}' AND ((LIMSRejectionCode IS NOT NULL AND LIMSRejectionCode <> '') OR (HIVVL_LIMSRejectionCode IS NOT NULL AND HIVVL_LIMSRejectionCode <> ''))`
     const response = await api.get("/viralload/all_patients/query/" + query, {
       headers: {
           authorization: `Bearer ${jwt_token}`,
       },
     });
+    if(response.status === 401){history.push("/login")}
     await exportToExcel(healthFacility, healthFacility, excelConfig?.headers, response.data);
     setIsLoading(false)
   }

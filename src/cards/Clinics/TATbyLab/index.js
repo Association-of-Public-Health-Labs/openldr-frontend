@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import qs from "qs";
+import { useHistory } from "react-router-dom";
 import api from "../../../services/api";
 
 import Card from "../../../components/MasterCard";
@@ -15,6 +16,7 @@ const endDate = moment().format("YYYY-MM-DD");
 export default function TATbyFacility() {
   const cardId = "tat-by-clinic";
   const cardTitle = "Tempo de Resposta por Provincia";
+  let history = useHistory()
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
@@ -109,23 +111,6 @@ export default function TATbyFacility() {
     setIsLoading(true);
   };
 
-  // const handleChartClick = (value) => {
-  //   setDisaggregation(true);
-  //   if (chartType === "province") {
-  //     setFacilities([value]);
-  //     setDisaggregation(true);
-  //     setType("district");
-  //     setIsLoading(true);
-  //   } else if (chartType === "district") {
-  //     setFacilities([value]);
-  //     setDisaggregation(true);
-  //     setType("clinic");
-  //     setIsLoading(true);
-  //   } else if (chartType === "clinic") {
-  //     // setFacilities([value]);
-  //   }
-  // };
-
   const handleChartClick = async (value) => {
     setIsLoading(true)
     if (chartType === "clinic") {
@@ -152,12 +137,14 @@ export default function TATbyFacility() {
 
   async function exportRawData (healthFacility) {
     const jwt_token = localStorage.getItem("@RAuth:token");
-    const query =`(((datediff(day, [SpecimenDatetime], [ReceivedDatetime]) >= 0 AND AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND [ViralLoadResultCategory] NOT LIKE N'') AND [RequestingFacilityName] IN (N'${healthFacility}')))`
+    if(!jwt_token) {history.push("/login")}
+    const query = `(((datediff(day, [SpecimenDatetime], [ReceivedDatetime]) >= 0 AND AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND [ViralLoadResultCategory] NOT LIKE N'') AND [RequestingFacilityName] IN (N'${healthFacility}')))`
     const response = await api.get("/viralload/all_patients/query/" + query, {
       headers: {
           authorization: `Bearer ${jwt_token}`,
       },
     });
+    if(response.status === 401){history.push("/login")}
     await exportToExcel(healthFacility, healthFacility, excelConfig?.headers, response.data);
     setIsLoading(false)
   }

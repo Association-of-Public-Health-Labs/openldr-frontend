@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import qs from "qs";
+import { useHistory } from "react-router-dom";
 import api from "../../../services/api";
 
 import Card from "../../../components/MasterCard";
@@ -15,6 +16,7 @@ const endDate = moment().format("YYYY-MM-DD");
 export default function SamplesTestedBreastfeeding() {
   const cardId = "clinic-samples-tested-by-breastfeeding";
   const cardTitle = "Amostras Testadas (Mulheres Lactantes)";
+  let history = useHistory()
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const [labelsExcel, setLabelsExcel] = useState([]);
@@ -90,12 +92,14 @@ export default function SamplesTestedBreastfeeding() {
 
   async function exportRawData (healthFacility) {
     const jwt_token = localStorage.getItem("@RAuth:token");
-    const query = `AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND RequestingFacilityName='${healthFacility}' AND ViralLoadResultCategory IS NOT NULL AND Breastfeeding IN ('Yes','YES','yes','Sim','SIM','sim')`;
+    if(!jwt_token) {history.push("/login")}
+    const query = `AnalysisDatetime >= '${dates[0]}' AND AnalysisDatetime <= '${dates[1]}' AND RequestingFacilityName='${healthFacility}' AND ViralLoadResultCategory IS NOT NULL AND Breastfeeding IN ('Yes','YES','yes','Sim','SIM','sim')`
     const response = await api.get("/viralload/all_patients/query/" + query, {
       headers: {
           authorization: `Bearer ${jwt_token}`,
       },
     });
+    if(response.status === 401){history.push("/login")}
     await exportToExcel(healthFacility, healthFacility, excelConfig?.headers, response.data);
     setIsLoading(false)
   }
