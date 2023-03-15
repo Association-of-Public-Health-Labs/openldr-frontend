@@ -5,7 +5,7 @@ import CardOptions from "../Menus/CardOptions";
 import EditButton from "../MaterialUI/EditButton";
 import IconBtn from "../MaterialUI/IconBtn";
 
-import { Container, CardTitle, CardMenu, CardLabels, Label } from "./styles";
+import { Container, CardTitle, CardMenu } from "./styles";
 
 export default function CardHeader(props) {
   return (

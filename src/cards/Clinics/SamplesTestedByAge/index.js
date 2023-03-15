@@ -27,9 +27,6 @@ export default function SamplesTestedByAge() {
   const [age, setAge] = useState([15, 49]);
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
-  const [location, setLocation] = useState(null)
-  const [visible, setVisible] = useState(false)
-  const [sqlQuery, setSQLQuery] = useState(null)
 
   useEffect(() => {
     async function loadData() {
@@ -86,6 +83,7 @@ export default function SamplesTestedByAge() {
       params: {
         codes: [value],
         dates: dates,
+        age: age,
         type: chartType,
         disaggregation: true,
       },
