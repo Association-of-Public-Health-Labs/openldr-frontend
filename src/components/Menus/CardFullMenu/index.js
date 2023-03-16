@@ -63,18 +63,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CardFullMenu(props) {
   const classes = UseStyles();
-  const { colors } = useContext(ThemeContext);
-  const animatedComponents = makeAnimated();
   const [province, setProvince] = useState(true);
   const [district, setDistrict] = useState(false);
   const [clinic, setClinic] = useState(false);
   const [tab, setTab] = useState("province");
   const [facilities, setFacilities] = useState([]);
-
-  const [provinces, setProvinces] = useState(null);
-  const [districts, setDistricts] = useState(null);
-  const [clinics, setClinics] = useState(null);
-  const [labs, setLabs] = useState(null);
   const [startDate, setStartDate] = useState(
     moment()
       .subtract(1, "year")
@@ -83,7 +76,7 @@ export default function CardFullMenu(props) {
   const [week, setWeek] = useState([])
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
   const [age, setAge] = useState({ start: 15, end: 49 });
-  const [samplesType, setSamplesType] = useState(null);
+  const [samplesType, setSamplesType] = useState("DBS");
 
   const handleChange = event => {
     setProvince(false);
@@ -255,7 +248,12 @@ export default function CardFullMenu(props) {
               md={props.full ? 12 : 5}
               lg={props.full ? 12 : 5}
             >
-              {props.sampleType && <SelectSamples />}
+              {
+                props.sampleType && 
+                  <SelectSamples 
+                    handleSampleType={(sample) => setSamplesType(sample)} 
+                  />
+              }
               {props.age === true && (
                 <AgeRange
                   start={age.start}

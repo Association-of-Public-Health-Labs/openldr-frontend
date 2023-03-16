@@ -7,13 +7,14 @@ import { ThemeContext } from "styled-components";
 
 import { Container, UseStyles } from "./styles";
 
-export default function SelectSamples() {
+export default function SelectSamples({handleSampleType}) {
   const { colors } = useContext(ThemeContext);
   const classes = UseStyles(colors);
-  const [age, setAge] = React.useState("");
+  const [sample, setSample] = React.useState("DBS");
 
   const handleChange = event => {
-    setAge(event.target.value);
+    setSample(event.target.value);
+    handleSampleType(event.target.value);
   };
   return (
     <Container>
@@ -31,15 +32,16 @@ export default function SelectSamples() {
         <Select
           labelId="demo-simple-select-filled-label"
           id="demo-simple-select-filled"
-          value={age}
+          value={sample}
           onChange={handleChange}
           className={classes.select}
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>DBS</MenuItem>
-          <MenuItem value={20}>Plasma</MenuItem>
+          <MenuItem value="DBS">DBS</MenuItem>
+          <MenuItem value="PL">Plasma</MenuItem>
+          <MenuItem value="PSC">Plasma Seco</MenuItem>
         </Select>
       </FormControl>
     </Container>

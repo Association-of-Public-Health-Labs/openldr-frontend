@@ -20,6 +20,7 @@ export default function SamplesTestedMonthly() {
   const [dates, setDates] = useState([startDate, endDate]);
   const [isLoading, setIsLoading] = useState(true);
   const [labNames, setLabNames] = useState([]);
+  const [sampleType, setSampleType] = useState(null)
 
   useEffect(() => {
     async function loadData() {
@@ -27,6 +28,7 @@ export default function SamplesTestedMonthly() {
         params: {
           codes: labs,
           dates: dates,
+          sampleType: sampleType
         },
         paramsSerializer: (params) => {
           return qs.stringify(params);
@@ -35,8 +37,8 @@ export default function SamplesTestedMonthly() {
       const results = response.data;
       setIsLoading(false);
       var chartLabels = [],
-        suppressed = [],
-        non_suppressed = [];
+          suppressed = [],
+          non_suppressed = [];
       results.map((result) => {
         chartLabels.push(result.month_name.substring(0, 3));
         suppressed.push(result.suppressed);
@@ -62,7 +64,7 @@ export default function SamplesTestedMonthly() {
       ]);
     }
     loadData();
-  }, [labs, dates]);
+  }, [labs, dates, sampleType]);
 
   const handleGetParams = (param) => {
     const laboratories = [];
@@ -79,6 +81,8 @@ export default function SamplesTestedMonthly() {
     setLabs(laboratories);
     setLabNames(labNames);
     setDates([param.startDate, param.endDate]);
+    setSampleType(param.samplesType)
+    console.log(param);
     setIsLoading(true);
   };
 

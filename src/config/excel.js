@@ -1,6 +1,6 @@
 export default {
   headers: [
-    "ID da Amostra",
+    // "ID da Amostra",
     "Nome",
     "Apelido",
     "NID",
@@ -14,8 +14,8 @@ export default {
     "Data de Registo",
     "Data de Análise",
     "Data de Validação",
-    "Resultado",
-    "Resultado (ABS)",
+    // "Resultado",
+    // "Resultado (ABS)",
     "Resultado Final",
     "Supressão Viral",
     "Motivo de Teste"
