@@ -27,8 +27,8 @@ export default function SamplesTestedMonthly() {
       const response = await api.get("/lab_samples_tested_by_month", {
         params: {
           codes: labs,
-          dates: dates,
-          sampleType: sampleType
+          dates: dates
+          // sampleType: sampleType
         },
         paramsSerializer: (params) => {
           return qs.stringify(params);
@@ -81,7 +81,7 @@ export default function SamplesTestedMonthly() {
     setLabs(laboratories);
     setLabNames(labNames);
     setDates([param.startDate, param.endDate]);
-    setSampleType(param.samplesType)
+    // setSampleType(param.samplesType)
     console.log(param);
     setIsLoading(true);
   };
