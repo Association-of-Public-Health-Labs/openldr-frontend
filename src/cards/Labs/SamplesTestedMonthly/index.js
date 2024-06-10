@@ -37,8 +37,8 @@ export default function SamplesTestedMonthly() {
       const results = response.data;
       setIsLoading(false);
       var chartLabels = [],
-          suppressed = [],
-          non_suppressed = [];
+        suppressed = [],
+        non_suppressed = [];
       results.map((result) => {
         chartLabels.push(result.month_name.substring(0, 3));
         suppressed.push(result.suppressed);
@@ -95,7 +95,7 @@ export default function SamplesTestedMonthly() {
           ? `De ${dates[0]} à ${dates[1]}`
           : "Últimos 12 meses"
       }
-      cardMenu={{ sampleType: true }}
+      // cardMenu={{ sampleType: true }} Remove sample tipe filter
       excelData={dataExcel}
       excelLabels={labelsExcel}
       chartData={data}
