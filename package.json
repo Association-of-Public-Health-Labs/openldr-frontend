@@ -8,7 +8,7 @@
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "4.0.0-alpha.48",
     "@material-ui/pickers": "3.2.10",
-    "@react-pdf/renderer": "2.0.0-beta.6",
+    "@react-pdf/renderer": "2.0.0",
     "@testing-library/jest-dom": "4.2.4",
     "@testing-library/react": "9.3.2",
     "@testing-library/user-event": "7.1.2",
@@ -34,7 +34,7 @@
     "json-stringify-safe": "5.0.1",
     "lottie-web": "5.6.10",
     "material-table": "1.57.2",
-    "material-ui-search-bar": "1.0.0-beta.14",
+    "material-ui-search-bar": "1.0.1",
     "moment": "2.24.0",
     "qs": "6.9.3",
     "react": "16.12.0",
@@ -60,7 +60,7 @@
     "tippy.js": "5.2.1"
   },
   "scripts": {
-    "build": "react-scripts --openssl-legacy-provider build",
+    "build": "react-scripts --openssl-legacy-provider build --legacy-peer-deps",
     "start": "react-scripts --openssl-legacy-provider start",
     "local-start": "react-scripts start",
     "test": "react-scripts test",
